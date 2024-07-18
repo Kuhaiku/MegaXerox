@@ -47,28 +47,19 @@ if (isset($_GET['id'])) {
                 <div class='data'>
                     <b>Data de Entrada:</b> <span id='dataAtual'> {$row['data_entrada']} </span><br />
                     
-                </div>
-    
-               
+                </div>           
                         <p>Tipo de Dispositivo: {$row['tipo']}</p>
                         <p>Marca do Dispositivo: {$row['marca']}</p>
                         <p>Modelo do Dispositivo: {$row['modelo']}</p>
                         <p>Periféricos: {$row['perifericos']}</p>
-                         <div class='inputBox'>
-                    <label for='defeito'>Defeito Apresentado</label>
-                    <p class='defeito' >{$row['defeito']}</p>
-                </div>
-                        <p>Orçamento Prévio:{$row['preorc']}</p> 
-                        </div>
                         
-                        <div class='botoes'>
-                        <a href='../index.html'>Voltar</a>
-                            <button type='button' onclick='print()'>Imprimir</button>
+                        <div class='inputBox'>
+                            <label for='defeito'>Defeito Apresentado</label>
+                            <p class='defeito' >{$row['defeito']}</p>
                         </div>
-                    </fieldset>
-              </div>
-              
-              <div class='termos'>
+                        <p>Orçamento Prévio:{$row['preorc']}</p> 
+                </div>
+<div class='termos'>
                     <b>Termos de entrada:</b>
                     <ol>
                         <li>
@@ -107,7 +98,15 @@ if (isset($_GET['id'])) {
                             possam surgir durante o processo.
                         </li>
                     </ol>
-                </div>
+                </div>                       
+                        <div class='botoes'>
+                        <a href='../index.html'>Voltar</a>
+                            <button type='button' onclick='print()'>Imprimir</button>
+                        </div>
+                    </fieldset>
+              </div>
+              
+              
                 "
               ;
     } else {
