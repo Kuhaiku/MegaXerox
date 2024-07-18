@@ -1,0 +1,234 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+}
+
+header {
+  width: 100%;
+  background: #005f73;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+
+header a {
+  color: #fff;
+  text-decoration: none;
+}
+
+header ul {
+  padding: 0;
+  list-style: none;
+  float: right;
+}
+
+header li {
+  float: left;
+  display: inline;
+  padding: 0 20px 0 20px;
+}
+
+header #branding {
+  float: left;
+}
+
+header #branding h1 {
+  margin: 0;
+}
+
+#main {
+  padding: 20px;
+  background: #fff;
+  margin-top: 30px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  text-align: left;
+}
+
+form input[type="text"],
+form input[type="number"] {
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+form button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #005f73;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #77aaff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
+
+table th,
+table td {
+  padding: 10px;
+  text-align: left;
+}
+
+table th {
+  background: #005f73;
+  color: #fff;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tr:hover {
+  background-color: #ddd;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions form {
+  display: inline;
+}
+
+.actions form input {
+  width: auto;
+  display: inline-block;
+}
+
+.actions a {
+  color: #005f73;
+  text-decoration: none;
+  padding: 10px;
+  border: 1px solid #005f73;
+  background: #fff;
+  cursor: pointer;
+}
+
+.actions a:hover {
+  background: #77aaff;
+  color: #fff;
+  border: 1px solid #77aaff;
+}
+#form-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+#add-form,
+#edit-form {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+#add-form h2,
+#edit-form h2 {
+  margin-top: 0;
+}
+
+#add-form label,
+#edit-form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+#add-form input[type="text"],
+#add-form input[type="number"],
+#edit-form input[type="text"],
+#edit-form input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#add-form button,
+#edit-form button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #005f73;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#add-form button:hover,
+#edit-form button:hover {
+  background: #77aaff;
+}
+
+#busca {
+  width: 100%;
+  padding: 12px 20px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.actions a {
+  color: red;
+  text-decoration: none;
+}
+
+.actions a:hover {
+  text-decoration: underline;
+}

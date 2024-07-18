@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Orçamento</title>
+    <link rel="stylesheet" href="../css/sticker_budget.css" />
+    <link rel="icon" type="image/x-icon" href="../src/favicon.ico" />
+  </head>
+  <body>
+    <header>
+      <h1>Orçamento Adesivos e Lonas</h1>
+      <a href="../index.html"><h3>inicio</h3></a>
+    </header>
+
+    <form id="calculator">
+      <label for="altura">Altura (cm):</label>
+      <input type="number" id="altura" name="altura" min="0" /><br /><br />
+
+      <label for="largura">Largura (cm):</label>
+      <input type="number" id="largura" name="largura" min="0" /><br /><br />
+
+      <label for="material">Material:</label>
+      <select id="material" name="material">
+        <option value="61">Lona</option>
+        <option value="66">Lona com Acabamento (Ilhois, Banner)</option>
+        <option value="61">Adesivo Leitoso</option>
+        <option value="69">Adesivo Fosco</option>
+        <option value="66">Adesivo Transparente</option>
+        <option value="76">Adesivo Perfurado</option></select
+      ><br /><br />
+
+      <label for="quantidade">Quantidade:</label>
+      <input
+        type="number"
+        id="quantidade"
+        name="quantidade"
+        min="0"
+      /><br /><br />
+
+      <label for="resultado">Resultado:</label>
+      <span id="resultado">0</span>
+      <br /><br />
+
+      <button type="button" onclick="adicionarOrcamento()">
+        Adicionar ao Orçamento
+      </button>
+    </form>
+
+    <h2>Orçamento</h2>
+    <table id="orcamentoTable">
+      <thead>
+        <tr>
+          <th>Altura (cm)</th>
+          <th>Largura (cm)</th>
+          <th>Material</th>
+          <th>Quantidade</th>
+          <th>Valor Final (R$)</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <h3>Total do Orçamento: R$ <span id="totalOrcamento">0</span></h3>
+
+    <script>
+      var totalOrcamento = 0
+      const porcentagemFixa = 130
+      const valorMinimo = 20.0
+
+      function adicionarOrcamento() {
+        var altura = parseFloat(document.getElementById("altura").value) || 0
+        var largura = parseFloat(document.getElementById("largura").value) || 0
+        var materialElement = document.getElementById("material")
+        var material =
+          materialElement.options[materialElement.selectedIndex].text
+        var valorCobrado = parseFloat(materialElement.value) || 0
+        var quantidade =
+          parseInt(document.getElementById("quantidade").value) || 0
+
+        var resultado =
+          (altura / 100) * (largura / 100) * valorCobrado * quantidade
+        var valorFinal = resultado + resultado * (porcentagemFixa / 100)
+
+        var table = document
+          .getElementById("orcamentoTable")
+          .getElementsByTagName("tbody")[0]
+        var newRow = table.insertRow()
+
+        var cell1 = newRow.insertCell(0)
+        var cell2 = newRow.insertCell(1)
+        var cell3 = newRow.insertCell(2)
+        var cell4 = newRow.insertCell(3)
+        var cell5 = newRow.insertCell(4)
+        var cell6 = newRow.insertCell(5)
+
+        cell1.innerHTML = altura.toFixed(2)
+        cell2.innerHTML = largura.toFixed(2)
+        cell3.innerHTML = material
+        cell4.innerHTML = quantidade
+        cell5.innerHTML = valorFinal.toFixed(2)
+        cell6.innerHTML =
+          '<button onclick="removerOrcamento(this, ' +
+          valorFinal.toFixed(2) +
+          ')">Remover</button>'
+
+        totalOrcamento += valorFinal
+        atualizarTotalOrcamento()
+      }
+
+      function removerOrcamento(button, valorFinal) {
+        var row = button.parentNode.parentNode
+        row.parentNode.removeChild(row)
+
+        totalOrcamento -= valorFinal
+        atualizarTotalOrcamento()
+      }
+
+      function atualizarTotalOrcamento() {
+        var totalExibido =
+          totalOrcamento < valorMinimo ? valorMinimo : totalOrcamento
+        document.getElementById("totalOrcamento").innerText =
+          totalExibido.toFixed(2)
+      }
+
+      document
+        .getElementById("calculator")
+        .addEventListener("input", function () {
+          var altura = parseFloat(document.getElementById("altura").value) || 0
+          var largura =
+            parseFloat(document.getElementById("largura").value) || 0
+          var valorCobrado =
+            parseFloat(document.getElementById("material").value) || 0
+          var quantidade =
+            parseInt(document.getElementById("quantidade").value) || 0
+
+          var resultado =
+            (altura / 100) * (largura / 100) * valorCobrado * quantidade
+          var valorFinal = resultado + resultado * (porcentagemFixa / 100)
+
+          document.getElementById("resultado").innerText = valorFinal.toFixed(2)
+        })
+    </script>
+  </body>
+</html>
