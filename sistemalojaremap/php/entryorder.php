@@ -1,21 +1,3 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="../src/favicon.ico" />
-    <link rel="stylesheet" href="../css/entryorder.css" />
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    />
-    
-    <title>Sistema Mega-Xerox - Ordem de Entrada</title>
-</head>
-<body>
 <?php
 include_once('databaseconfig.php');
     $sql = "SELECT MAX(id) as max_id FROM entryorder";
@@ -45,7 +27,7 @@ if (isset($_POST['submit'])) {
     
     if ($result) {
         // Inserção bem-sucedida
-        header("Location: entryorderdtbase.php");
+        header("Location: entryorderdtbase.php?success=1");
         exit();
     } else {
         // Erro na inserção
@@ -56,6 +38,25 @@ if (isset($_POST['submit'])) {
 }
 
 ?>
+    <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="../src/favicon.ico" />
+    <link rel="stylesheet" href="../css/entryorder.css" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    
+    <title>Sistema Mega-Xerox - Ordem de Entrada</title>
+</head>
+    
+<body>
     <div class="ordemdeentrada">
         <header> 
             <h2>Mega Xerox</h2>
