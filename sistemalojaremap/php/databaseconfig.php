@@ -1,8 +1,8 @@
 <?php
 
-$dbHost ='Localhost';
+$dbHost ='loja_dtbase';
 $dbUsername ='root';
-$dbPassword ='';
+$dbPassword ='Raposo8812542@@';
 $dbName ='sistemaloja';
 
 
