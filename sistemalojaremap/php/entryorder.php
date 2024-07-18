@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
     
     if ($result) {
         // Inserção bem-sucedida
-        header("Location: entryorderdtbase.php?success=1");
+        header("Location: entryorderdtbase.php");
         exit();
     } else {
         // Erro na inserção
