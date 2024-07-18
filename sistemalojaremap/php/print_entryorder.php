@@ -66,39 +66,9 @@ if (isset($_GET['id'])) {
                             <button type='button' onclick='print()'>Imprimir</button>
                         </div>
                     </fieldset>
-              </div>"
-              ;
-    } else {
-        echo "Registro não encontrado.";
-    }
-
-    mysqli_free_result($result);
-} else {
-    echo "ID não fornecido.";
-}
-
-mysqli_close($conn);
-?>
-<script>
-function ajustarAltura(elemento) {
-    elemento.style.height = "auto"; 
-    elemento.style.height = (elemento.scrollHeight) + "px";
-}
-</script>
-</body>
-</html>
-
-<!-- 
+              </div>
               
-                <div class="inputBox">
-                    <label for="defeito">Defeito Apresentado</label>
-                    <textarea oninput="ajustarAltura(this)" class="inputUser" name="defeito" id="defeito" cols="50" rows="3"></textarea>
-                </div>
-                <div class="inputBox">
-                    <input class="inputUser" type="text" name="preorc" value="Não" id="preorc" required />
-                    <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
-                </div>
-                <div class="termos">
+              <div class='termos'>
                     <b>Termos de entrada:</b>
                     <ol>
                         <li>
@@ -138,13 +108,24 @@ function ajustarAltura(elemento) {
                         </li>
                     </ol>
                 </div>
-                
-                <div class="botoes">
-                    <a class="navegar" href="../index.html">Voltar</a>
-                    <button type="submit" id="submit" name="submit" value="Salvar e Imprimir" onclick="print()">
-                        <i class="fas fa-print"></i> Salvar e Imprimir 
-                    </button>
-                </div>
-            </fieldset>
-        </form>
-    </div> -->
+                "
+              ;
+    } else {
+        echo "Registro não encontrado.";
+    }
+
+    mysqli_free_result($result);
+} else {
+    echo "ID não fornecido.";
+}
+
+mysqli_close($conn);
+?>
+<script>
+function ajustarAltura(elemento) {
+    elemento.style.height = "auto"; 
+    elemento.style.height = (elemento.scrollHeight) + "px";
+}
+</script>
+</body>
+</html>
