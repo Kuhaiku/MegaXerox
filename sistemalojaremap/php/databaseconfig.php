@@ -2,7 +2,7 @@
 
 $dbHost ='loja_dtbase';
 $dbUsername ='root';
-$dbPassword ='Raposo8812542@@';
+$dbPassword ='Raposo88125442@@';
 $dbName ='sistemaloja';
 
 
