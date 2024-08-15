@@ -27,6 +27,7 @@
         }
         .menu a:hover {
             color: black;
+            cursor: pointer;
         }
         .content {
             padding: 20px;
