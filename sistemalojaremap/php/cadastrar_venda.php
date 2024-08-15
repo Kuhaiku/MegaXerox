@@ -1,90 +1,62 @@
 <?php
-// Incluir a configuração do banco de dados
-include 'databaseconfig.php';
+require 'databaseconfig.php';
 
-// Variáveis para armazenar mensagens de sucesso/erro
-$successMsg = "";
-$errorMsg = "";
+$mensagem = '';
 
-// Verificar se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_cliente = $_POST['id_cliente'];
-    $descricao = $_POST['descricao'];
-    $data_venda = $_POST['data_venda'];
-    $valor_total = $_POST['valor_total'];
+    $id_cliente = isset($_POST['id_cliente']) ? intval($_POST['id_cliente']) : null;
+    $descricao = isset($_POST['descricao']) ? $_POST['descricao'] : null;
+    $data_venda = isset($_POST['data_venda']) ? $_POST['data_venda'] : null;
+    $valor_total = isset($_POST['valor_total']) ? floatval($_POST['valor_total']) : null;
 
-    if (!empty($id_cliente) && !empty($descricao) && !empty($data_venda) && !empty($valor_total)) {
-        // Preparar e vincular
+    if ($id_cliente && $descricao && $data_venda && $valor_total) {
         $stmt = $conn->prepare("INSERT INTO vendas (id_cliente, descricao, data_venda, valor_total) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("issd", $id_cliente, $descricao, $data_venda, $valor_total);
-
+        
         if ($stmt->execute()) {
-            $successMsg = "Venda cadastrada com sucesso!";
+            $mensagem = "<p class='success-message'>Venda cadastrada com sucesso!</p>";
         } else {
-            $errorMsg = "Erro ao cadastrar venda: " . $stmt->error;
+            $mensagem = "<p class='error-message'>Erro ao cadastrar venda: " . $stmt->error . "</p>";
         }
 
-        // Fechar a declaração
         $stmt->close();
     } else {
-        $errorMsg = "Todos os campos são obrigatórios.";
+        $mensagem = "<p class='error-message'>Todos os campos são obrigatórios.</p>";
     }
 }
 
-// Fechar a conexão com o banco de dados
 $conn->close();
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Venda</title>
-</head>
-<body>
-    <h1>Cadastrar Venda</h1>
+<form action="" method="POST">
+    <label for="id_cliente">Cliente:</label>
+    <select id="id_cliente" name="id_cliente" required>
+        <option value="">Selecione um Cliente</option>
+        <?php
+        // Código para buscar clientes do banco de dados
+        require 'databaseconfig.php';
+        $result = $conn->query("SELECT id_cliente, nome FROM clientes");
+        while ($row = $result->fetch_assoc()) {
+            echo '<option value="'.$row['id_cliente'].'">'.$row['nome'].'</option>';
+        }
+        ?>
+    </select>
 
-    <?php if ($successMsg): ?>
-        <p style="color: green;"><?php echo $successMsg; ?></p>
-    <?php endif; ?>
+    <label for="descricao">Descrição da Venda:</label>
+    <input type="text" id="descricao" name="descricao" required>
 
-    <?php if ($errorMsg): ?>
-        <p style="color: red;"><?php echo $errorMsg; ?></p>
-    <?php endif; ?>
+    <label for="data_venda">Data da Venda:</label>
+    <input type="date" id="data_venda" name="data_venda" required>
 
-    <form action="cadastrar_venda.php" method="POST">
-        <label for="id_cliente">Cliente:</label><br>
-        <select id="id_cliente" name="id_cliente">
-            <?php
-            // Incluir a configuração do banco de dados novamente para listar os clientes
-            include 'databaseconfig.php';
+    <label for="valor_total">Valor Total:</label>
+    <input type="number" step="0.01" id="valor_total" name="valor_total" required>
 
-            $result = $conn->query("SELECT id_cliente, nome FROM clientes ORDER BY nome ASC");
+    <input type="submit" value="Cadastrar Venda">
+</form>
 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "<option value='" . $row['id_cliente'] . "'>" . $row['nome'] . "</option>";
-                }
-            } else {
-                echo "<option value=''>Nenhum cliente cadastrado</option>";
-            }
-
-            // Fechar a conexão com o banco de dados
-            $conn->close();
-            ?>
-        </select><br><br>
-
-        <label for="descricao">Descrição da Venda:</label><br>
-        <input type="text" id="descricao" name="descricao"><br><br>
-
-        <label for="data_venda">Data da Venda:</label><br>
-        <input type="date" id="data_venda" name="data_venda"><br><br>
-
-        <label for="valor_total">Valor Total (R$):</label><br>
-        <input type="number" step="0.01" id="valor_total" name="valor_total"><br><br>
-
-        <input type="submit" value="Cadastrar">
-    </form>
-</body>
-</html>
+<!-- Exibe a mensagem de sucesso ou erro após o envio -->
+<?php
+if ($mensagem) {
+    echo $mensagem;
+}
+?>
