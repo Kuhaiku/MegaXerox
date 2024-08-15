@@ -44,7 +44,7 @@ $conn->close();
 
     <label for="descricao">Descrição da Venda:</label>
     <input type="text" id="descricao" name="descricao" required>
-<--
+<!--
     <label for="data_venda">Data da Venda:</label>
     <input type="date" id="data_venda" name="data_venda" value="" required>
 -->
