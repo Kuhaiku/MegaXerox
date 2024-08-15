@@ -132,9 +132,9 @@
 <body>
 
     <div class="menu">
-        <a href="#" onclick="showSection('cadastrarCliente')">Cadastrar Cliente</a>
-        <a href="#" onclick="showSection('cadastrarVenda')">Cadastrar Venda</a>
-        <a href="#" onclick="showSection('gerenciarVendas')">Gerenciar Vendas</a>
+        <a onclick="showSection('cadastrarCliente')">Cadastrar Cliente</a>
+        <a  onclick="showSection('cadastrarVenda')">Cadastrar Venda</a>
+        <a  onclick="showSection('gerenciarVendas')">Gerenciar Vendas</a>
     </div>
 
     <div class="content">
