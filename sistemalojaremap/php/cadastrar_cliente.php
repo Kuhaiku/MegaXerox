@@ -56,9 +56,9 @@ $conn->close();
 
 <!-- Exibe a mensagem de sucesso ou erro após o envio -->
 <?php
-if ($mensagem) {
-    echo $mensagem;
-}
+//if ($mensagem) {
+//    echo $mensagem;
+//}
 ?>
 
 <h2>Clientes Cadastrados</h2>
