@@ -44,10 +44,14 @@ $conn->close();
 
     <label for="descricao">Descrição da Venda:</label>
     <input type="text" id="descricao" name="descricao" required>
-
+<--
     <label for="data_venda">Data da Venda:</label>
-    <input type="date" id="data_venda" name="data_venda" required>
-
+    <input type="date" id="data_venda" name="data_venda" value="" required>
+-->
+    <input type="date" id="dataHoje" name="dataHoje" value="">
+<script>
+    document.getElementById('dataHoje').valueAsDate = new Date();
+</script>
     <label for="valor_total">Valor Total:</label>
     <input type="number" step="0.01" id="valor_total" name="valor_total" required>
 
