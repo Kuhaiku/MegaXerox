@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+  
+  header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .remove-bg-link {
+    margin-bottom: 20px;
+  }
+  
+  .image-control {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+  }
+  
+  .image-control label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .image-control input[type="file"],
+  .image-control input[type="number"] {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  #addImage {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #addImage:hover {
+    background-color: #218838;
+  }
+  
+  #replicateButton {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #replicateButton:hover {
+    background-color: #0069d9;
+  }
+  
+  .removeImage {
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .removeImage:hover {
+    background-color: #c82333;
+  }
+  
