@@ -59,6 +59,119 @@
       <button id="replicateButton">Replicar Imagens</button>
     </div>
 
-    <script src="../js/replicate_images2.js"></script>
+    <script>
+      document.getElementById('addImage').addEventListener('click', addImageControl);
+
+function addImageControl() {
+  const container = document.getElementById('imageControls');
+  const newControl = document.createElement('div');
+  newControl.className = 'image-control';
+
+  newControl.innerHTML = `
+    <label for="imageUpload">Upload da Foto:</label>
+    <input type="file" class="imageUpload" accept="image/*" />
+    <label for="imageWidth">Largura da Foto (mm):</label>
+    <input type="number" class="imageWidth" min="1" />
+    <label for="imageHeight">Altura da Foto (mm):</label>
+    <input type="number" class="imageHeight" min="1" />
+    <label for="imageCount">Número de Replicações:</label>
+    <input type="number" class="imageCount" min="1" value="1" />
+    <label for="imageMargin">Margem entre Imagens (mm):</label>
+    <input type="number" class="imageMargin" min="0" value="0" />
+    <input type="checkbox" class="imageBorder" />
+    <label for="imageBorder">Adicionar Borda à Imagem</label>
+    <label for="imageRound">Arredondar Imagem</label>
+    <input type="number" class="imageRound" min="0" value="0" />
+    <button class="removeImage">Remover Imagem</button>
+  `;
+
+  newControl.querySelector('.removeImage').addEventListener('click', () => {
+    newControl.remove();
+  });
+
+  container.appendChild(newControl);
+}
+
+document.getElementById('replicateButton').addEventListener('click', replicateImages);
+
+function replicateImages() {
+  const controls = document.querySelectorAll('.image-control');
+  const paperSize = document.getElementById('paperSize').value;
+  const paperOrientation = document.getElementById('paperOrientation').value;
+
+  if (controls.length === 0) {
+    alert('Por favor, adicione pelo menos uma imagem.');
+    return;
+  }
+
+  let paperDimensions = {
+    A4: { width: 210, height: 297 },
+    A3: { width: 297, height: 420 },
+    A5: { width: 148, height: 210 }
+  };
+
+  let width = paperDimensions[paperSize].width;
+  let height = paperDimensions[paperSize].height;
+
+  if (paperOrientation === "landscape") {
+    [width, height] = [height, width];
+  }
+
+  const newWindow = window.open("", "", `width=${width*3.78},height=${height*3.78}`); // Conversion from mm to px for better scaling
+
+  newWindow.document.write(
+    "<html><head><title>Replicador de Imagem</title><style>"
+  );
+  newWindow.document.write(
+    "body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f5f5f5; }"
+  );
+  newWindow.document.write(
+    ".output { width: 100%; height: 100%; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; }"
+  );
+  newWindow.document.write("img { margin: 2mm; }");
+  newWindow.document.write("</style></head><body>");
+  newWindow.document.write('<div class="output">');
+
+  controls.forEach(control => {
+    const fileInput = control.querySelector('.imageUpload');
+    const imgWidth = parseFloat(control.querySelector('.imageWidth').value);
+    const imgHeight = parseFloat(control.querySelector('.imageHeight').value);
+    const imgCount = parseInt(control.querySelector('.imageCount').value);
+    const imgMargin = parseFloat(control.querySelector('.imageMargin').value);
+    const addBorder = control.querySelector('.imageBorder').checked;
+    const roundInputPercent = parseInt(control.querySelector('.imageRound').value);
+
+    const file = fileInput.files[0];
+    if (!file || isNaN(imgWidth) || isNaN(imgHeight) || isNaN(imgCount)) {
+      alert("Por favor, preencha todos os campos corretamente.");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      const img = new Image();
+      img.src = event.target.result;
+
+      img.onload = function () {
+        for (let i = 0; i < imgCount; i++) {
+          newWindow.document.write(
+            `<img src="${img.src}" style="width: ${imgWidth}mm; height: ${imgHeight}mm; margin: ${imgMargin / 2}mm; ${
+              addBorder ? 'border: 1px solid black;' : ''
+            } border-radius: ${roundInputPercent}%; " />`
+          );
+        }
+      };
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  newWindow.document.write("</div>");
+  newWindow.document.write("</body></html>");
+  newWindow.document.close();
+}
+
+    </script>
   </body>
 </html>
