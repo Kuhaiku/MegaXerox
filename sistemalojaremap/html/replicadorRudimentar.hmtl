@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Replicador de Imagem</title>
+    <link rel="stylesheet" href="../css/replicate_images.css" />
+    <link rel="icon" type="image/x-icon" href="../src/favicon.ico" />
+  </head>
+  <body>
+    <header>
+      <h1>Replicador de Imagem</h1>
+      <a href="index.html"><h3>Início</h3></a>
+    </header>
+
+    <div class="container">
+      <div class="remove-bg-link">
+        <p>
+          Para remover o fundo da imagem,
+          <a href="https://www.remove.bg/pt-br" target="_blank">clique aqui</a>
+          e use o site remove.bg.
+        </p>
+      </div>
+
+      <div id="imageControls">
+        <div class="image-control">
+          <label for="imageUpload">Upload da Foto:</label>
+          <input type="file" class="imageUpload" accept="image/*" />
+          <label for="imageWidth">Largura da Foto (mm):</label>
+          <input type="number" class="imageWidth" min="1" />
+          <label for="imageHeight">Altura da Foto (mm):</label>
+          <input type="number" class="imageHeight" min="1" />
+          <label for="imageCount">Número de Replicações:</label>
+          <input type="number" class="imageCount" min="1" value="1" />
+          <label for="imageMargin">Margem entre Imagens (mm):</label>
+          <input type="number" class="imageMargin" min="0" value="0" />
+          <input type="checkbox" class="imageBorder" />
+          <label for="imageBorder">Adicionar Borda à Imagem</label>
+          <label for="imageRound">Arredondar Imagem</label>
+          <input type="number" class="imageRound" min="0" value="0" />
+          <button class="removeImage">Remover Imagem</button>
+        </div>
+      </div>
+
+      <label for="paperSize">Tamanho do Papel:</label>
+      <select id="paperSize">
+        <option value="A4">A4</option>
+        <option value="A3">A3</option>
+        <option value="A5">A5</option>
+      </select>
+
+      <label for="paperOrientation">Orientação do Papel:</label>
+      <select id="paperOrientation">
+        <option value="portrait">Retrato</option>
+        <option value="landscape">Paisagem</option>
+      </select>
+
+      <button id="addImage">Adicionar Outra Imagem</button>
+      <button id="replicateButton">Replicar Imagens</button>
+    </div>
+
+    <script src="../js/replicate_images.js"></script>
+  </body>
+</html>
