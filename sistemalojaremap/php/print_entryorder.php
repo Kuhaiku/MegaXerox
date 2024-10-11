@@ -125,6 +125,20 @@ function ajustarAltura(elemento) {
     elemento.style.height = "auto"; 
     elemento.style.height = (elemento.scrollHeight) + "px";
 }
+// data
+     function formatarDataBR(data) {
+        const partesData = data.split(' ')[0].split('-');
+        return `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
+    }
+
+    // Obtém a data do elemento original
+    const dataAtual = document.getElementById('dataAtual').innerText;
+    
+    // Formata a data no padrão brasileiro
+    const dataFormatada = formatarDataBR(dataAtual);
+    
+    // Exibe a data formatada no local desejado
+    document.getElementById('dataFormatada').innerText = dataFormatada;
 </script>
 </body>
 </html>
