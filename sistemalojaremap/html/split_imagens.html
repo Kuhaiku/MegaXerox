@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Splitter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="file"], input[type="number"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(100% - 22px);
+        }
+
+        button {
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #434190;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        #previewCanvas {
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+        .notice {
+            font-size: 14px;
+            color: #555;
+            margin-top: 20px;
+        }
+
+        .notice a {
+            color: #5a67d8;
+            text-decoration: none;
+        }
+
+        .notice a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Splitter</h1>
+        <canvas id="previewCanvas" width="200" height="200"></canvas>
+        <div id="result"></div>
+
+        <div class="notice">
+        <input type="file" id="upload" accept="image/*">
+        <br>
+        <label for="columns">Colunas: </label>
+        <input type="number" id="columns" min="1" value="2" oninput="updatePreview()">
+        <label for="rows">Linhas: </label>
+        <input type="number" id="rows" min="1" value="2" oninput="updatePreview()">
+        <br>
+        <button onclick="splitImage()">Split Image</button>
+
+        <!-- Mini visualização -->
+        
+            <p>Se o arquivo estiver em PDF, <a href="https://www.ilovepdf.com/pt/pdf_para_jpg" target="_blank">converta ele em imagem antes</a>.</p>
+        </div>
+    </div>
+
+    <script>
+        function updatePreview() {
+    const canvas = document.getElementById('previewCanvas');
+    const ctx = canvas.getContext('2d');
+    const columns = parseInt(document.getElementById('columns').value) || 1;
+    const rows = parseInt(document.getElementById('rows').value) || 1;
+
+    const width = canvas.width;
+    const height = canvas.height;
+    const columnWidth = width / columns;
+    const rowHeight = height / rows;
+
+    // Limpa o canvas
+    ctx.clearRect(0, 0, width, height);
+
+    // Desenha o quadrado em branco
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, width, height);
+
+    // Define a cor da linha como vermelha
+    ctx.strokeStyle = 'red'; // Aqui você muda a cor para vermelha
+    ctx.lineWidth = 1;
+
+    // Desenha as linhas das colunas
+    for (let c = 1; c < columns; c++) {
+        ctx.beginPath();
+        ctx.moveTo(c * columnWidth, 0);
+        ctx.lineTo(c * columnWidth, height);
+        ctx.stroke();
+    }
+
+    // Desenha as linhas das fileiras
+    for (let r = 1; r < rows; r++) {
+        ctx.beginPath();
+        ctx.moveTo(0, r * rowHeight);
+        ctx.lineTo(width, r * rowHeight);
+        ctx.stroke();
+    }
+}
+
+        function splitImage() {
+            const fileInput = document.getElementById('upload');
+            const columns = parseInt(document.getElementById('columns').value);
+            const rows = parseInt(document.getElementById('rows').value);
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';  // Clear previous results
+
+            if (!fileInput.files.length) {
+                alert('Please upload an image file.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const img = new Image();
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                img.src = e.target.result;
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const imgWidth = img.width;
+                    const imgHeight = img.height;
+
+                    const quadrWidth = Math.floor(imgWidth / columns);
+                    const quadrHeight = Math.floor(imgHeight / rows);
+
+                    for (let r = 0; r < rows; r++) {
+                        for (let c = 0; c < columns; c++) {
+                            const x = c * quadrWidth;
+                            const y = r * quadrHeight;
+
+                            canvas.width = quadrWidth;
+                            canvas.height = quadrHeight;
+
+                            ctx.drawImage(img, x, y, quadrWidth, quadrHeight, 0, 0, quadrWidth, quadrHeight);
+
+                            // Converte o canvas para URL da imagem
+                            const imgQuadrant = canvas.toDataURL("image/png");
+                            
+                            // Cria um link temporário para forçar o download
+                            const link = document.createElement('a');
+                            link.href = imgQuadrant;
+                            link.download = `quadrant_${r + 1}_${c + 1}.png`;
+
+                            // Força o clique no link para baixar a imagem
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                    }
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Atualiza a pré-visualização ao carregar a página
+        window.onload = updatePreview;
+    </script>
+</body>
+</html>
