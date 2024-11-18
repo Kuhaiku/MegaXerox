@@ -96,10 +96,10 @@ if (isset($_POST['submit'])) {
                     Notebook
                     <input type="radio" name="tipo" id="desktop" value="desktop" />
                     Desktop
-                    <input type="radio" name="tipo" id="celular" value="celular" />
-                    Celular
-                    <input type="radio" name="tipo" id="outro" value="outro" />
-                    Outro
+                    <input type="radio" name="tipo" id="celular" value="Console" />
+                    Console
+                    <input type="radio" name="tipo" id="outro" value="Controle" />
+                    Controle
                 </div>
                 <div class="inputBox">
                     <input class="inputUser" type="text" name="marca" id="marca" required />
