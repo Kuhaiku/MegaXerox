@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar Recibo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+       body { 
+    font-family: Arial, sans-serif; 
+    text-align: center; 
+}
+
+.container { 
+    width: 148mm; 
+    height: 210mm; 
+    margin: auto; 
+    padding: 20px; 
+    border: 2px solid black; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.header { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    width: 100%; 
+    margin-bottom: 10px; 
+}
+
+.logo { 
+    width: 270px; 
+    height: 100px; 
+    background: yellow; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-weight: bold; 
+    font-size: 20px; 
+    text-align: center;
+}
+
+.header-text { 
+    text-align: center; 
+    font-weight: bold; 
+}
+
+.info-line { 
+    display: flex; 
+    justify-content: space-between; 
+    width: 100%; 
+    margin-bottom: 10px; 
+    font-size: 25px;
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+}
+
+th, td { 
+    border: 1px solid black; 
+    padding: 5px; 
+    text-align: center; 
+}
+
+th:nth-child(1), td:nth-child(1) { 
+    width: 10%; /* Quantidade menor */
+}
+
+th:nth-child(2), td:nth-child(2) { 
+    width: 65%; /* Descrição maior */
+}
+
+th:nth-child(3), td:nth-child(3) { 
+    width: 10%; /* Unitário menor */
+}
+
+th:nth-child(4), td:nth-child(4) { 
+    width: 15%; /* Total */
+}
+
+input { 
+    width: 100%; 
+    border: none; 
+    font-size: 14px;
+    text-align: center; 
+}
+
+.total-box { 
+    text-align: center; 
+    margin-top: 10px; 
+    font-size: 20px; 
+    font-weight: bold; 
+}
+
+#data { 
+    font-size: 20px; 
+    padding: 5px; 
+}
+
+
+    </style>
+</head>
+<body>
+
+<div class="container" id="capture">
+    <div class="header">
+        <div class="logo">Mega Xerox<br>Tel.: (22) 2665-5910</div>
+        <div class="header-text">
+            <p>Rua Bernardo Vasconcelos 293 - sala 4A - Centro</p>
+            <p>CNPJ: 12689.177/0001-26 Araruama - RJ</p>
+        </div>
+    </div>
+    <div class="info-line">
+        <label>Cliente: <input type="text" id="cliente"></label>
+        <label>Data: <input type="date" id="data"></label>
+    </div>
+    <table>
+        <tr>
+            <th>Quant.</th><th>Descrição</th><th>Unit.</th><th>Total</th>
+        </tr>
+        <script>
+            for (let i = 0; i < 15; i++) {
+                document.write('<tr>' +
+                    '<td><input type="number" class="quant" oninput="calcularTotal()"></td>' +
+                    '<td><input type="text"></td>' +
+                    '<td><input type="number" class="unit" oninput="calcularTotal()"></td>' +
+                    '<td><input type="number" class="subtotal" readonly></td>' +
+                '</tr>');
+            }
+        </script>
+    </table>
+    <div class="total-box">
+        Total: R$ <span id="total">0.00</span>
+    </div>
+</div>
+
+<button onclick="gerarImagem()">Salvar como Imagem</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let hoje = new Date().toISOString().split('T')[0];
+        document.getElementById("data").value = hoje;
+    });
+
+    function calcularTotal() {
+        let total = 0;
+        document.querySelectorAll("table tr").forEach(row => {
+            let quant = row.querySelector(".quant");
+            let unit = row.querySelector(".unit");
+            let subtotal = row.querySelector(".subtotal");
+            if (quant && unit && subtotal) {
+                let subTotalValue = (parseFloat(quant.value) || 0) * (parseFloat(unit.value) || 0);
+                subtotal.value = subTotalValue.toFixed(2);
+                total += subTotalValue;
+            }
+        });
+        document.getElementById("total").innerText = total.toFixed(2);
+    }
+
+    function gerarImagem() {
+        html2canvas(document.querySelector("#capture")).then(canvas => {
+            let link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = `${document.getElementById('cliente').value || 'recibo'}.png`;
+            link.click();
+        });
+    }
+</script>
+
+</body>
+</html>
+
