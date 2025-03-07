@@ -133,6 +133,7 @@
 <body>
 
     <div class="menu">
+        <a src="../index.html">Inicio</a>
         <a onclick="showSection('cadastrarCliente')">Cadastrar Cliente</a>
         <a  onclick="showSection('cadastrarVenda')">Cadastrar Venda</a>
         <a  onclick="showSection('gerenciarVendas')">Gerenciar Vendas</a>
