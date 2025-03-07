@@ -60,34 +60,10 @@
             border: 1px solid #ccc;
             padding: 12px;
             text-align: left;
-            white-space: nowrap;
         }
         th {
             background-color: #0a9396;
             color: white;
-        }
-        td {
-            vertical-align: top;
-        }
-        .descricao {
-            max-height: 50px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            position: relative;
-        }
-        .descricao.expandida {
-            max-height: none;
-        }
-        .ver-mais-btn {
-            color: #0a9396;
-            cursor: pointer;
-            text-decoration: underline;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 5px;
-        }
-        .ver-mais-btn:hover {
-            text-decoration: none;
         }
     </style>
     <script>
@@ -107,11 +83,6 @@
                 }
             };
             xhr.send();
-        }
-        function toggleDescricao(button) {
-            var descricao = button.previousElementSibling;
-            descricao.classList.toggle('expandida');
-            button.innerText = descricao.classList.contains('expandida') ? 'Ver Menos' : 'Ver Mais';
         }
     </script>
 </head>
@@ -144,7 +115,20 @@
             }
             ?>
         </select>
-        <div id="resultSection" class="result-section"></div>
+        <div id="resultSection" class="result-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th>Valor Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Resultados da consulta serão inseridos aqui -->
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <script>
