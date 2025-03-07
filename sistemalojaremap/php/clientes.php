@@ -4,46 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Controle de Vendas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #0a9396;
+            font-family: Arial, sans-serif;
+            background-color: #005f73;
             margin: 0;
             padding: 0;
             color: #333;
         }
         .menu {
-            background-color: #005f73;
+            background-color: #005f78;
             padding: 15px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         .menu a {
             color: white;
             margin: 0 20px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: bold;
             font-size: 16px;
-            transition: color 0.3s, transform 0.3s;
-            display: inline-block;
+            transition: color 0.3s;
         }
         .menu a:hover {
-            color: #94d2bd;
-            transform: scale(1.1);
+            color: black;
+            cursor: pointer;
         }
         .content {
-            padding: 30px;
-            max-width: 1000px;
-            margin: 40px auto;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
             background-color: white;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            animation: fadeIn 0.8s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
         .content-section {
             margin-top: 20px;
@@ -51,19 +43,70 @@
         .hidden {
             display: none;
         }
-        table {
+        h1, h2 {
+            color: #007bff;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
+            padding: 10px;
+            margin-top: 5px;
             border: 1px solid #ccc;
-            padding: 12px;
-            text-align: left;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
-        th {
-            background-color: #0a9396;
+        input[type="submit"] {
+            margin-top: 20px;
+            background-color: #005f73;
             color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #005f73;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f8f9fa;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li a {
+            color: #007bff;
+            text-decoration: none;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        li a:hover {
+            text-decoration: underline;
+        }
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
     <script>
@@ -73,6 +116,7 @@
             });
             document.getElementById(sectionId).classList.remove('hidden');
         }
+
         function fetchSales() {
             var clienteId = document.getElementById('clienteConsulta').value;
             var xhr = new XMLHttpRequest();
@@ -87,52 +131,49 @@
     </script>
 </head>
 <body>
-<div class="menu">
-    <a href="../index.html">Inicio</a>
-    <a onclick="showSection('cadastrarCliente')">Cadastrar Cliente</a>
-    <a onclick="showSection('cadastrarVenda')">Cadastrar Venda</a>
-    <a onclick="showSection('gerenciarVendas')">Gerenciar Vendas</a>
-</div>
-<div class="content">
-    <div id="cadastrarCliente" class="content-section hidden">
-        <h2>Cadastrar Cliente</h2>
-        <?php include 'cadastrar_cliente.php'; ?>
+
+    <div class="menu">
+        <a href="../index.html">Inicio</a>
+        <a onclick="showSection('cadastrarCliente')">Cadastrar Cliente</a>
+        <a  onclick="showSection('cadastrarVenda')">Cadastrar Venda</a>
+        <a  onclick="showSection('gerenciarVendas')">Gerenciar Vendas</a>
     </div>
-    <div id="cadastrarVenda" class="content-section hidden">
-        <h2>Cadastrar Venda</h2>
-        <?php include 'cadastrar_venda.php'; ?>
-    </div>
-    <div id="gerenciarVendas" class="content-section hidden">
-        <h2>Gerenciar Vendas</h2>
-        <label for="clienteConsulta">Selecione o Cliente:</label>
-        <select id="clienteConsulta" name="clienteConsulta" onchange="fetchSales()">
-            <option value="">Selecione um Cliente</option>
-            <?php
-            require 'databaseconfig.php';
-            $result = $conn->query("SELECT id_cliente, nome FROM clientes");
-            while ($row = $result->fetch_assoc()) {
-                echo '<option value="'.$row['id_cliente'].'">'.$row['nome'].'</option>';
-            }
-            ?>
-        </select>
-        <div id="resultSection" class="result-section">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Descrição</th>
-                        <th>Data</th>
-                        <th>Valor Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Resultados da consulta serão inseridos aqui -->
-                </tbody>
-            </table>
+
+    <div class="content">
+        <div id="cadastrarCliente" class="content-section hidden">
+            <h2>Cadastrar Cliente</h2>
+            <?php include 'cadastrar_cliente.php'; ?>
+        </div>
+
+        <div id="cadastrarVenda" class="content-section hidden">
+            <h2>Cadastrar Venda</h2>
+            <?php include 'cadastrar_venda.php'; ?>
+        </div>
+
+        <div id="gerenciarVendas" class="content-section hidden">
+            <h2>Gerenciar Vendas</h2>
+            <label for="clienteConsulta">Selecione o Cliente:</label>
+            <select id="clienteConsulta" name="clienteConsulta" onchange="fetchSales()">
+                <option value="">Selecione um Cliente</option>
+                <?php
+                // Código para buscar clientes do banco de dados
+                require 'databaseconfig.php';
+                $result = $conn->query("SELECT id_cliente, nome FROM clientes");
+                while ($row = $result->fetch_assoc()) {
+                    echo '<option value="'.$row['id_cliente'].'">'.$row['nome'].'</option>';
+                }
+                ?>
+            </select>
+
+            <div id="resultSection" class="result-section">
+                <!-- Resultados da consulta serão inseridos aqui -->
+            </div>
         </div>
     </div>
-</div>
-<script>
-    showSection('cadastrarCliente');
-</script>
+
+    <script>
+        showSection('cadastrarCliente');
+    </script>
+
 </body>
 </html>
