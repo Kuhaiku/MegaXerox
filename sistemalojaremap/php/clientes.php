@@ -104,18 +104,25 @@
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
             align-items: center;
             transition: transform 0.3s;
         }
         li:hover {
             transform: scale(1.02);
         }
+        li span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         li a {
             color: #0a9396;
             text-decoration: none;
             font-weight: 600;
+            text-align: right;
         }
         li a:hover {
             text-decoration: underline;
