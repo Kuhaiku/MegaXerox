@@ -66,23 +66,27 @@
             background-color: #0a9396;
             color: white;
         }
-        td span {
-            display: block;
-            max-width: 100%;
+        td {
+            vertical-align: top;
+        }
+        .descricao {
+            max-height: 50px;
             overflow: hidden;
             text-overflow: ellipsis;
+            position: relative;
         }
-        td .ver-mais {
-            display: none;
-            word-wrap: break-word;
+        .descricao.expandida {
+            max-height: none;
         }
-        td a {
+        .ver-mais-btn {
             color: #0a9396;
             cursor: pointer;
             text-decoration: underline;
             font-weight: 600;
+            display: inline-block;
+            margin-top: 5px;
         }
-        td a:hover {
+        .ver-mais-btn:hover {
             text-decoration: none;
         }
     </style>
@@ -104,10 +108,10 @@
             };
             xhr.send();
         }
-        function toggleVerMais(button) {
-            var span = button.previousElementSibling;
-            span.classList.toggle('ver-mais');
-            button.innerText = span.classList.contains('ver-mais') ? 'Ver Menos' : 'Ver Mais';
+        function toggleDescricao(button) {
+            var descricao = button.previousElementSibling;
+            descricao.classList.toggle('expandida');
+            button.innerText = descricao.classList.contains('expandida') ? 'Ver Menos' : 'Ver Mais';
         }
     </script>
 </head>
