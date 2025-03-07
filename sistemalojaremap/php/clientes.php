@@ -105,10 +105,11 @@
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 15px;
             align-items: center;
             transition: transform 0.3s;
+            overflow: hidden;
         }
         li:hover {
             transform: scale(1.02);
@@ -117,12 +118,18 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 100%;
+            display: inline-block;
+        }
+        li .ver-mais {
+            display: none;
         }
         li a {
             color: #0a9396;
             text-decoration: none;
             font-weight: 600;
             text-align: right;
+            cursor: pointer;
         }
         li a:hover {
             text-decoration: underline;
@@ -158,28 +165,29 @@
             };
             xhr.send();
         }
+        function toggleVerMais(button) {
+            var span = button.previousElementSibling;
+            span.classList.toggle('ver-mais');
+            button.innerText = span.classList.contains('ver-mais') ? 'Ver Menos' : 'Ver Mais';
+        }
     </script>
 </head>
 <body>
-
 <div class="menu">
     <a href="../index.html">Inicio</a>
     <a onclick="showSection('cadastrarCliente')">Cadastrar Cliente</a>
     <a onclick="showSection('cadastrarVenda')">Cadastrar Venda</a>
     <a onclick="showSection('gerenciarVendas')">Gerenciar Vendas</a>
 </div>
-
 <div class="content">
     <div id="cadastrarCliente" class="content-section hidden">
         <h2>Cadastrar Cliente</h2>
         <?php include 'cadastrar_cliente.php'; ?>
     </div>
-
     <div id="cadastrarVenda" class="content-section hidden">
         <h2>Cadastrar Venda</h2>
         <?php include 'cadastrar_venda.php'; ?>
     </div>
-
     <div id="gerenciarVendas" class="content-section hidden">
         <h2>Gerenciar Vendas</h2>
         <label for="clienteConsulta">Selecione o Cliente:</label>
@@ -196,10 +204,8 @@
         <div id="resultSection" class="result-section"></div>
     </div>
 </div>
-
 <script>
     showSection('cadastrarCliente');
 </script>
-
 </body>
 </html>
