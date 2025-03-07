@@ -51,100 +51,39 @@
         .hidden {
             display: none;
         }
-        h1, h2 {
-            color: #0a9396;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: 600;
-        }
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        select {
+        table {
             width: 100%;
-            padding: 12px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            outline: none;
-            transition: border 0.3s;
-        }
-        input[type="text"]:focus, 
-        input[type="date"]:focus, 
-        input[type="number"]:focus, 
-        select:focus {
-            border: 1px solid #0a9396;
-        }
-        input[type="submit"] {
+            border-collapse: collapse;
             margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: left;
+            white-space: nowrap;
+        }
+        th {
             background-color: #0a9396;
             color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
         }
-        input[type="submit"]:hover {
-            background-color: #94d2bd;
-            transform: scale(1.05);
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            background-color: #e9ecef;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 15px;
-            align-items: center;
-            transition: transform 0.3s;
-            overflow: hidden;
-        }
-        li:hover {
-            transform: scale(1.02);
-        }
-        li span {
-            white-space: nowrap;
+        td span {
+            display: block;
+            max-width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 100%;
-            display: inline-block;
         }
-        li .ver-mais {
+        td .ver-mais {
             display: none;
+            word-wrap: break-word;
         }
-        li a {
+        td a {
             color: #0a9396;
-            text-decoration: none;
-            font-weight: 600;
-            text-align: right;
             cursor: pointer;
-        }
-        li a:hover {
             text-decoration: underline;
+            font-weight: 600;
         }
-        .success-message {
-            color: #2a9d8f;
-            font-weight: bold;
-            margin-top: 10px;
-            text-align: center;
-        }
-        .error-message {
-            color: #d62828;
-            font-weight: bold;
-            margin-top: 10px;
-            text-align: center;
+        td a:hover {
+            text-decoration: none;
         }
     </style>
     <script>
