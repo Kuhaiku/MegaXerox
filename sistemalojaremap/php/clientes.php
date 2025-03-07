@@ -51,10 +51,7 @@
             margin-top: 10px;
             font-weight: bold;
         }
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        select {
+        input, select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -73,30 +70,24 @@
             transition: background-color 0.3s;
         }
         input[type="submit"]:hover {
+            background-color: #004e5f;
+        }
+        .result-section {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
             background-color: #005f73;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background-color: #f8f9fa;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 4px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        li a {
-            color: #007bff;
-            text-decoration: none;
-            margin-left: 10px;
-            font-size: 14px;
-        }
-        li a:hover {
-            text-decoration: underline;
+            color: white;
         }
         .success-message {
             color: green;
@@ -133,10 +124,10 @@
 <body>
 
     <div class="menu">
-        <a href="../index.html">Inicio</a>
+        <a href="../index.html">Início</a>
         <a onclick="showSection('cadastrarCliente')">Cadastrar Cliente</a>
-        <a  onclick="showSection('cadastrarVenda')">Cadastrar Venda</a>
-        <a  onclick="showSection('gerenciarVendas')">Gerenciar Vendas</a>
+        <a onclick="showSection('cadastrarVenda')">Cadastrar Venda</a>
+        <a onclick="showSection('gerenciarVendas')">Gerenciar Vendas</a>
     </div>
 
     <div class="content">
@@ -156,7 +147,6 @@
             <select id="clienteConsulta" name="clienteConsulta" onchange="fetchSales()">
                 <option value="">Selecione um Cliente</option>
                 <?php
-                // Código para buscar clientes do banco de dados
                 require 'databaseconfig.php';
                 $result = $conn->query("SELECT id_cliente, nome FROM clientes");
                 while ($row = $result->fetch_assoc()) {
