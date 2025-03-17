@@ -165,7 +165,6 @@
         showSection('cadastrarCliente');
 
         
-    calcularTotal();
     </script>
 
 </body>
