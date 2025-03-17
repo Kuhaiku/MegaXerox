@@ -130,21 +130,23 @@
                 total += valorNumerico;
             });
 
-            // Criar a linha total
-            const totalRow = document.createElement('tr');
-            totalRow.innerHTML = `
-                <td colspan="4" style="text-align: right; font-weight: bold;">Total</td>
-                <td>R$ ${total.toFixed(2)}</td>
-            `;
-
-            // Se já existe uma linha de total, remove-a antes de adicionar uma nova
-            const existingTotalRow = document.getElementById('totalRow');
-            if (existingTotalRow) {
-                existingTotalRow.remove();
+            // Atualiza o total abaixo da tabela
+            const totalRow = document.getElementById('totalRow');
+            if (totalRow) {
+                totalRow.innerHTML = `
+                    <td colspan="4" style="text-align: right; font-weight: bold;">Total</td>
+                    <td>R$ ${total.toFixed(2)}</td>
+                `;
+            } else {
+                // Se a linha total não existe, cria uma nova
+                const newTotalRow = document.createElement('tr');
+                newTotalRow.id = 'totalRow';
+                newTotalRow.innerHTML = `
+                    <td colspan="4" style="text-align: right; font-weight: bold;">Total</td>
+                    <td>R$ ${total.toFixed(2)}</td>
+                `;
+                document.querySelector('table tbody').appendChild(newTotalRow);
             }
-
-            totalRow.id = 'totalRow'; // Define um id único para a linha de total
-            document.querySelector('table tbody').appendChild(totalRow);
         }
     </script>
 </head>
