@@ -163,24 +163,8 @@
 
     <script>
         showSection('cadastrarCliente');
-         // Função para somar todos os valores das células da coluna "Valor (R$)"
-    function calcularTotal() {
-        let total = 0;
-        // Obtém todos os elementos <td> na última coluna
-        const valores = document.querySelectorAll('table tbody tr td:nth-child(5)');
+
         
-        // Loop através de todos os valores e soma
-        valores.forEach(function(valor) {
-            // Remover "R$" e transformar em número
-            const valorNumerico = parseFloat(valor.textContent.replace('R$', '').trim());
-            total += valorNumerico;
-        });
-
-        // Exibe o total na célula da última linha
-        document.getElementById('total').textContent = `R$ ${total.toFixed(2)}`;
-    }
-
-    // Chama a função para calcular o total
     calcularTotal();
     </script>
 
