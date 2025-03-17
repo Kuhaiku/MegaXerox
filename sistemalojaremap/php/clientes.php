@@ -115,9 +115,26 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     document.getElementById('resultSection').innerHTML = xhr.responseText;
+                    calcularTotal(); // Chama a função para calcular o total após a tabela ser carregada
                 }
             };
             xhr.send();
+        }
+
+        // Função para somar todos os valores das células da coluna "Valor (R$)"
+        function calcularTotal() {
+            let total = 0;
+            const valores = document.querySelectorAll('table tbody tr td:nth-child(5)');
+            valores.forEach(function(valor) {
+                const valorNumerico = parseFloat(valor.textContent.replace('R$', '').trim());
+                total += valorNumerico;
+            });
+
+            // Exibe o total na célula da última linha
+            const totalCell = document.getElementById('total');
+            if (totalCell) {
+                totalCell.textContent = `R$ ${total.toFixed(2)}`;
+            }
         }
     </script>
 </head>
@@ -160,12 +177,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        showSection('cadastrarCliente');
-
-        
-    </script>
 
 </body>
 </html>
