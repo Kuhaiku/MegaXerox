@@ -115,38 +115,9 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     document.getElementById('resultSection').innerHTML = xhr.responseText;
-                    calcularTotal(); // Chama a função para calcular o total após a tabela ser carregada
                 }
             };
             xhr.send();
-        }
-
-        // Função para somar todos os valores das células da coluna "Valor (R$)"
-        function calcularTotal() {
-            let total = 0;
-            const valores = document.querySelectorAll('table tbody tr td:nth-child(5)');
-            valores.forEach(function(valor) {
-                const valorNumerico = parseFloat(valor.textContent.replace('R$', '').trim());
-                total += valorNumerico;
-            });
-
-            // Atualiza ou cria a linha de total abaixo da tabela
-            const totalRow = document.getElementById('totalRow');
-            if (totalRow) {
-                totalRow.innerHTML = `
-                    <td colspan="4" style="text-align: right; font-weight: bold;">Total</td>
-                    <td>R$ ${total.toFixed(2)}</td>
-                `;
-            } else {
-                // Se a linha total não existe, cria uma nova
-                const newTotalRow = document.createElement('tr');
-                newTotalRow.id = 'totalRow';
-                newTotalRow.innerHTML = `
-                    <td colspan="4" style="text-align: right; font-weight: bold;">Total</td>
-                    <td>R$ ${total.toFixed(2)}</td>
-                `;
-                document.querySelector('table tbody').appendChild(newTotalRow);
-            }
         }
     </script>
 </head>
@@ -189,6 +160,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+        showSection('cadastrarCliente');
+
+        
+    </script>
 
 </body>
 </html>
