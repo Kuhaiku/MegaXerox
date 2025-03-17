@@ -130,7 +130,7 @@
                 total += valorNumerico;
             });
 
-            // Atualiza o total abaixo da tabela
+            // Atualiza ou cria a linha de total abaixo da tabela
             const totalRow = document.getElementById('totalRow');
             if (totalRow) {
                 totalRow.innerHTML = `
