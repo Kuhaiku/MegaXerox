@@ -3,20 +3,27 @@ include 'databaseconfig.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
-    $valor_compra = $_POST['valor_compra'];
+    
+    // Corrigir valor da compra para ponto
+    $valor_compra = str_replace(',', '.', $_POST['valor_compra']);
+    
     $produto_comprado = $_POST['produto_comprado'];
     $data_compra = $_POST['data_compra'];
 
-    $sql = "INSERT INTO fidelidade_compras (nome, valor_compra, produto_comprado, data_compra)
-            VALUES ('$nome', '$valor_compra', '$produto_comprado', '$data_compra')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Compra cadastrada com sucesso!";
+    // Validar se o valor da compra está correto
+    if (!is_numeric($valor_compra)) {
+        echo "O valor da compra precisa ser um número válido.";
     } else {
-        echo "Erro ao cadastrar compra: " . $conn->error;
+        $sql = "INSERT INTO fidelidade_compras (nome, valor_compra, produto_comprado, data_compra)
+                VALUES ('$nome', '$valor_compra', '$produto_comprado', '$data_compra')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "Compra cadastrada com sucesso!";
+        } else {
+            echo "Erro ao cadastrar compra: " . $conn->error;
+        }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -42,23 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="date" name="data_compra" required><br><br>
 
         <button type="submit">Cadastrar Compra</button>
-    </form>
-
-    <h2>Cadastrar Nova Compra</h2>
-    <form method="POST">
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" id="nome" required><br><br>
-
-        <label for="valor_compra">Valor da Compra:</label>
-        <input type="number" step="0.01" name="valor_compra" id="valor_compra" required><br><br>
-
-        <label for="produto_comprado">O que foi Comprado:</label>
-        <input type="text" name="produto_comprado" id="produto_comprado" required><br><br>
-
-        <label for="data_compra">Data da Compra:</label>
-        <input type="date" name="data_compra" id="data_compra" required><br><br>
-
-        <button type="submit">Cadastrar</button>
     </form>
 </body>
 </html>
