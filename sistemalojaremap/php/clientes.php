@@ -110,14 +110,33 @@
 
         function fetchSales() {
             var clienteId = document.getElementById('clienteConsulta').value;
+            if (clienteId === "") {
+                document.getElementById('resultSection').innerHTML = "";
+                return;
+            }
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'consultar_vendas.php?id_cliente=' + clienteId, true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     document.getElementById('resultSection').innerHTML = xhr.responseText;
+                    somarValores(); // Chama a função para somar os valores
                 }
             };
             xhr.send();
+        }
+
+        function somarValores() {
+            var total = 0;
+            var valores = document.querySelectorAll('.valor-total');
+            valores.forEach(function(td) {
+                var valorTexto = td.textContent.replace('R$', '').replace(',', '.').trim();
+                var valor = parseFloat(valorTexto);
+                if (!isNaN(valor)) {
+                    total += valor;
+                }
+            });
+            var totalFormatado = total.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            document.getElementById('totalGeral').textContent = 'Total Geral: ' + totalFormatado;
         }
     </script>
 </head>
@@ -163,8 +182,6 @@
 
     <script>
         showSection('cadastrarCliente');
-
-        
     </script>
 
 </body>
