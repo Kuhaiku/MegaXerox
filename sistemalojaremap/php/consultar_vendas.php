@@ -17,7 +17,7 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
     if ($result->num_rows > 0) {
         echo "<table border='1' width='100%'>
                 <tr>
-                    <th>ID Venda</th>
+                    
                     <th>Cliente</th>
                     <th>Data</th>
                     <th>Descrição</th>
@@ -25,7 +25,7 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
                 </tr>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr>
-                    <td>{$row['id_venda']}</td>
+                    
                     <td>{$row['cliente']}</td>
                     <td>{$row['data_venda']}</td>
                     <td>{$row['descricao']}</td>
