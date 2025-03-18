@@ -1,4 +1,4 @@
-<?php
+<?php 
 require 'databaseconfig.php';
 
 if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
@@ -29,10 +29,11 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
                     <td>{$row['cliente']}</td>
                     <td>{$row['data_venda']}</td>
                     <td>{$row['descricao']}</td>
-                    <td>R$ {$row['valor_total']}</td>
+                    <td class='valor-total'>R$ {$row['valor_total']}</td>
                   </tr>";
         }
         echo "</table>";
+        echo "<p id='totalGeral' style='font-weight:bold; margin-top:10px;'></p>";
     } else {
         echo "<p class='error-message'>Nenhuma venda encontrada para este cliente.</p>";
     }
