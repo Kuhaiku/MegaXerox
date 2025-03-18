@@ -84,10 +84,11 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
 </head>
 <body>
     <nav>
+        <a href="../index.html">Início</a>
         <a onclick="mostrar('cadastrar_cliente')">Cadastrar Cliente</a>
         <a onclick="mostrar('cadastrar_venda')">Cadastrar Venda</a>
         <a onclick="mostrar('listar_vendas')">Listar Vendas</a>
-        <a href="../index.html">Início</a>
+        
     </nav>
 
     <!-- Cadastrar Cliente -->
