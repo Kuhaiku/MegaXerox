@@ -11,7 +11,7 @@
         <li><a href="cadastrar_cliente.php">Cadastrar Cliente</a></li>
         <li><a href="cadastrar_venda.php">Cadastrar Venda</a></li>
         <li><a href="listar_clientes.php">Listar Clientes</a></li>
-        <li><a href="listar_vendas.php">Listar Vendas</a></li>
+        <li><a href="listar_vendas_fidelidade.php">Listar Vendas</a></li>
     </ul>
 </body>
 </html>
