@@ -120,29 +120,59 @@ $vendas = $conn->query($sql_vendas)->fetch_all(MYSQLI_ASSOC);
     </div>
 
     <!-- Listar Vendas -->
-    <div id="listar_vendas" class="section">
-        <h2>Vendas Cadastradas</h2>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Unidade</th>
-                <th>Descrição</th>
-                <th>Valor</th>
-                <th>Data da Compra</th>
-            </tr>
-            <?php foreach ($vendas as $venda): ?>
-                <tr>
-                    <td><?= $venda['id']; ?></td>
-                    <td><?= $venda['cliente']; ?></td>
-                    <td><?= $venda['unidade']; ?></td>
-                    <td><?= $venda['descricao_compra']; ?></td>
-                    <td><?= $venda['valor']; ?></td>
-                    <td><?= $venda['data_compra']; ?></td>
-                </tr>
+   <!-- Listar Vendas -->
+<div id="listar_vendas" class="section">
+    <h2>Vendas Cadastradas</h2>
+
+    <form method="POST" id="filtroForm">
+        <label>Selecionar Cliente:</label><br>
+        <select name="cliente_filtro" onchange="document.getElementById('filtroForm').submit()">
+            <option value="">-- Todos os Clientes --</option>
+            <?php foreach ($clientes as $cliente): ?>
+                <option value="<?= $cliente['id']; ?>" <?= (isset($_POST['cliente_filtro']) && $_POST['cliente_filtro'] == $cliente['id']) ? 'selected' : '' ?>>
+                    <?= $cliente['nome']; ?>
+                </option>
             <?php endforeach; ?>
-        </table>
-    </div>
+        </select>
+    </form>
+
+    <br>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Unidade</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th>Data da Compra</th>
+        </tr>
+        <?php
+        $filtro_sql = "";
+        if (isset($_POST['cliente_filtro']) && $_POST['cliente_filtro'] != "") {
+            $cliente_filtro = $_POST['cliente_filtro'];
+            $filtro_sql = " WHERE v.cliente_id = '$cliente_filtro'";
+        }
+
+        $sql_vendas_filtradas = "SELECT v.id, c.nome AS cliente, v.unidade, v.descricao_compra, v.valor, v.data_compra 
+                                 FROM vendas_fidelidade v
+                                 JOIN clientes_fidelidade c ON v.cliente_id = c.id
+                                 $filtro_sql";
+        $vendas_filtradas = $conn->query($sql_vendas_filtradas)->fetch_all(MYSQLI_ASSOC);
+
+        foreach ($vendas_filtradas as $venda): ?>
+            <tr>
+                <td><?= $venda['id']; ?></td>
+                <td><?= $venda['cliente']; ?></td>
+                <td><?= $venda['unidade']; ?></td>
+                <td><?= $venda['descricao_compra']; ?></td>
+                <td><?= $venda['valor']; ?></td>
+                <td><?= $venda['data_compra']; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+</div>
+
 
     <script>
         function showSection(id) {
