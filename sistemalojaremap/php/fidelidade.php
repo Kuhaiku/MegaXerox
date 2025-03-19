@@ -245,6 +245,7 @@ tr:nth-child(even) {
 }
 .container{
     margin:auto;
+    display: flex;
 }
 
 /* Responsividade básica */
