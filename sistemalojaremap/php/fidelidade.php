@@ -125,126 +125,162 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
 <head>
     <title>Programa de Fidelidade</title>
     <style>
-  /* Reset básico */
+ /* Reset básico */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 /* Corpo da página */
 body {
-    background-color: #f0f0f0;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  color: #333;
+  display: flex;
+  min-height: 100vh;
 }
 
-.container-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    width: 80%;
-    max-width: 800px;
-    text-align: center;
+/* Cabeçalho com link */
+h1 {
+  margin-bottom: 20px;
+  color: #444;
+  text-align: center;
 }
 
-h1, h2 {
-    color: #444;
-    margin-bottom: 20px;
+a {
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #4CAF50;
+  padding: 8px 14px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
-/* Menu de navegação */
+a:hover {
+  background-color: #45a049;
+}
+
+/* Menu lateral */
 nav {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+  width: 200px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #333;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
 nav a {
-    text-decoration: none;
-    color: #fff;
-    background-color: #4CAF50;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: 0.3s;
+  padding: 15px 20px;
+  width: 100%;
+  text-align: left;
+  color: #fff;
+  font-size: 18px;
+  border-bottom: 1px solid #555;
 }
 
 nav a:hover {
-    background-color: #3e8e41;
+  background-color: #555;
 }
 
-/* Formulários e inputs */
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+/* Seções */
+section {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-left: 220px;
+  width: calc(100% - 220px);
 }
 
-input, select, button {
-    width: 100%;
-    max-width: 400px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    outline: none;
-    transition: 0.3s;
+h2 {
+  margin-bottom: 15px;
+  color: #333;
 }
 
-input:focus, select:focus {
-    border-color: #4CAF50;
+/* Inputs e selects */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  width: 70%;
+  padding: 8px;
+  margin: 6px 0 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-button {
-    background-color: #4CAF50;
-    color: #fff;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
+/* Botão de envio */
+input[type="submit"] {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #3e8e41;
+input[type="submit"]:hover {
+  background-color: #218838;
 }
 
-/* Tabelas */
+/* Tabela */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 
 th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
 }
 
 th {
-    background-color: #4CAF50;
-    color: #fff;
+  background-color: #007BFF;
+  color: white;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.container-content {
+  width: 100%;
 }
 
 /* Responsividade básica */
 @media (max-width: 600px) {
-    nav {
-        flex-direction: column;
-    }
-    input, select, button {
-        width: 100%;
-    }
+  nav {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  nav a {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 1px solid #555;
+  }
+  section {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
 </style>
