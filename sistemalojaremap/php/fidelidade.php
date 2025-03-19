@@ -124,8 +124,7 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
 <html>
 <head>
     <title>Programa de Fidelidade</title>
-    <link rel="stylesheet" href="../css/stylefidelidade.css">
-<style>
+    <style>
     /* Reset básico */
 * {
   margin: 0;
