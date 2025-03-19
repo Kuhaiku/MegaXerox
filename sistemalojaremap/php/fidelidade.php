@@ -101,14 +101,12 @@ if (isset($_POST['cliente_filtro_brindes'])) {
 
     echo '<table>
             <tr>
-                <th>ID</th>
                 <th>Cliente</th>
                 <th>Descrição do Brinde</th>
                 <th>Data do Brinde</th>
             </tr>';
     foreach ($brindes as $brinde) {
         echo "<tr>
-                <td>{$brinde['id']}</td>
                 <td>{$brinde['cliente']}</td>
                 <td>{$brinde['descricao_brinde']}</td>
                 <td>{$brinde['data_brinde']}</td>
