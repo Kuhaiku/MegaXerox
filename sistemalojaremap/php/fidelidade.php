@@ -64,7 +64,7 @@ if (isset($_POST['cliente_filtro'])) {
 
     echo '<table>
             <tr>
-                <th>ID</th>
+                
                 <th>Cliente</th>
                 <th>Unidade</th>
                 <th>Descrição</th>
@@ -73,7 +73,7 @@ if (isset($_POST['cliente_filtro'])) {
             </tr>';
     foreach ($vendas as $venda) {
         echo "<tr>
-                <td>{$venda['id']}</td>
+                
                 <td>{$venda['cliente']}</td>
                 <td>{$venda['unidade']}</td>
                 <td>{$venda['descricao_compra']}</td>
