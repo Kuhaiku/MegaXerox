@@ -244,9 +244,11 @@ tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 .container{
-    margin-left:50%;
-    
+        display:flex
 }
+        .container-content{
+        margin:auto;
+        }
         
 
 /* Responsividade básica */
@@ -267,6 +269,7 @@ tr:nth-child(even) {
         <a href="../index.html">Início</a>
     </nav>
 <div class="container">
+    <div class="container-content">
     <div id="cadastrar_cliente" class="section">
         <h2>Cadastrar Cliente</h2>
         <form method="POST">
@@ -323,6 +326,7 @@ tr:nth-child(even) {
     </div>
 </div>
 </div>  
+    </div>  
 <script>
 function mostrar(secao) {
     var secoes = document.getElementsByClassName('section');
