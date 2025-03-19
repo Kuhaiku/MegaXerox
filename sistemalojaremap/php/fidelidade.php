@@ -138,10 +138,6 @@ body {
   background-color: #f5f5f5;
   padding: 20px;
   color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
 }
 
 /* Cabeçalho com link */
@@ -164,24 +160,25 @@ a:hover {
   background-color: #45a049;
 }
 
-/* Menu */
+/* Menu no topo */
 nav {
-  margin: 20px 0;
+  margin-bottom: 20px;
   text-align: center;
+  padding: 10px 0;
+  background-color: #007BFF;
+  border-radius: 8px;
 }
 
-nav button {
+nav a {
+  margin: 0 10px;
   padding: 10px 20px;
-  margin: 5px;
-  border: none;
-  background-color: #007BFF;
-  color: white;
+  color: #fff;
+  background: none;
   border-radius: 5px;
-  cursor: pointer;
   transition: background-color 0.3s;
 }
 
-nav button:hover {
+nav a:hover {
   background-color: #0056b3;
 }
 
@@ -192,7 +189,6 @@ section {
   margin-bottom: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
 }
 
 h2 {
@@ -210,11 +206,10 @@ select {
   margin: 6px 0 15px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
-  text-align: center;
 }
 
 /* Botão de envio */
-input[type="submit"] {
+input[type="submit"], button {
   background-color: #28a745;
   color: white;
   border: none;
@@ -224,7 +219,7 @@ input[type="submit"] {
   transition: background-color 0.3s;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover, button:hover {
   background-color: #218838;
 }
 
@@ -233,14 +228,12 @@ table {
   width: 70%;
   border-collapse: collapse;
   margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 th, td {
   border: 1px solid #ddd;
   padding: 10px;
-  text-align: center;
+  text-align: left;
 }
 
 th {
@@ -254,22 +247,18 @@ tr:nth-child(even) {
 
 .container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
 }
 
 .container-content {
-  text-align: center;
+  margin: auto;
 }
 
 /* Responsividade básica */
 @media (max-width: 600px) {
-  nav button {
-    width: 100%;
+  nav a {
+    display: block;
     margin-bottom: 10px;
   }
-
   * {
     margin: auto;
   }
