@@ -244,9 +244,10 @@ tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 .container{
-    margin:auto;
+    margin-left:50%;
     display: flex;
 }
+        
 
 /* Responsividade básica */
 @media (max-width: 600px) {
