@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_cliente'])) {
     exit;
 }
 
-// Cadastro de Venda
+// Cadastro de Venda e Lógica de Brindes
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cliente_id'], $_POST['unidade'], $_POST['descricao'], $_POST['valor'], $_POST['data'])) {
     $cliente_id = $_POST['cliente_id'];
     $unidade = $_POST['unidade'];
@@ -22,12 +22,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cliente_id'], $_POST[
     if ($cliente_id != '' && $unidade != '' && $descricao != '' && $valor != '' && $data != '') {
         $conn->query("INSERT INTO vendas_fidelidade (cliente_id, unidade, descricao_compra, valor, data_compra) 
                      VALUES ('$cliente_id', '$unidade', '$descricao', '$valor', '$data')");
+
+        // Verifica total de compras do cliente
+        $result = $conn->query("SELECT COUNT(*) AS total_compras FROM vendas_fidelidade WHERE cliente_id = '$cliente_id'");
+        $row = $result->fetch_assoc();
+        $total_compras = $row['total_compras'];
+
+        // Se for múltiplo de 5, concede brinde
+        if ($total_compras % 5 == 0) {
+            $descricao_brinde = "Brinde por atingir $total_compras compras";
+            $data_brinde = date('Y-m-d');
+            $conn->query("INSERT INTO brindes_fidelidade (cliente_id, descricao_brinde, data_brinde) 
+                         VALUES ('$cliente_id', '$descricao_brinde', '$data_brinde')");
+        }
     }
     header('Location: fidelidade.php');
     exit;
 }
 
-// AJAX: Listar Vendas Filtradas
+// AJAX: Listar Vendas
 if (isset($_POST['cliente_filtro'])) {
     $filtro_sql = "";
     if ($_POST['cliente_filtro'] != "") {
@@ -50,7 +63,6 @@ if (isset($_POST['cliente_filtro'])) {
                 <th>Valor</th>
                 <th>Data da Compra</th>
             </tr>';
-
     foreach ($vendas as $venda) {
         echo "<tr>
                 <td>{$venda['id']}</td>
@@ -65,7 +77,40 @@ if (isset($_POST['cliente_filtro'])) {
     exit;
 }
 
-// Lista de Clientes para os Formulários
+// AJAX: Listar Brindes
+if (isset($_POST['cliente_filtro_brindes'])) {
+    $filtro_sql = "";
+    if ($_POST['cliente_filtro_brindes'] != "") {
+        $cliente_filtro = $_POST['cliente_filtro_brindes'];
+        $filtro_sql = " WHERE b.cliente_id = '$cliente_filtro'";
+    }
+
+    $sql_brindes = "SELECT b.id, c.nome AS cliente, b.descricao_brinde, b.data_brinde 
+                    FROM brindes_fidelidade b
+                    JOIN clientes_fidelidade c ON b.cliente_id = c.id
+                    $filtro_sql";
+    $brindes = $conn->query($sql_brindes)->fetch_all(MYSQLI_ASSOC);
+
+    echo '<table>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Descrição do Brinde</th>
+                <th>Data do Brinde</th>
+            </tr>';
+    foreach ($brindes as $brinde) {
+        echo "<tr>
+                <td>{$brinde['id']}</td>
+                <td>{$brinde['cliente']}</td>
+                <td>{$brinde['descricao_brinde']}</td>
+                <td>{$brinde['data_brinde']}</td>
+              </tr>";
+    }
+    echo '</table>';
+    exit;
+}
+
+// Lista de Clientes
 $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_ASSOC);
 ?>
 
@@ -87,6 +132,7 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
         <a onclick="mostrar('cadastrar_cliente')">Cadastrar Cliente</a>
         <a onclick="mostrar('cadastrar_venda')">Cadastrar Venda</a>
         <a onclick="mostrar('listar_vendas')">Listar Vendas</a>
+        <a onclick="mostrar('listar_brindes')">Listar Brindes</a>
         <a href="../index.html">Início</a>
     </nav>
 
@@ -126,21 +172,30 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
     <!-- Listar Vendas -->
     <div id="listar_vendas" class="section">
         <h2>Vendas Cadastradas</h2>
-
         <label>Selecionar Cliente:</label><br>
         <select id="cliente_filtro" onchange="carregarVendas()">
             <option value="">-- Todos os Clientes --</option>
             <?php foreach ($clientes as $cliente): ?>
-                <option value="<?= $cliente['id']; ?>">
-                    <?= $cliente['nome']; ?>
-                </option>
+                <option value="<?= $cliente['id']; ?>"><?= $cliente['nome']; ?></option>
             <?php endforeach; ?>
-        </select>
-
-        <br><br>
-
+        </select><br><br>
         <div id="vendas_table">
-            <!-- A tabela de vendas será carregada aqui via AJAX -->
+            <!-- Tabela de vendas via AJAX -->
+        </div>
+    </div>
+
+    <!-- Listar Brindes -->
+    <div id="listar_brindes" class="section">
+        <h2>Brindes Concedidos</h2>
+        <label>Selecionar Cliente:</label><br>
+        <select id="cliente_filtro_brindes" onchange="carregarBrindes()">
+            <option value="">-- Todos os Clientes --</option>
+            <?php foreach ($clientes as $cliente): ?>
+                <option value="<?= $cliente['id']; ?>"><?= $cliente['nome']; ?></option>
+            <?php endforeach; ?>
+        </select><br><br>
+        <div id="brindes_table">
+            <!-- Tabela de brindes via AJAX -->
         </div>
     </div>
 
@@ -155,18 +210,28 @@ function mostrar(secao) {
 
 function carregarVendas() {
     const clienteId = document.getElementById('cliente_filtro').value;
-
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'fidelidade.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             document.getElementById('vendas_table').innerHTML = xhr.responseText;
         }
     };
-
     xhr.send('cliente_filtro=' + clienteId);
+}
+
+function carregarBrindes() {
+    const clienteId = document.getElementById('cliente_filtro_brindes').value;
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'fidelidade.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            document.getElementById('brindes_table').innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send('cliente_filtro_brindes=' + clienteId);
 }
 </script>
 </body>
