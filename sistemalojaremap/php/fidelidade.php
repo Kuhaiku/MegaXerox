@@ -125,142 +125,128 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
 <head>
     <title>Programa de Fidelidade</title>
     <style>
-    /* Reset básico */
+  /* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
 }
 
 /* Corpo da página */
 body {
-  background-color: #f5f5f5;
-  padding: 20px;
-  color: #333;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-/* Cabeçalho com link */
-h1 {
-  margin-bottom: 20px;
-  color: #444;
-  text-align: center;
+.container-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 800px;
+    text-align: center;
 }
 
-a {
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #4CAF50;
-  padding: 8px 14px;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+h1, h2 {
+    color: #444;
+    margin-bottom: 20px;
 }
 
-a:hover {
-  background-color: #45a049;
-}
-
-/* Menu */
+/* Menu de navegação */
 nav {
-  margin: 20px 0;
-  text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-nav button {
-  padding: 10px 20px;
-  margin: 5px;
-  border: none;
-  background-color: #007BFF;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+nav a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: 0.3s;
 }
 
-nav button:hover {
-  background-color: #0056b3;
+nav a:hover {
+    background-color: #3e8e41;
 }
 
-/* Seções */
-section {
-  background-color: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* Formulários e inputs */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
-h2 {
-  margin-bottom: 15px;
-  color: #333;
+input, select, button {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.3s;
 }
 
-/* Inputs e selects */
-input[type="text"],
-input[type="number"],
-input[type="date"],
-select {
-  width: 70%;
-  padding: 8px;
-  margin: 6px 0 15px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+input:focus, select:focus {
+    border-color: #4CAF50;
 }
 
-/* Botão de envio */
-input[type="submit"] {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+button {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-input[type="submit"]:hover {
-  background-color: #218838;
+button:hover {
+    background-color: #3e8e41;
 }
 
-/* Tabela */
+/* Tabelas */
 table {
-  width: 70%;
-  border-collapse: collapse;
-  margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 }
 
 th, td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
 }
 
 th {
-  background-color: #007BFF;
-  color: white;
+    background-color: #4CAF50;
+    color: #fff;
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+    background-color: #f2f2f2;
 }
-.container{
-        display:flex
-}
-        .container-content{
-        margin:auto;
-        }
-        
 
 /* Responsividade básica */
 @media (max-width: 600px) {
-  nav button {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-*{
-    margin:auto;
+    nav {
+        flex-direction: column;
+    }
+    input, select, button {
+        width: 100%;
+    }
 }
+
 </style>
 </head>
 <body>
