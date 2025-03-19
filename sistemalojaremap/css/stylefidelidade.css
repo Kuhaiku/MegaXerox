@@ -1,74 +1,90 @@
 body {
+    font-family: Arial, sans-serif;
+    background-color: #005f73;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    color: #333;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     height: 100vh;
-    justify-content: center;
 }
 
-nav {
+.menu {
+    background-color: #005f78;
+    padding: 15px;
+    text-align: center;
     width: 100%;
-    background-color: #333;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
 }
 
-nav a {
-    padding: 15px 20px;
-    display: inline-block;
-    color: #fff;
+.menu a {
+    color: white;
+    margin: 0 20px;
     text-decoration: none;
-    transition: background 0.3s;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
 }
 
-nav a:hover {
-    background-color: #555;
+.menu a:hover {
+    color: black;
+    cursor: pointer;
 }
 
-.section {
-    background: white;
+.content {
     padding: 20px;
-    width: 50%;
-    min-width: 300px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    display: none;
-    border-radius: 8px;
+    max-width: 900px; /* A largura máxima será 900px, mas pode ajustar */
+    width: 50%; /* O conteúdo ocupará 50% da tela */
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
     text-align: center;
 }
 
-h2 {
-    margin-bottom: 20px;
+.content-section {
+    margin-top: 20px;
 }
 
-form label {
+.hidden {
+    display: none;
+}
+
+h1, h2 {
+    color: #007bff;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
     font-weight: bold;
 }
 
-form input, form select, form button {
+input, select {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     margin-top: 5px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
-form button {
-    background-color: #28a745;
+input[type="submit"] {
+    margin-top: 20px;
+    background-color: #005f73;
     color: white;
+    padding: 10px 15px;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background-color 0.3s;
 }
 
-form button:hover {
-    background-color: #218838;
+input[type="submit"]:hover {
+    background-color: #004e5f;
+}
+
+.result-section {
+    margin-top: 20px;
 }
 
 table {
@@ -77,25 +93,35 @@ table {
     margin-top: 10px;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
-
 th, td {
+    border: 1px solid #ddd;
     padding: 10px;
-    text-align: center;
+    text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #005f73;
+    color: white;
+}
+
+.success-message {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 @media (max-width: 768px) {
-    .section {
-        width: 90%;
+    .content {
+        width: 90%; /* Para dispositivos móveis, a largura ocupará 90% */
     }
-
-    nav a {
+    
+    .menu a {
         padding: 10px;
         font-size: 14px;
     }
