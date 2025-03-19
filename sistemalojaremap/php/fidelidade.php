@@ -27,12 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cliente_id'], $_POST[
     exit;
 }
 
-// AJAX: Listar Vendas Filtradas
+// AJAX: Listar Vendas Filtradas + Contador de Brindes
 if (isset($_POST['cliente_filtro'])) {
+    $cliente_id = $_POST['cliente_filtro'];
+
     $filtro_sql = "";
-    if ($_POST['cliente_filtro'] != "") {
-        $cliente_filtro = $_POST['cliente_filtro'];
-        $filtro_sql = " WHERE v.cliente_id = '$cliente_filtro'";
+    if ($cliente_id != "") {
+        $filtro_sql = " WHERE v.cliente_id = '$cliente_id'";
     }
 
     $sql_vendas = "SELECT v.id, c.nome AS cliente, v.unidade, v.descricao_compra, v.valor, v.data_compra 
@@ -51,6 +52,7 @@ if (isset($_POST['cliente_filtro'])) {
                 <th>Data da Compra</th>
             </tr>';
 
+    $totalUnidades = 0;
     foreach ($vendas as $venda) {
         echo "<tr>
                 <td>{$venda['id']}</td>
@@ -60,12 +62,39 @@ if (isset($_POST['cliente_filtro'])) {
                 <td>{$venda['valor']}</td>
                 <td>{$venda['data_compra']}</td>
               </tr>";
+
+        if (strtolower($venda['descricao_compra']) != 'brinde') {
+            $totalUnidades += intval($venda['unidade']);
+        }
     }
     echo '</table>';
+
+    if ($cliente_id != "") {
+        $brindesRecebidos = floor($totalUnidades / 5);
+        $unidadesRestantes = 5 - ($totalUnidades % 5);
+
+        if ($brindesRecebidos > 0 && $unidadesRestantes == 5) {
+            $brindesCadastrados = $conn->query("SELECT COUNT(*) AS total FROM vendas_fidelidade 
+                                                WHERE cliente_id = '$cliente_id' AND descricao_compra = 'Brinde'")
+                                       ->fetch_assoc()['total'];
+
+            if ($brindesRecebidos > $brindesCadastrados) {
+                $dataHoje = date('Y-m-d');
+                $conn->query("INSERT INTO vendas_fidelidade (cliente_id, unidade, descricao_compra, valor, data_compra)
+                              VALUES ('$cliente_id', 0, 'Brinde', 0, '$dataHoje')");
+                echo "<p style='color:green; font-weight:bold;'>🎁 Brinde cadastrado automaticamente!</p>";
+            }
+        }
+
+        $brindesRecebidosTexto = ($brindesRecebidos > 0) ? "Brindes recebidos: $brindesRecebidos<br>" : "";
+        echo "<p><strong>Total de unidades compradas:</strong> $totalUnidades<br>
+              $brindesRecebidosTexto
+              Faltam <strong>$unidadesRestantes</strong> unidades para o próximo brinde!</p>";
+    }
     exit;
 }
 
-// Lista de Clientes para os Formulários
+// Lista de Clientes para Formulários
 $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_ASSOC);
 ?>
 
@@ -75,13 +104,12 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
     <title>Programa de Fidelidade</title>
     <link rel="stylesheet" href="../css/stylefidelidade.css">
 </head>
-<body>
+<body onload="mostrar('cadastrar_venda')">
     <nav>
         <a href="../index.html">Início</a>
         <a onclick="mostrar('cadastrar_cliente')">Cadastrar Cliente</a>
         <a onclick="mostrar('cadastrar_venda')">Cadastrar Venda</a>
         <a onclick="mostrar('listar_vendas')">Listar Vendas</a>
-        
     </nav>
 
     <!-- Cadastrar Cliente -->
@@ -125,9 +153,7 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
         <select id="cliente_filtro" onchange="carregarVendas()">
             <option value="">-- Todos os Clientes --</option>
             <?php foreach ($clientes as $cliente): ?>
-                <option value="<?= $cliente['id']; ?>">
-                    <?= $cliente['nome']; ?>
-                </option>
+                <option value="<?= $cliente['id']; ?>"><?= $cliente['nome']; ?></option>
             <?php endforeach; ?>
         </select>
 
