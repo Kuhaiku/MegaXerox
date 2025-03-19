@@ -225,6 +225,11 @@ function carregarBrindes() {
     xhr.send('cliente_filtro_brindes=' + clienteId);
 }
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    mostrar('cadastrar_venda');
+});
+</script>
 
 </body>
 </html>
