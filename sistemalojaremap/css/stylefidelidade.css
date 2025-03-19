@@ -73,7 +73,7 @@ input[type="text"],
 input[type="number"],
 input[type="date"],
 select {
-  width: 100%;
+  width: 70%;
   padding: 8px;
   margin: 6px 0 15px 0;
   border: 1px solid #ccc;
@@ -97,7 +97,7 @@ input[type="submit"]:hover {
 
 /* Tabela */
 table {
-  width: 100%;
+  width: 70%;
   border-collapse: collapse;
   margin-top: 10px;
 }
