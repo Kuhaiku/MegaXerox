@@ -257,6 +257,9 @@ tr:nth-child(even) {
     width: 100%;
     margin-bottom: 10px;
   }
+
+*{
+    margin:auto;
 }
 </style>
 </head>
