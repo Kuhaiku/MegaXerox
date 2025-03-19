@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cliente_id'], $_POST[
         $brindes_a_cadastrar = $brindes_devidos - $total_brindes;
 
         for ($i = 0; $i < $brindes_a_cadastrar; $i++) {
-            $descricao_brinde = "Brinde por atingir $total_unidades unidades";
+            $descricao_brinde = "Brinde por atingir 5 unidades";
             $data_brinde = date('Y-m-d');
             $conn->query("INSERT INTO brindes_fidelidade (cliente_id, descricao_brinde, data_brinde) 
                          VALUES ('$cliente_id', '$descricao_brinde', '$data_brinde')");
