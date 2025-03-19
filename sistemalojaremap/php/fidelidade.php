@@ -261,7 +261,7 @@ tr:nth-child(even) {
         <a onclick="mostrar('listar_brindes')">Listar Brindes</a>
         <a href="../index.html">Início</a>
     </nav>
-
+<div class="container">
     <div id="cadastrar_cliente" class="section">
         <h2>Cadastrar Cliente</h2>
         <form method="POST">
@@ -316,7 +316,8 @@ tr:nth-child(even) {
         </select><br><br>
         <div id="brindes_table"></div>
     </div>
-
+</div>
+</div>  
 <script>
 function mostrar(secao) {
     var secoes = document.getElementsByClassName('section');
