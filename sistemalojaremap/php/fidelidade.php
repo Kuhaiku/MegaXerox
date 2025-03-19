@@ -1,5 +1,5 @@
 <?php
-include '../databaseconfig.php';
+include './databaseconfig.php';
 
 // Cadastro de Cliente
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_cliente'])) {
