@@ -20,20 +20,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cliente_id'], $_POST[
     $data = $_POST['data'];
 
     if ($cliente_id != '' && $unidade != '' && $descricao != '' && $valor != '' && $data != '') {
+        // Insere a nova venda
         $conn->query("INSERT INTO vendas_fidelidade (cliente_id, unidade, descricao_compra, valor, data_compra) 
-                     VALUES ('$cliente_id', '$unidade', '$descricao', '$valor', '$data')");
+                      VALUES ('$cliente_id', '$unidade', '$descricao', '$valor', '$data')");
+
+        // Verifica total de cartuchos comprados
+        $sql_total = "SELECT SUM(valor) AS total_cartuchos FROM vendas_fidelidade 
+                      WHERE cliente_id = '$cliente_id' AND descricao_compra LIKE '%cartucho%'";
+        $res_total = $conn->query($sql_total)->fetch_assoc();
+        $total_cartuchos = floor($res_total['total_cartuchos']);
+
+        // Brindes devidos
+        $brindes_devidos = floor($total_cartuchos / 5);
+
+        // Brindes já cadastrados
+        $res_brindes = $conn->query("SELECT COUNT(*) AS brindes_cadastrados FROM brindes_fidelidade 
+                                     WHERE cliente_id = '$cliente_id'")->fetch_assoc();
+        $brindes_cadastrados = $res_brindes['brindes_cadastrados'];
+
+        // Inserir brindes faltando
+        $brindes_a_cadastrar = $brindes_devidos - $brindes_cadastrados;
+        for ($i = 0; $i < $brindes_a_cadastrar; $i++) {
+            $conn->query("INSERT INTO brindes_fidelidade (cliente_id, data_brinde) VALUES ('$cliente_id', NOW())");
+        }
     }
     header('Location: fidelidade.php');
     exit;
 }
 
-// AJAX: Listar Vendas Filtradas + Contador de Brindes
+// AJAX: Listar Vendas + Brindes + Status
 if (isset($_POST['cliente_filtro'])) {
-    $cliente_id = $_POST['cliente_filtro'];
-
     $filtro_sql = "";
-    if ($cliente_id != "") {
-        $filtro_sql = " WHERE v.cliente_id = '$cliente_id'";
+    if ($_POST['cliente_filtro'] != "") {
+        $cliente_filtro = $_POST['cliente_filtro'];
+        $filtro_sql = " WHERE v.cliente_id = '$cliente_filtro'";
     }
 
     $sql_vendas = "SELECT v.id, c.nome AS cliente, v.unidade, v.descricao_compra, v.valor, v.data_compra 
@@ -49,10 +69,8 @@ if (isset($_POST['cliente_filtro'])) {
                 <th>Unidade</th>
                 <th>Descrição</th>
                 <th>Valor</th>
-                <th>Data da Compra</th>
+                <th>Data</th>
             </tr>';
-
-    $totalUnidades = 0;
     foreach ($vendas as $venda) {
         echo "<tr>
                 <td>{$venda['id']}</td>
@@ -62,39 +80,32 @@ if (isset($_POST['cliente_filtro'])) {
                 <td>{$venda['valor']}</td>
                 <td>{$venda['data_compra']}</td>
               </tr>";
-
-        if (strtolower($venda['descricao_compra']) != 'brinde') {
-            $totalUnidades += intval($venda['unidade']);
-        }
     }
     echo '</table>';
 
-    if ($cliente_id != "") {
-        $brindesRecebidos = floor($totalUnidades / 5);
-        $unidadesRestantes = 5 - ($totalUnidades % 5);
+    // Status de brindes
+    if ($_POST['cliente_filtro'] != "") {
+        $cliente_id = $_POST['cliente_filtro'];
 
-        if ($brindesRecebidos > 0 && $unidadesRestantes == 5) {
-            $brindesCadastrados = $conn->query("SELECT COUNT(*) AS total FROM vendas_fidelidade 
-                                                WHERE cliente_id = '$cliente_id' AND descricao_compra = 'Brinde'")
-                                       ->fetch_assoc()['total'];
+        $sql_total = "SELECT SUM(valor) AS total_cartuchos FROM vendas_fidelidade 
+                      WHERE cliente_id = '$cliente_id' AND descricao_compra LIKE '%cartucho%'";
+        $res_total = $conn->query($sql_total)->fetch_assoc();
+        $total_cartuchos = floor($res_total['total_cartuchos']);
 
-            if ($brindesRecebidos > $brindesCadastrados) {
-                $dataHoje = date('Y-m-d');
-                $conn->query("INSERT INTO vendas_fidelidade (cliente_id, unidade, descricao_compra, valor, data_compra)
-                              VALUES ('$cliente_id', 0, 'Brinde', 0, '$dataHoje')");
-                echo "<p style='color:green; font-weight:bold;'>🎁 Brinde cadastrado automaticamente!</p>";
-            }
-        }
+        $brindes_devidos = floor($total_cartuchos / 5);
+        $res_brindes = $conn->query("SELECT COUNT(*) AS brindes_cadastrados FROM brindes_fidelidade 
+                                     WHERE cliente_id = '$cliente_id'")->fetch_assoc();
+        $brindes_cadastrados = $res_brindes['brindes_cadastrados'];
+        $faltam = 5 - ($total_cartuchos % 5);
 
-        $brindesRecebidosTexto = ($brindesRecebidos > 0) ? "Brindes recebidos: $brindesRecebidos<br>" : "";
-        echo "<p><strong>Total de unidades compradas:</strong> $totalUnidades<br>
-              $brindesRecebidosTexto
-              Faltam <strong>$unidadesRestantes</strong> unidades para o próximo brinde!</p>";
+        echo "<p>Total de Cartuchos: $total_cartuchos</p>";
+        echo "<p>Brindes Recebidos: $brindes_cadastrados</p>";
+        echo "<p>Faltam $faltam cartuchos para o próximo brinde</p>";
     }
     exit;
 }
 
-// Lista de Clientes para Formulários
+// Clientes para os Formulários
 $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_ASSOC);
 ?>
 
@@ -112,7 +123,6 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
         <a onclick="mostrar('listar_vendas')">Listar Vendas</a>
     </nav>
 
-    <!-- Cadastrar Cliente -->
     <div id="cadastrar_cliente" class="section">
         <h2>Cadastrar Cliente</h2>
         <form method="POST">
@@ -122,7 +132,6 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
         </form>
     </div>
 
-    <!-- Cadastrar Venda -->
     <div id="cadastrar_venda" class="section">
         <h2>Cadastrar Nova Compra</h2>
         <form method="POST">
@@ -145,10 +154,8 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
         </form>
     </div>
 
-    <!-- Listar Vendas -->
     <div id="listar_vendas" class="section">
         <h2>Vendas Cadastradas</h2>
-
         <label>Selecionar Cliente:</label><br>
         <select id="cliente_filtro" onchange="carregarVendas()">
             <option value="">-- Todos os Clientes --</option>
@@ -156,12 +163,8 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
                 <option value="<?= $cliente['id']; ?>"><?= $cliente['nome']; ?></option>
             <?php endforeach; ?>
         </select>
-
         <br><br>
-
-        <div id="vendas_table">
-            <!-- A tabela de vendas será carregada aqui via AJAX -->
-        </div>
+        <div id="vendas_table"></div>
     </div>
 
 <script>
@@ -190,4 +193,3 @@ function carregarVendas() {
 }
 </script>
 </body>
-</html>
