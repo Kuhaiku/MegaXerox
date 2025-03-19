@@ -243,6 +243,9 @@ th {
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
+.container{
+    margin:auto;
+}
 
 /* Responsividade básica */
 @media (max-width: 600px) {
