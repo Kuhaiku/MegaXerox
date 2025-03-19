@@ -125,7 +125,7 @@ $clientes = $conn->query("SELECT * FROM clientes_fidelidade")->fetch_all(MYSQLI_
 <head>
     <title>Programa de Fidelidade</title>
     <style>
- /* Reset básico */
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
@@ -139,6 +139,8 @@ body {
   padding: 20px;
   color: #333;
   display: flex;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
 }
 
@@ -162,31 +164,25 @@ a:hover {
   background-color: #45a049;
 }
 
-/* Menu lateral */
+/* Menu */
 nav {
-  width: 200px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background-color: #333;
-  padding-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
+  margin: 20px 0;
+  text-align: center;
 }
 
-nav a {
-  padding: 15px 20px;
-  width: 100%;
-  text-align: left;
-  color: #fff;
-  font-size: 18px;
-  border-bottom: 1px solid #555;
+nav button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-nav a:hover {
-  background-color: #555;
+nav button:hover {
+  background-color: #0056b3;
 }
 
 /* Seções */
@@ -196,8 +192,7 @@ section {
   margin-bottom: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-left: 220px;
-  width: calc(100% - 220px);
+  text-align: center;
 }
 
 h2 {
@@ -215,6 +210,7 @@ select {
   margin: 6px 0 15px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
+  text-align: center;
 }
 
 /* Botão de envio */
@@ -234,15 +230,17 @@ input[type="submit"]:hover {
 
 /* Tabela */
 table {
-  width: 100%;
+  width: 70%;
   border-collapse: collapse;
   margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 th, td {
   border: 1px solid #ddd;
   padding: 10px;
-  text-align: left;
+  text-align: center;
 }
 
 th {
@@ -262,26 +260,21 @@ tr:nth-child(even) {
 }
 
 .container-content {
-  width: 100%;
+  text-align: center;
 }
 
 /* Responsividade básica */
 @media (max-width: 600px) {
-  nav {
+  nav button {
     width: 100%;
-    height: auto;
-    position: relative;
+    margin-bottom: 10px;
   }
-  nav a {
-    text-align: center;
-    padding: 10px;
-    border-bottom: 1px solid #555;
-  }
-  section {
-    margin-left: 0;
-    width: 100%;
+
+  * {
+    margin: auto;
   }
 }
+
 
 </style>
 </head>
