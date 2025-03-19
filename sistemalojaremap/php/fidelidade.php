@@ -245,7 +245,7 @@ tr:nth-child(even) {
 }
 .container{
     margin-left:50%;
-    display: flex;
+    
 }
         
 
