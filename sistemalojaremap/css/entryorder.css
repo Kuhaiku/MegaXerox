@@ -1,9 +1,7 @@
 /* Estilos gerais para a exibição na web */
 * {
   margin: 0;
-  box-sizing: border-box; /* Para controlar o comportamento de espaçamento */
 }
-
 body {
   font-family: "Helvetica Neue", Arial, sans-serif;
   margin: 0;
@@ -138,19 +136,18 @@ textarea {
 @media print {
   body {
     font-size: 12px;
-    margin: 5mm;
+    margin: 0;
     padding: 0;
     background: none;
     color: #000;
   }
-
+  /* 
   form {
     background: none;
     padding: 0;
     box-shadow: none;
     width: 100%;
     margin: 0;
-    max-width: 100%;
   }
 
   fieldset {
@@ -205,15 +202,14 @@ textarea {
     border: 1px solid #000;
     border-radius: 0;
     font-size: 0.9em;
-  }
+  } */
 
   .botoes {
-    display: none; /* Esconde botões na impressão */
+    display: none; /* Ocultar botões na impressão */
   }
 
   @page {
     size: A4;
-    margin: 10mm;
-    size: auto;
+    margin: 30mm;
   }
 }
