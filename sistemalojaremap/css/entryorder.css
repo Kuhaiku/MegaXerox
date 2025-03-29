@@ -136,7 +136,7 @@ textarea {
 @media print {
   body {
     font-size: 12px;
-    margin: 5px;
+    margin: 0;
     padding: 0;
     background: none;
     color: #000;
