@@ -80,11 +80,13 @@ if (isset($_POST['submit'])) {
                     <div class="dispositivo">
                         <div class="tipodispositivo">
                             <b>Tipo de Dispositivo:</b>
-                            <input type="radio" name="tipo[0]" value="impressora" required /> Impressora
-                            <input type="radio" name="tipo[0]" value="notebook" /> Notebook
-                            <input type="radio" name="tipo[0]" value="desktop" /> Desktop
-                            <input type="radio" name="tipo[0]" value="celular" /> Celular
-                            <input type="radio" name="tipo[0]" value="outro" /> Outro
+                            <input type="radio" name="tipo[0]" value="IMPRESSORA" required /> Impressora
+                            <input type="radio" name="tipo[0]" value="NOTEBOOK" /> Notebook
+                            <input type="radio" name="tipo[0]" value="DESKTOP" /> Notebook
+                            <input type="radio" name="tipo[0]" value="CONTROLE" /> Desktop
+                            <input type="radio" name="tipo[0]" value="CONSOLE" /> Desktop
+                            <input type="radio" name="tipo[0]" value="CELULAR" /> Celular
+                            <input type="radio" name="tipo[0]" value="OUTRO" /> Outro
                         </div>
                         <div class="inputBox">
                             <input class="inputUser" type="text" name="marca[0]" required oninput="this.value = this.value.toUpperCase()" />
@@ -113,9 +115,9 @@ if (isset($_POST['submit'])) {
                     <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
                 </div>
 
-                  <div class="botoes">
+                <div class="botoes">
                     <a class="navegar" href="../index.html">Voltar</a>
-                    <button type="submit" id="submit" name="submit" value="Salvar e Imprimir" onclick="print()">
+                    <button type="submit" id="submit" name="submit" value="Salvar e Imprimir">
                         <i class="fas fa-print"></i> Salvar e Imprimir 
                     </button>
                 </div>
@@ -135,11 +137,13 @@ if (isset($_POST['submit'])) {
             novoDispositivo.innerHTML = `
                 <div class="tipodispositivo">
                     <b>Tipo de Dispositivo:</b>
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="impressora" required /> Impressora
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="notebook" /> Notebook
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="desktop" /> Desktop
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="celular" /> Celular
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="outro" /> Outro
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="IMPRESSORA" required /> Impressora
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="NOTEBOOK" /> Notebook
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="DESKTOP" /> Desktop
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Desktop
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Desktop
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="CELULAR" /> Celular
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="OUTRO" /> Outro
                 </div>
                 <div class="inputBox">
                     <input class="inputUser" type="text" name="marca[${dispositivoCount}]" required oninput="this.value = this.value.toUpperCase()" />
@@ -187,6 +191,44 @@ if (isset($_POST['submit'])) {
             document.getElementById('dataAtual').innerText = formatarDataBr(new Date());
             document.getElementById('dataPrevisao').innerText = formatarDataBr(dataAtual, false);
         }
+
+        // Validação antes de enviar o formulário
+        document.getElementById('formulario').addEventListener('submit', function(event) {
+            let camposPreenchidos = true;
+
+            // Verificar campos comuns
+            const nome = document.getElementById('nome').value.trim();
+            const telefone = document.getElementById('telefone').value.trim();
+            const preorc = document.getElementById('preorc').value.trim();
+
+            if (!nome || !telefone || !preorc) {
+                camposPreenchidos = false;
+            }
+
+            // Verificar dispositivos
+            const tipos = document.getElementsByName('tipo[]');
+            let dispositivoPreenchido = false;
+
+            for (let i = 0; i < tipos.length; i++) {
+                if (tipos[i].checked) {
+                    dispositivoPreenchido = true;
+                    break;
+                }
+            }
+
+            if (!dispositivoPreenchido) {
+                camposPreenchidos = false;
+            }
+
+            // Se algum campo obrigatório não estiver preenchido, impedir o envio
+            if (!camposPreenchidos) {
+                alert("Por favor, preencha todos os campos obrigatórios.");
+                event.preventDefault(); // Impede o envio do formulário
+            } else {
+                // Caso tudo esteja preenchido, a impressão pode ocorrer
+                window.print();
+            }
+        });
 
         calcularDataPrevisao();
     </script>
