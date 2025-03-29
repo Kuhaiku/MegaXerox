@@ -80,13 +80,11 @@ if (isset($_POST['submit'])) {
                     <div class="dispositivo">
                         <div class="tipodispositivo">
                             <b>Tipo de Dispositivo:</b>
-                            <input type="radio" name="tipo[0]" value="IMPRESSORA" required /> Impressora
-                            <input type="radio" name="tipo[0]" value="NOTEBOOK" /> Notebook
-                            <input type="radio" name="tipo[0]" value="DESKTOP" /> Desktop
-                            <input type="radio" name="tipo[0]" value="CONTROLE" /> Controle
-                            <input type="radio" name="tipo[0]" value="CONSOLE" /> Console
-                            <input type="radio" name="tipo[0]" value="CELULAR" /> Celular
-                            <input type="radio" name="tipo[0]" value="OUTRO" /> Outro
+                            <input type="radio" name="tipo[0]" value="impressora" required /> Impressora
+                            <input type="radio" name="tipo[0]" value="notebook" /> Notebook
+                            <input type="radio" name="tipo[0]" value="desktop" /> Desktop
+                            <input type="radio" name="tipo[0]" value="celular" /> Celular
+                            <input type="radio" name="tipo[0]" value="outro" /> Outro
                         </div>
                         <div class="inputBox">
                             <input class="inputUser" type="text" name="marca[0]" required oninput="this.value = this.value.toUpperCase()" />
@@ -117,7 +115,7 @@ if (isset($_POST['submit'])) {
 
                 <div class="botoes">
                     <a class="navegar" href="../index.html">Voltar</a>
-                    <button type="submit" id="submit" name="submit" value="Salvar e Imprimir">
+                    <button type="submit" id="submit" name="submit" value="Salvar e Imprimir" onclick="return validarFormulario()">
                         <i class="fas fa-print"></i> Salvar e Imprimir 
                     </button>
                 </div>
@@ -135,16 +133,13 @@ if (isset($_POST['submit'])) {
             novoDispositivo.classList.add('dispositivo');
 
             novoDispositivo.innerHTML = `
-               
-   <div class="tipodispositivo">
+                <div class="tipodispositivo">
                     <b>Tipo de Dispositivo:</b>
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="IMPRESSORA" required /> Impressora
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="NOTEBOOK" /> Notebook
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="DESKTOP" /> Desktop
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Controle
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Console
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="CELULAR" /> Celular
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="OUTRO" /> Outro
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="impressora" required /> Impressora
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="notebook" /> Notebook
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="desktop" /> Desktop
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="celular" /> Celular
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="outro" /> Outro
                 </div>
                 <div class="inputBox">
                     <input class="inputUser" type="text" name="marca[${dispositivoCount}]" required oninput="this.value = this.value.toUpperCase()" />
@@ -194,7 +189,7 @@ if (isset($_POST['submit'])) {
         }
 
         // Validação antes de enviar o formulário
-        document.getElementById('formulario').addEventListener('submit', function(event) {
+        function validarFormulario() {
             let camposPreenchidos = true;
 
             // Verificar campos comuns
@@ -224,12 +219,15 @@ if (isset($_POST['submit'])) {
             // Se algum campo obrigatório não estiver preenchido, impedir o envio
             if (!camposPreenchidos) {
                 alert("Por favor, preencha todos os campos obrigatórios.");
-                event.preventDefault(); // Impede o envio do formulário
+                return false; // Impede o envio do formulário
             } else {
                 // Caso tudo esteja preenchido, a impressão pode ocorrer
-                window.print();
+                setTimeout(() => {
+                    window.print();
+                }, 100); // Chama a impressão após a submissão
+                return true; // Permite o envio
             }
-        });
+        }
 
         calcularDataPrevisao();
     </script>
