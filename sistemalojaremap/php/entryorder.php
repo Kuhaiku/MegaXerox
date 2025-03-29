@@ -117,7 +117,7 @@ if (isset($_POST['submit'])) {
 
                 <div class="botoes">
                     <a class="navegar" href="../index.html">Voltar</a>
-                    <button type="submit" id="submit" name="submit" value="Salvar e Imprimir">
+                    <button type="submit" onclick="window.print()" id="submit"  name="submit" value="Salvar e Imprimir">
                         <i class="fas fa-print"></i> Salvar e Imprimir 
                     </button>
                 </div>
