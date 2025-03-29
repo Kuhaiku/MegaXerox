@@ -106,8 +106,8 @@ if (isset($_POST['submit'])) {
                     <label class="labelInupt" for="marca">Marca:</label>
                 </div>
                 <div class="inputBox">
-                    <input class="inputUser" type="text" name="modelo" id="modelo" required oninput="this.value = this.value.toUpperCase() />
-                    <label class="labelInupt" for="modelo">Modelo:</label>
+                    <input class="inputUser" type="text" name="modelo" id="modelo" required oninput="this.value = this.value.toUpperCase()">
+                    <label class="labelInupt" for="modelo" >Modelo:</label>
                 </div>
                 <div class="inputBox">
                     <input class="inputUser" type="text" name="perifericos" value="Não" id="perifericos" required />
