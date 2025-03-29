@@ -113,10 +113,10 @@ if (isset($_POST['submit'])) {
                     <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
                 </div>
 
-                <div class="botoes">
+                  <div class="botoes">
                     <a class="navegar" href="../index.html">Voltar</a>
-                    <button type="submit" name="submit" value="Salvar e Imprimir">
-                        <i class="fas fa-print"></i> Salvar e Imprimir
+                    <button type="submit" id="submit" name="submit" value="Salvar e Imprimir" onclick="print()">
+                        <i class="fas fa-print"></i> Salvar e Imprimir 
                     </button>
                 </div>
             </fieldset>
