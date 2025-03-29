@@ -117,7 +117,7 @@ if (isset($_POST['submit'])) {
 
                 <div class="botoes">
                     <a class="navegar" href="../index.html">Voltar</a>
-                    <button type="submit" onclick="window.print()" id="submit"  name="submit" value="Salvar e Imprimir">
+                    <button type="submit" id="submit" name="submit" value="Salvar e Imprimir">
                         <i class="fas fa-print"></i> Salvar e Imprimir 
                     </button>
                 </div>
@@ -135,7 +135,8 @@ if (isset($_POST['submit'])) {
             novoDispositivo.classList.add('dispositivo');
 
             novoDispositivo.innerHTML = `
-                <div class="tipodispositivo">
+               
+   <div class="tipodispositivo">
                     <b>Tipo de Dispositivo:</b>
                     <input type="radio" name="tipo[${dispositivoCount}]" value="IMPRESSORA" required /> Impressora
                     <input type="radio" name="tipo[${dispositivoCount}]" value="NOTEBOOK" /> Notebook
