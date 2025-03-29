@@ -82,9 +82,9 @@ if (isset($_POST['submit'])) {
                             <b>Tipo de Dispositivo:</b>
                             <input type="radio" name="tipo[0]" value="IMPRESSORA" required /> Impressora
                             <input type="radio" name="tipo[0]" value="NOTEBOOK" /> Notebook
-                            <input type="radio" name="tipo[0]" value="DESKTOP" /> Notebook
-                            <input type="radio" name="tipo[0]" value="CONTROLE" /> Desktop
-                            <input type="radio" name="tipo[0]" value="CONSOLE" /> Desktop
+                            <input type="radio" name="tipo[0]" value="DESKTOP" /> Desktop
+                            <input type="radio" name="tipo[0]" value="CONTROLE" /> Controle
+                            <input type="radio" name="tipo[0]" value="CONSOLE" /> Console
                             <input type="radio" name="tipo[0]" value="CELULAR" /> Celular
                             <input type="radio" name="tipo[0]" value="OUTRO" /> Outro
                         </div>
@@ -140,8 +140,8 @@ if (isset($_POST['submit'])) {
                     <input type="radio" name="tipo[${dispositivoCount}]" value="IMPRESSORA" required /> Impressora
                     <input type="radio" name="tipo[${dispositivoCount}]" value="NOTEBOOK" /> Notebook
                     <input type="radio" name="tipo[${dispositivoCount}]" value="DESKTOP" /> Desktop
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Desktop
-                    <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Desktop
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Controle
+                    <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Console
                     <input type="radio" name="tipo[${dispositivoCount}]" value="CELULAR" /> Celular
                     <input type="radio" name="tipo[${dispositivoCount}]" value="OUTRO" /> Outro
                 </div>
