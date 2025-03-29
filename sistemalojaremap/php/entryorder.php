@@ -102,7 +102,7 @@ if (isset($_POST['submit'])) {
                     Controle
                 </div>
                 <div class="inputBox">
-                    <input class="inputUser" type="text" name="marca" id="marca" required />
+                    <input class="inputUser" type="text" name="marca" id="marca" required oninput="this.value = this.value.toUpperCase()">
                     <label class="labelInupt" for="marca">Marca:</label>
                 </div>
                 <div class="inputBox">
