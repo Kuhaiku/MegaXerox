@@ -63,7 +63,7 @@ if (isset($_POST['submit'])) {
             <fieldset>
                 <legend><b>Ordem de Entrada <span id="numberField"> Nº <?php echo $next_id; ?></span></b></legend>
                 <div class="inputBox">
-                    <input class="inputUser" type="text" name="nome" id="nome" required />
+                    <input class="inputUser" type="text" name="nome" id="nome" required oninput="this.value = this.value.toUpperCase()"/>
                     <label class="labelInupt" for="nome">Nome:</label>
                 </div>
                 <div class="inputBox">
