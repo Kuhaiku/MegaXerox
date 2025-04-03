@@ -44,6 +44,8 @@ if (isset($_GET['id'])) {
 
                     <div class='data'>
                         <p><b>Data de Entrada:</b> <span id='dataFormatada'>{$row['data_entrada']}</span></p>
+                        <br>
+                        <br>
                         <p><b>Data de Entrega:</b><input type='date' name='data_saida' id='dataEntrega' required></p>
     
                     <script>
@@ -64,12 +66,10 @@ if (isset($_GET['id'])) {
                     </p>
 
                     <p><b>Valor do Serviço:</b> R$ <input type='number' name='valor' id='valorServico' step='0.01' required></p>
-                    <p><b>Tempo de Garantia:</b> <span id='garantia'></span></p>
+                    <p><b>Garantia de Serviço Valida até:</b> <span id='garantia'></span></p>
 
                     <div class='botoes'>
-                        <a href='../index.html'>Voltar</a>
-                        <button type='button' id='gerarOrdem'>Gerar Ordem de Saída</button>
-                        <button type='button' onclick='window.print()'>Imprimir</button>
+                        <button type='button' window.print() id='gerarOrdem'>Gerar Ordem de Saída</button>
                     </div>
                 </form>
                 </fieldset>
@@ -119,6 +119,30 @@ document.getElementById('gerarOrdem').addEventListener('click', function() {
     })
     .catch(error => console.error('Erro:', error));
 });
+    function calcularGarantia() {
+    const dataEntregaInput = document.getElementById('dataEntrega');
+    const garantiaSpan = document.getElementById('garantia');
+
+    if (dataEntregaInput.value) {
+        const dataEntrega = new Date(dataEntregaInput.value);
+        if (!isNaN(dataEntrega.getTime())) {
+            dataEntrega.setMonth(dataEntrega.getMonth() + 3);
+            const dataGarantia = dataEntrega.toISOString().split('T')[0].split('-').reverse().join('/');
+            garantiaSpan.innerText = dataGarantia;
+        } else {
+            garantiaSpan.innerText = "Data inválida";
+        }
+    } else {
+        garantiaSpan.innerText = "Selecione uma data de entrega";
+    }
+}
+
+// Calcula a garantia ao carregar a página
+document.addEventListener('DOMContentLoaded', calcularGarantia);
+
+// Atualiza a garantia quando a data de entrega mudar
+document.getElementById('dataEntrega').addEventListener('change', calcularGarantia);
+
 </script>
 </body>
 </html>
