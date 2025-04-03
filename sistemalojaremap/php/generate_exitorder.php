@@ -129,9 +129,8 @@ function gerarOrdemSaida(entryId) {
     const metodoPagamento = document.getElementById('metodoPagamento').value;
     const valorServico = document.getElementById('valorServico').value;
     const garantia = document.getElementById('garantia').innerText;
-    const tecnicoResponsavel = prompt("Informe o nome do técnico responsável:");
-
-    if (!servicoRealizado || !dataEntrega || !metodoPagamento || !valorServico || !tecnicoResponsavel) {
+    
+    if (!servicoRealizado || !dataEntrega || !metodoPagamento || !valorServico) {
         alert("Preencha todos os campos antes de gerar a ordem de saída.");
         return;
     }
