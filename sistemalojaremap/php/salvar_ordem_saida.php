@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $servico_realizado = trim($_POST['servico_realizado']);
     $metodo_pagamento = trim($_POST['metodo_pagamento']);
     $valor = floatval($_POST['valor']);
-    $garantia = trim($_POST['garantia']);
+    $garantia = isset($_POST['garantia']) ? trim($_POST['garantia']) : '';
 
     // Verifica se todos os campos estão preenchidos
     if (empty($entry_id) || empty($data_saida) || empty($servico_realizado) || empty($metodo_pagamento) || empty($valor) || empty($garantia)) {
