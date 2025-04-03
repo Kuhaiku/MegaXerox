@@ -44,8 +44,7 @@ if (isset($_GET['id'])) {
 
                     <div class='data'>
                         <p><b>Data de Entrada:</b> <span id='dataFormatada'>{$row['data_entrada']}</span></p>
-                       
-                       <input type="date" name="data_saida" id="dataEntrega" required">
+                       <input type='date' name='data_saida' id='dataEntrega' required>
     
                     <script>
                         document.getElementById('dataEntrega').value = new Date().toISOString().split('T')[0];
