@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../css/printorder.css" />
 <link rel="icon" type="image/x-icon" href="../src/favicon.ico" />
-
-<title>Sistema Mega-Xerox - Ordem de Saída</title>
+<title>Sistema Mega-Xerox - Ordem de Entrada</title>
 </head>
 <body>
 <?php
@@ -20,76 +19,61 @@ if (isset($_GET['id'])) {
     if ($result && mysqli_num_rows($result) > 0) {
         
         $row = mysqli_fetch_assoc($result);
-        echo "<div class='ordemdesaida'>
+        echo "<div class='ordemdeentrada'>
         <header> 
             <h2>Mega Xerox</h2> 
-            <p>CNPJ: 12.689.177/0001-26</p>
-            <p>WhatsApp: 2665-5910</p>
-            <h4>2ª via</h4>
+            <p>Cnpj: 12.689.177/0001-26</p>
+            <p>Whatsapp: 2665-5910</p>
+            <h4> 2ª via</h4>
             <br><br>
             <p>Ass.____________________________________</p>
         </header>
         <fieldset>
         <legend>
-                    <b>
-                        Ordem de Saída
-                        <span id='numberField'> Nº {$row['id']}</span>
-                    </b>
+            <b>Ordem de Entrada <span id='numberField'> Nº {$row['id']}</span></b>
         </legend>
         <div class='inputBox'>
-                    <p><b>Nome:</b> {$row['nome']}</p>
-                </div>
-                <div class='inputBox'>
-                    <p><b>Telefone:</b> {$row['telefone']}</p>
-                </div>
+            <p>Nome: {$row['nome']}</p>
+        </div>
+        <div class='inputBox'>
+            <p>Telefone: {$row['telefone']}</p>
+        </div>
 
-                <div class='data'>
-                    <p><b>Data de Entrada:</b> <span id='dataFormatada'></span></p>
-                    <p><b>Data de Entrega:</b> <input type='date' id='dataEntrega' required></p>
-                </div>           
-                        <p><b>Tipo de Dispositivo:</b> {$row['tipo']}</p>
-                        <p><b>Marca do Dispositivo:</b> {$row['marca']}</p>
-                        <p><b>Modelo do Dispositivo:</b> {$row['modelo']}</p>
-                        <p><b>Periféricos:</b> {$row['perifericos']}</p>
-                        
-                        <div class='inputBox'>
-                            <label for='defeito'><b>Defeito Apresentado:</b></label>
-                            <p class='defeito'>{$row['defeito']}</p>
-                        </div>
+        <div class='data'>
+            <b>Data de Entrada:</b> <span id='dataFormatada'></span> 
+            <span id='dataAtual' hidden>{$row['data_entrada']}</span>  
+        </div>  
 
-                        <div class='inputBox'>
-                            <label for='servico_realizado'><b>Serviço Realizado:</b></label>
-                            <textarea id='servico_realizado' required></textarea>
-                        </div>
+        <p>Tipo de Dispositivo: {$row['tipo']}</p>
+        <p>Marca do Dispositivo: {$row['marca']}</p>
+        <p>Modelo do Dispositivo: {$row['modelo']}</p>
+        <p>Periféricos: {$row['perifericos']}</p>
 
-                        <p><b>Orçamento Prévio:</b> {$row['preorc']}</p> 
-                        <p><b>Valor do Serviço:</b> R$ <input type='number' id='valorServico' required></p>
-                        <p><b>Método de Pagamento:</b> 
-                            <select id='metodoPagamento' required>
-                                <option value='Dinheiro'>Dinheiro</option>
-                                <option value='Cartão de Crédito'>Cartão de Crédito</option>
-                                <option value='Cartão de Débito'>Cartão de Débito</option>
-                                <option value='Pix'>Pix</option>
-                            </select>
-                        </p>
-                        <p><b>Tempo de Garantia:</b> <span id='garantia'></span></p>
+        <div class='inputBox'>
+            <label for='defeito'>Defeito Apresentado</label>
+            <p class='defeito'>{$row['defeito']}</p>
+        </div>
+        <p>Orçamento Prévio: {$row['preorc']}</p> 
 
-                        <div class='termos'>
-                            <b>Termos de Saída:</b>
-                            <ol>
-                                <li><b>Garantia:</b> A garantia cobre apenas os serviços realizados e tem duração de 3 meses.</li>
-                                <li><b>Responsabilidade do Cliente:</b> Após a retirada, a loja não se responsabiliza por problemas não relacionados ao serviço realizado.</li>
-                                <li><b>Pagamentos:</b> O pagamento deve ser realizado no ato da retirada do dispositivo.</li>
-                            </ol>
-                        </div>                       
+        <div class='termos'>
+            <b>Termos de entrada:</b>
+            <ol>
+                <li><b>Responsabilidade do Cliente:</b> O cliente é responsável por fornecer informações precisas sobre o dispositivo e suas condições atuais.</li>
+                <li><b>Condições do Dispositivo:</b> O dispositivo deve estar em condições adequadas para o serviço solicitado. Qualquer dano pré-existente deve ser informado à loja antes do serviço.</li>
+                <li><b>Autorização para Orçamento:</b> O cliente autoriza a loja a realizar um orçamento para avaliação do serviço necessário. O cliente será informado sobre quaisquer custos adicionais antes do início do serviço, caso seja necessário.</li>
+                <li><b>Após a conclusão do serviço ou, em caso de não autorização, notificaremos imediatamente.</b> Pedimos que retire seu dispositivo em até 10 dias úteis após essa notificação. Caso não seja retirado dentro desse prazo, será aplicada uma multa correspondente ao valor de armazenamento do dispositivo.</li>
+                <li><b>Autorização para serviço em caso de orçamento prévio:</b> O cliente autoriza a loja a realizar os serviços necessários no dispositivo conforme descrito no formulário de entrada.</li>
+                <li><b>Comunicação:</b> A loja se compromete a manter o cliente informado sobre o status do serviço e quaisquer problemas que possam surgir durante o processo.</li>
+            </ol>
+        </div>                       
 
-                        <div class='botoes'>
-                            <a href='../index.html'>Voltar</a>
-                            <button type='button' onclick='gerarOrdemSaida()'>Gerar Ordem de Saída</button>
-                            <button type='button' onclick='print()'>Imprimir</button>
-                        </div>
-                    </fieldset>
-              </div>";
+        <div class='botoes'>
+            <a href='../index.html'>Voltar</a>
+            <button type='button' onclick='window.print()'>Imprimir</button>
+        </div>
+
+        </fieldset>
+        </div>";
     } else {
         echo "Registro não encontrado.";
     }
@@ -101,42 +85,20 @@ if (isset($_GET['id'])) {
 
 mysqli_close($conn);
 ?>
+
 <script>
-function formatarDataBR(data) {
-    const partesData = data.split(' ')[0].split('-');
-    return `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
-}
+document.addEventListener("DOMContentLoaded", function() {
+    function formatarDataBR(data) {
+        const partes = data.split(" ")[0].split("-");
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
 
-// Formatar a data de entrada corretamente
-const dataAtual = document.getElementById('dataAtual')?.innerText;
-if (dataAtual) {
-    document.getElementById('dataFormatada').innerText = formatarDataBR(dataAtual);
-}
-
-// Atualizar automaticamente o tempo de garantia
-document.getElementById('dataEntrega').addEventListener('change', function() {
-    const dataEntrega = new Date(this.value);
-    if (!isNaN(dataEntrega.getTime())) {
-        dataEntrega.setMonth(dataEntrega.getMonth() + 3);
-        const dataGarantia = dataEntrega.toISOString().split('T')[0].split('-').reverse().join('/');
-        document.getElementById('garantia').innerText = dataGarantia;
+    const dataAtual = document.getElementById('dataAtual').innerText.trim();
+    if (dataAtual) {
+        document.getElementById('dataFormatada').innerText = formatarDataBR(dataAtual);
     }
 });
-
-function gerarOrdemSaida() {
-    const servicoRealizado = document.getElementById('servico_realizado').value;
-    const dataEntrega = document.getElementById('dataEntrega').value;
-    const metodoPagamento = document.getElementById('metodoPagamento').value;
-    const valorServico = document.getElementById('valorServico').value;
-    const garantia = document.getElementById('garantia').innerText;
-
-    if (!servicoRealizado || !dataEntrega || !metodoPagamento || !valorServico) {
-        alert("Preencha todos os campos antes de gerar a ordem de saída.");
-        return;
-    }
-
-    alert("Ordem de saída gerada com sucesso!");
-}
 </script>
+
 </body>
 </html>
