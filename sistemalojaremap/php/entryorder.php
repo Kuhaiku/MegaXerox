@@ -103,13 +103,13 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                         <div class="inputBox">
                             <label for="defeito">Defeito Apresentado:</label>
                             <textarea class="inputUser" name="defeito[0]" cols="50" rows="3" oninput="this.value = this.value.toUpperCase()"></textarea>
-                        </div>
-                    </div>
                 </div>
                 <div class="inputBox">
                     <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
                     <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
                 </div>
+                        </div>
+                    </div>
                 <!-- Botão para adicionar mais dispositivos -->
                 <button type="button" onclick="adicionarDispositivo()">Adicionar Dispositivo</button>
 
@@ -161,11 +161,11 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                 <label for="defeito">Defeito Apresentado:</label>
                 <textarea class="inputUser" name="defeito[${dispositivoCount}]" cols="50" rows="3"></textarea>
             </div>
-            <button type="button" class="removerDispositivo" onclick="removerDispositivo(this)">Remover</button>
             <div class="inputBox">
                     <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
                     <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
                 </div>
+            <button type="button" class="removerDispositivo" onclick="removerDispositivo(this)">Remover</button>
         `;
         
         dispositivosDiv.appendChild(novoDispositivo);
