@@ -24,8 +24,8 @@ if (isset($_POST['submit'])) {
             $perifericos = $_POST['perifericos'][$key] ?? 'Não';
             $defeito = $_POST['defeito'][$key] ?? '';
 
-            $result = mysqli_query($conn, "INSERT INTO entryorder(`nome`, `telefone`, `tipo`, `marca`, `modelo`, `perifericos`, `defeito`, `preorc`) 
-            VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito','$preorcamento')");
+           $result = mysqli_query($conn, "INSERT INTO entryorder(`nome`, `telefone`, `tipo`, `marca`, `modelo`, `perifericos`, `defeito`, `preorc`, `data_entrada`) 
+VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito','$preorcamento', NOW())");
 
             if (!$result) {
                 $error_message = mysqli_error($conn);
