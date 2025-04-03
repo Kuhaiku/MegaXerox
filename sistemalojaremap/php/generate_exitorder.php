@@ -44,7 +44,7 @@ if (isset($_GET['id'])) {
                 </div>
 
                 <div class='data'>
-                    <p><b>Data de Entrada:</b> <span id='dataFormatada'>{$row['data_enrada']}</span></p>
+                    <p><b>Data de Entrada:</b> <span id='dataFormatada'>{$row['data_entrada']}</span></p>
                     <p><b>Data de Entrega:</b> <input type='date' id='dataEntrega' required></p>
                 </div>           
                         <p><b>Tipo de Dispositivo:</b> {$row['tipo']}</p>
