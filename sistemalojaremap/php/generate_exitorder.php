@@ -63,6 +63,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1em;
+            margin: auto;
         }
         button:hover {
             background-color: #b03a00;
