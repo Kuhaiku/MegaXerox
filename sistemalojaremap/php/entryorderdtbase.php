@@ -16,6 +16,20 @@
         padding: 8px;
         font-size: 16px;
     }
+    .generate-btn {
+        display: block;
+        margin-top: 10px;
+        padding: 8px;
+        background-color: #28a745;
+        color: white;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+    .generate-btn:hover {
+        background-color: #218838;
+    }
 </style>
 </head>
 <body>
@@ -28,7 +42,6 @@ echo "<header>
       <a href='../index.html'><h3>Inicio</h3></a>
     </header>";
 
-// Campo de pesquisa
 echo "<div class='search-box'>
         <input type='text' id='search' placeholder='Pesquisar por Nome, Modelo, Data ou ID...'>
       </div>";
@@ -44,6 +57,11 @@ if (mysqli_num_rows($result) > 0) {
             echo "<li><strong>{$campo}:</strong> <span class='searchable'>{$valor}</span></li>";
         }
         echo "<li><a href='print_entryorder.php?id={$row['id']}' target='_blank'>Imprimir</a></li>";
+        
+        // Botão para gerar ordem de saída
+        $queryString = http_build_query($row); // Transforma os dados em parâmetros de URL
+        echo "<li><a href='generate_exitorder.php?$queryString' class='generate-btn'>Gerar Ordem de Saída</a></li>";
+        
         echo "</ul>";
         echo "</div>";
     }
