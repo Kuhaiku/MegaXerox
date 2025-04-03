@@ -125,7 +125,7 @@ if (isset($_GET['id'])) {
                     <p><b>Valor do Serviço:</b> R$ <input type='number' name='valor' id='valorServico' step='0.01' required></p>
 
                     <p><b>Garantia de Serviço Valida até:</b> 
-                        <input type='text' name='garantia' id='garantia' readonly>
+                        <input type='text' name='garantia' id='garantia' readonly required>
                     </p>
 
                     <div class='botoes'>
@@ -148,48 +148,64 @@ mysqli_close($conn);
 ?>
 
 <script>
-document.getElementById('dataEntrega').value = new Date().toISOString().split('T')[0];
-
-function calcularGarantia() {
+document.addEventListener('DOMContentLoaded', function () {
+    // Define a data de entrega como a data atual
     const dataEntregaInput = document.getElementById('dataEntrega');
-    const garantiaInput = document.getElementById('garantia');
+    dataEntregaInput.value = new Date().toISOString().split('T')[0];
 
-    if (dataEntregaInput.value) {
-        const dataEntrega = new Date(dataEntregaInput.value);
-        if (!isNaN(dataEntrega.getTime())) {
-            dataEntrega.setMonth(dataEntrega.getMonth() + 3);
-            const dataGarantia = dataEntrega.toISOString().split('T')[0].split('-').reverse().join('/');
-            garantiaInput.value = dataGarantia;
+    // Função para calcular a garantia automaticamente
+    function calcularGarantia() {
+        const garantiaInput = document.getElementById('garantia');
+
+        if (dataEntregaInput.value) {
+            const dataEntrega = new Date(dataEntregaInput.value);
+            if (!isNaN(dataEntrega.getTime())) {
+                dataEntrega.setMonth(dataEntrega.getMonth() + 3);
+                const dataGarantia = dataEntrega.toISOString().split('T')[0].split('-').reverse().join('/');
+                garantiaInput.value = dataGarantia;
+            } else {
+                garantiaInput.value = "Data inválida";
+            }
         } else {
-            garantiaInput.value = "Data inválida";
+            garantiaInput.value = "Selecione uma data de entrega";
         }
-    } else {
-        garantiaInput.value = "Selecione uma data de entrega";
     }
-}
 
-// Calcula a garantia ao carregar a página
-document.addEventListener('DOMContentLoaded', calcularGarantia);
+    // Calcula a garantia ao carregar a página
+    calcularGarantia();
 
-// Atualiza a garantia quando a data de entrega mudar
-document.getElementById('dataEntrega').addEventListener('change', calcularGarantia);
+    // Atualiza a garantia quando a data de entrega mudar
+    dataEntregaInput.addEventListener('change', calcularGarantia);
 
-document.getElementById('gerarOrdem').addEventListener('click', function() {
-    const formData = new FormData(document.getElementById('saidaForm'));
+    // Captura o evento de clique no botão de gerar ordem de saída
+    document.getElementById('gerarOrdem').addEventListener('click', function () {
+        const form = document.getElementById('saidaForm');
+        const formData = new FormData(form);
 
-    fetch('../php/salvar_ordem_saida.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        alert(data);
-        if (data.includes("sucesso")) {
-            window.print();
+        // Verifica se todos os campos estão preenchidos corretamente
+        for (let [key, value] of formData.entries()) {
+            if (value.trim() === '') {
+                alert(`Erro: O campo ${key} é obrigatório!`);
+                return;
+            }
         }
-    })
-    .catch(error => console.error('Erro:', error));
+
+        // Envia os dados para o PHP via Fetch API
+        fetch('../php/salvar_ordem_saida.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+            if (data.includes("sucesso")) {
+                window.print();
+            }
+        })
+        .catch(error => console.error('Erro:', error));
+    });
 });
+
 </script>
 
 </body>
