@@ -3,20 +3,34 @@ include 'databaseconfig.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $entry_id = intval($_POST['entry_id']);
-    $data_saida = $_POST['data_saida'];
-    $servico_realizado = mysqli_real_escape_string($conn, $_POST['servico_realizado']);
-    $metodo_pagamento = $_POST['metodo_pagamento'];
+    $data_saida = trim($_POST['data_saida']);
+    $servico_realizado = trim($_POST['servico_realizado']);
+    $metodo_pagamento = trim($_POST['metodo_pagamento']);
     $valor = floatval($_POST['valor']);
-    $garantia = $_POST['garantia'];
-    
-    // Inserir no banco de dados
-    $sql = "INSERT INTO exit_notes (entry_id, data_saida, servico_realizado, metodo_pagamento, valor, garantia) 
-            VALUES ('$entry_id', '$data_saida', '$servico_realizado', '$metodo_pagamento', '$valor', '$garantia')";
+    $garantia = trim($_POST['garantia']);
 
-    if (mysqli_query($conn, $sql)) {
-        echo "Ordem de saída salva com sucesso!";
+    // Verifica se todos os campos estão preenchidos
+    if (empty($entry_id) || empty($data_saida) || empty($servico_realizado) || empty($metodo_pagamento) || empty($valor) || empty($garantia)) {
+        echo "Erro: Todos os campos são obrigatórios!";
+        exit;
+    }
+
+    // Usando Prepared Statement para evitar SQL Injection
+    $sql = "INSERT INTO exit_notes (entry_id, data_saida, servico_realizado, metodo_pagamento, valor, garantia) 
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+    if ($stmt = mysqli_prepare($conn, $sql)) {
+        mysqli_stmt_bind_param($stmt, "isssds", $entry_id, $data_saida, $servico_realizado, $metodo_pagamento, $valor, $garantia);
+        
+        if (mysqli_stmt_execute($stmt)) {
+            echo "Ordem de saída salva com sucesso!";
+        } else {
+            echo "Erro ao salvar a ordem de saída: " . mysqli_stmt_error($stmt);
+        }
+
+        mysqli_stmt_close($stmt);
     } else {
-        echo "Erro ao salvar: " . mysqli_error($conn);
+        echo "Erro na preparação da query: " . mysqli_error($conn);
     }
 
     mysqli_close($conn);
