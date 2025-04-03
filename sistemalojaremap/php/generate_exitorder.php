@@ -44,7 +44,7 @@ if (isset($_GET['id'])) {
                 </div>
 
                 <div class='data'>
-                    <p><b>Data de Entrada:</b> <span id='dataFormatada'></span></p>
+                    <p><b>Data de Entrada:</b> <span id='dataFormatada'>{$row['data_enrada']}</span></p>
                     <p><b>Data de Entrega:</b> <input type='date' id='dataEntrega' required></p>
                 </div>           
                         <p><b>Tipo de Dispositivo:</b> {$row['tipo']}</p>
@@ -57,13 +57,14 @@ if (isset($_GET['id'])) {
                             <p class='defeito'>{$row['defeito']}</p>
                         </div>
 
+                        <p><b>Orçamento Prévio:</b> {$row['preorc']}</p> 
+                      
                         <div class='inputBox'>
                             <label for='servico_realizado'><b>Serviço Realizado:</b></label>
                             <textarea id='servico_realizado' required></textarea>
                         </div>
 
-                        <p><b>Orçamento Prévio:</b> {$row['preorc']}</p> 
-                        <p><b>Valor do Serviço:</b> R$ <input type='number' id='valorServico' required></p>
+                        
                         <p><b>Método de Pagamento:</b> 
                             <select id='metodoPagamento' required>
                                 <option value='Dinheiro'>Dinheiro</option>
@@ -72,6 +73,7 @@ if (isset($_GET['id'])) {
                                 <option value='Pix'>Pix</option>
                             </select>
                         </p>
+                        <p><b>Valor do Serviço:</b> R$ <input type='number' id='valorServico' required></p>
                         <p><b>Tempo de Garantia:</b> <span id='garantia'></span></p>
 
                         <div class='termos'>
@@ -79,7 +81,7 @@ if (isset($_GET['id'])) {
                             <ol>
                                 <li><b>Garantia:</b> A garantia cobre apenas os serviços realizados e tem duração de 3 meses.</li>
                                 <li><b>Responsabilidade do Cliente:</b> Após a retirada, a loja não se responsabiliza por problemas não relacionados ao serviço realizado.</li>
-                                <li><b>Pagamentos:</b> O pagamento deve ser realizado no ato da retirada do dispositivo.</li>
+                                <li><b>Pagamentos:</b> O dispositivo só é retirado mediante ao pagamento.</li>
                             </ol>
                         </div>                       
 
