@@ -44,7 +44,7 @@ if (isset($_GET['id'])) {
 
                     <div class='data'>
                         <p><b>Data de Entrada:</b> <span id='dataFormatada'>{$row['data_entrada']}</span></p>
-                        <p><b>Data de Entrega:</b> <input type='date' name='data_saida' id='dataEntrega' required></p>
+                        <input type='date' name='data_saida' id='dataEntrega' required value="<?php echo date('Y-m-d'); ?>">
                     </div>           
 
                     <p><b>Serviço Realizado:</b> <textarea name='servico_realizado' id='servico_realizado' required></textarea></p>
