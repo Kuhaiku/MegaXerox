@@ -103,7 +103,11 @@ if (isset($_GET['id'])) {
 
             <p><b>Nome:</b> <?= $row['nome'] ?></p>
             <p><b>Telefone:</b> <?= $row['telefone'] ?></p>
+            <p><b>Data Entrada:</b> <?= $row['data_entrada'] ?></p>
+            <p><b>Defeito Apresentado:</b> <?= $row['defeito'] ?></p>
 
+
+            
             <label for="dataEntrega"><b>Data de Entrega:</b></label>
             <input type="date" name="data_saida" id="dataEntrega" required>
 
