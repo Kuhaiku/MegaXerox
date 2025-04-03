@@ -106,7 +106,7 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                         </div>
                     </div>
                 </div>
-      <div class="inputBox">
+                <div class="inputBox">
                     <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
                     <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
                 </div>
@@ -162,6 +162,10 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                 <textarea class="inputUser" name="defeito[${dispositivoCount}]" cols="50" rows="3"></textarea>
             </div>
             <button type="button" class="removerDispositivo" onclick="removerDispositivo(this)">Remover</button>
+            <div class="inputBox">
+                    <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
+                    <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
+                </div>
         `;
         
         dispositivosDiv.appendChild(novoDispositivo);
