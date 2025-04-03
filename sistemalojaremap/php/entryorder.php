@@ -106,14 +106,14 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                         </div>
                     </div>
                 </div>
-
-                <!-- Botão para adicionar mais dispositivos -->
-                <button type="button" onclick="adicionarDispositivo()">Adicionar Dispositivo</button>
-
-                <div class="inputBox">
+      <div class="inputBox">
                     <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
                     <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
                 </div>
+                <!-- Botão para adicionar mais dispositivos -->
+                <button type="button" onclick="adicionarDispositivo()">Adicionar Dispositivo</button>
+
+          
 
                 <div class="botoes">
                     <a class="navegar" href="../index.html">Voltar</a>
