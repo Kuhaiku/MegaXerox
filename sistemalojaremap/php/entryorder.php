@@ -154,12 +154,12 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                 <label class="labelInupt" for="modelo">Modelo:</label>
             </div>
             <div class="inputBox">
-                <input class="inputUser" type="text" name="perifericos[${dispositivoCount}]" value="Não" />
+                <input class="inputUser" type="text" name="perifericos[${dispositivoCount}]" value="Não oninput="this.value = this.value.toUpperCase()" />
                 <label class="labelInupt" for="perifericos">Periféricos</label>
             </div>
             <div class="inputBox">
                 <label for="defeito">Defeito Apresentado:</label>
-                <textarea class="inputUser" name="defeito[${dispositivoCount}]" cols="50" rows="3"></textarea>
+                <textarea class="inputUser" name="defeito[${dispositivoCount}]" cols="50" rows="3" oninput="this.value = this.value.toUpperCase()></textarea>
             </div>
             <div class="inputBox">
                     <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
