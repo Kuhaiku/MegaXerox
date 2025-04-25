@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
         foreach ($_POST['tipo'] as $key => $tipo) {
             $marca = $_POST['marca'][$key] ?? '';
             $modelo = $_POST['modelo'][$key] ?? '';
-            $perifericos = $_POST['perifericos'][$key] ?? 'Não';
+            $perifericos = $_POST['perifericos'][$key] ?? 'NÃO';
             $defeito = $_POST['defeito'][$key] ?? '';
 
            $result = mysqli_query($conn, "INSERT INTO entryorder(`nome`, `telefone`, `tipo`, `marca`, `modelo`, `perifericos`, `defeito`, `preorc`, `data_entrada`) 
@@ -154,7 +154,7 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                 <label class="labelInupt" for="modelo">Modelo:</label>
             </div>
             <div class="inputBox">
-                <input class="inputUser" type="text" name="perifericos[${dispositivoCount}]" value="Não oninput="this.value = this.value.toUpperCase()" />
+                <input class="inputUser" type="text" name="perifericos[${dispositivoCount}]" value="NÃO" oninput="this.value = this.value.toUpperCase()" />
                 <label class="labelInupt" for="perifericos">Periféricos</label>
             </div>
             <div class="inputBox">
