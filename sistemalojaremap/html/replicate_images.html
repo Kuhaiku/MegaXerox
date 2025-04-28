@@ -165,79 +165,69 @@
   const maxPerPage = rows * cols
   const totalImages = Math.min(imgCount, maxPerPage)
 
+  // Criar a nova janela
   const newWindow = window.open("", "", "width=800,height=600")
-  newWindow.document.write(`
-    <html>
-    <head>
-      <title>Replicador de Imagem</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          margin: 0;
-          background-color: #f5f5f5;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-        }
-        .output {
-          width: ${papel.width}mm;
-          height: ${papel.height}mm;
-          display: flex;
-          flex-wrap: wrap;
-          align-content: flex-start;
-          justify-content: flex-start;
-          border: 1px solid #ccc;
-          position: relative;
-          background: white;
-        }
-        .img-container {
-          width: ${imgWidth + imgMargin}mm;
-          height: ${imgHeight + imgMargin}mm;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          box-sizing: border-box;
-        }
-        .img-container img {
-          width: ${imgWidth}mm;
-          height: ${imgHeight}mm;
-          ${addBorder ? "border: 1px solid black;" : ""}
-          border-radius: ${roundInputPercent}%;
-          object-fit: cover;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="output" id="output"></div>
-    </body>
-    </html>
-  `)
+  newWindow.document.write(
+    "<html><head><title>Replicador de Imagem</title><style>"
+  )
+  newWindow.document.write(
+    "body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f5f5f5; }"
+  )
+  newWindow.document.write(
+    ".output { width: " +
+      papel.width +
+      "mm; height: " +
+      papel.height +
+      "mm; border: 1px solid #ccc; position: relative; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; }"
+  )
+  newWindow.document.write(
+    "img { margin: " +
+      imgMargin / 2 +
+      "mm; " +
+      (addBorder ? "border: 1px solid black;" : "") +
+      " border-radius: " +
+      roundInputPercent +
+      "%; object-fit: cover; }"
+  )
+  newWindow.document.write("</style></head><body>")
+  newWindow.document.write('<div class="output" id="output"></div>')
+  newWindow.document.write("</body></html>")
+  newWindow.document.close()
 
   const outputDiv = newWindow.document.getElementById("output")
 
-  let imagesInserted = 0
+  // Agora carregamos as imagens
+  let imagensCarregadas = []
 
-  files.forEach(file => {
-    if (imagesInserted >= totalImages) return
-
+  files.forEach((file) => {
     const reader = new FileReader()
-    reader.onload = function (event) {
-      if (imagesInserted < totalImages) {
-        const imgContainer = newWindow.document.createElement("div")
-        imgContainer.className = "img-container"
-        imgContainer.innerHTML = `<img src="${event.target.result}" alt="Imagem">`
-        outputDiv.appendChild(imgContainer)
-        imagesInserted++
-      }
+    reader.onload = function (e) {
+      imagensCarregadas.push(e.target.result)
 
-      if (imagesInserted === totalImages) {
-        newWindow.document.close()
+      if (imagensCarregadas.length === files.length) {
+        // Quando todas as imagens estiverem carregadas:
+        inserirImagens(imagensCarregadas)
       }
     }
     reader.readAsDataURL(file)
   })
+
+  function inserirImagens(listaImagens) {
+    let i = 0
+    while (i < totalImages) {
+      for (let imgSrc of listaImagens) {
+        if (i >= totalImages) break
+        const imgElement = newWindow.document.createElement("img")
+        imgElement.src = imgSrc
+        imgElement.style.width = imgWidth + "mm"
+        imgElement.style.height = imgHeight + "mm"
+        outputDiv.appendChild(imgElement)
+        i++
+      }
+    }
+  }
 }
+
 
       // Inicializa o resultado ao carregar a página
       updateResult()
