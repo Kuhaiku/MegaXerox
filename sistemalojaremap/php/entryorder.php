@@ -159,7 +159,7 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
             </div>
             <div class="inputBox">
                 <label for="defeito">Defeito Apresentado:</label>
-                <textarea class="inputUser" name="defeito[${dispositivoCount}]" cols="50" rows="3" oninput="this.value = this.value.toUpperCase()></textarea>
+                <textarea class="inputUser" name="defeito[${dispositivoCount}]" cols="50" rows="3" oninput="this.value = this.value.toUpperCase()"></textarea>
             </div>
             <div class="inputBox">
                     <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
