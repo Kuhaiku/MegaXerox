@@ -23,7 +23,7 @@
       </div>
       <div>
         <label for="imageUpload">Upload da Foto:</label>
-        <input type="file" id="imageUpload" accept="image/*" />
+        <input type="file" id="imageUpload" accept="image/*" multiple />
       </div>
       <div>
         <label for="imageWidth">Largura da Foto (mm):</label>
@@ -138,80 +138,82 @@
       paperSizeSelect.addEventListener("change", updateResult)
 
       function replicateImage() {
-        const fileInput = document.getElementById("imageUpload")
-        const countInput = document.getElementById("imageCount")
-        const borderInput = document.getElementById("imageBorder")
-        const roundInput = document.getElementById("imageRound")
-        const roundInputPercent = parseInt(roundInput.value)
+          const fileInput = document.getElementById("imageUpload")
+          const countInput = document.getElementById("imageCount")
+          const borderInput = document.getElementById("imageBorder")
+          const roundInput = document.getElementById("imageRound")
+          const roundInputPercent = parseInt(roundInput.value)
 
-        const file = fileInput.files[0]
-        const imgWidth = parseFloat(widthInput.value)
-        const imgHeight = parseFloat(heightInput.value)
-        const imgCount = parseInt(countInput.value)
-        const imgMargin = parseFloat(marginInput.value)
-        const addBorder = borderInput.checked
-        const paperSize = paperSizeSelect.value
-        const papel = paperSizes[paperSize]
+          const files = Array.from(fileInput.files)
+          const imgWidth = parseFloat(widthInput.value)
+          const imgHeight = parseFloat(heightInput.value)
+          const imgCount = parseInt(countInput.value) // número total de replicações
+          const imgMargin = parseFloat(marginInput.value)
+          const addBorder = borderInput.checked
+          const paperSize = paperSizeSelect.value
+          const papel = paperSizes[paperSize]
 
-        if (!file || !imgWidth || !imgHeight || !imgCount) {
-          alert("Por favor, carregue uma imagem e insira as dimensões.")
-          return
-        }
-
-        const reader = new FileReader()
-
-        reader.onload = function (event) {
-          const img = new Image()
-          img.src = event.target.result
-
-          img.onload = function () {
-            const totalWidth = imgWidth + imgMargin
-            const totalHeight = imgHeight + imgMargin
-            const rows = Math.floor(papel.height / totalHeight)
-            const cols = Math.floor(papel.width / totalWidth)
-            const maxCount = rows * cols
-            const numReplications = Math.min(imgCount, maxCount)
-
-            const newWindow = window.open("", "", "width=800,height=600")
-            newWindow.document.write(
-              "<html><head><title>Replicador de Imagem</title><style>"
-            )
-            newWindow.document.write(
-              "body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f5f5f5; }"
-            )
-            newWindow.document.write(
-              ".output { width: " +
-                papel.width +
-                "mm; height: " +
-                papel.height +
-                "mm; border: 1px solid #ccc; position: relative; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; }"
-            )
-            newWindow.document.write(
-              "img { margin: " +
-                imgMargin / 2 +
-                "mm; " +
-                (addBorder ? "border: 1px solid black;" : "") +
-                " border-radius: " +
-                roundInputPercent +
-                "%; }"
-            )
-            newWindow.document.write("</style></head><body>")
-            newWindow.document.write('<div class="output">')
-
-            for (let i = 0; i < numReplications; i++) {
-              newWindow.document.write(
-                `<img src="${img.src}" style="width: ${imgWidth}mm; height: ${imgHeight}mm;">`
-              )
-            }
-            newWindow.document.write("</div>")
-            newWindow.document.write("</body></html>")
-            newWindow.document.close()
+          if (files.length === 0 || !imgWidth || !imgHeight || !imgCount) {
+            alert("Por favor, carregue pelo menos uma imagem e insira as dimensões.")
+            return
           }
+
+          const totalWidth = imgWidth + imgMargin
+          const totalHeight = imgHeight + imgMargin
+          const rows = Math.floor(papel.height / totalHeight)
+          const cols = Math.floor(papel.width / totalWidth)
+          const maxPerPage = rows * cols
+          const totalImages = Math.min(imgCount, maxPerPage)
+
+          const newWindow = window.open("", "", "width=800,height=600")
+          newWindow.document.write(
+            "<html><head><title>Replicador de Imagem</title><style>"
+          )
+          newWindow.document.write(
+            "body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f5f5f5; }"
+          )
+          newWindow.document.write(
+            ".output { width: " +
+              papel.width +
+              "mm; height: " +
+              papel.height +
+              "mm; border: 1px solid #ccc; position: relative; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; }"
+          )
+          newWindow.document.write(
+            "img { margin: " +
+              imgMargin / 2 +
+              "mm; " +
+              (addBorder ? "border: 1px solid black;" : "") +
+              " border-radius: " +
+              roundInputPercent +
+              "%; object-fit: cover; }"
+          )
+          newWindow.document.write("</style></head><body>")
+          newWindow.document.write('<div class="output">')
+
+          let imagesInserted = 0
+
+          files.forEach(file => {
+            if (imagesInserted >= totalImages) return // Para no máximo permitido
+
+            const reader = new FileReader()
+            reader.onload = function (event) {
+              if (imagesInserted < totalImages) {
+                newWindow.document.write(
+                  `<img src="${event.target.result}" style="width: ${imgWidth}mm; height: ${imgHeight}mm;">`
+                )
+                imagesInserted++
+              }
+
+              // Fecha o documento após carregar todas imagens
+              if (imagesInserted === totalImages) {
+                newWindow.document.write("</div></body></html>")
+                newWindow.document.close()
+              }
+            }
+            reader.readAsDataURL(file)
+          })
         }
-
-        reader.readAsDataURL(file)
-      }
-
       // Inicializa o resultado ao carregar a página
       updateResult()
     </script>
