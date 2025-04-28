@@ -137,7 +137,7 @@
       marginInput.addEventListener("input", updateResult)
       paperSizeSelect.addEventListener("change", updateResult)
 
-     function replicateImage() {
+      function replicateImage() {
   const fileInput = document.getElementById("imageUpload")
   const countInput = document.getElementById("imageCount")
   const borderInput = document.getElementById("imageBorder")
@@ -163,52 +163,40 @@
   const rows = Math.floor(papel.height / totalHeight)
   const cols = Math.floor(papel.width / totalWidth)
   const maxPerPage = rows * cols
-  const totalImages = imgCount // Agora não limitamos!
+  const totalImages = Math.min(imgCount, maxPerPage)
 
-  // Abrir nova janela
+  // Criar a nova janela
   const newWindow = window.open("", "", "width=800,height=600")
-  newWindow.document.write(`
-    <html>
-      <head>
-        <title>Replicador de Imagem</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-          }
-          .page {
-            width: ${papel.width}mm;
-            height: ${papel.height}mm;
-            border: 1px solid #ccc;
-            margin: 10px auto;
-            page-break-after: always;
-            display: flex;
-            flex-wrap: wrap;
-            align-content: flex-start;
-            justify-content: center;
-            position: relative;
-            background: white;
-          }
-          .page img {
-            margin: ${imgMargin / 2}mm;
-            ${addBorder ? "border: 1px solid black;" : ""}
-            border-radius: ${roundInputPercent}%;
-            object-fit: cover;
-          }
-        </style>
-      </head>
-      <body>
-      <div id="container"></div>
-      </body>
-    </html>
-  `)
+  newWindow.document.write(
+    "<html><head><title>Replicador de Imagem</title><style>"
+  )
+  newWindow.document.write(
+    "body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f5f5f5; }"
+  )
+  newWindow.document.write(
+    ".output { width: " +
+      papel.width +
+      "mm; height: " +
+      papel.height +
+      "mm; border: 1px solid #ccc; position: relative; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; }"
+  )
+  newWindow.document.write(
+    "img { margin: " +
+      imgMargin / 2 +
+      "mm; " +
+      (addBorder ? "border: 1px solid black;" : "") +
+      " border-radius: " +
+      roundInputPercent +
+      "%; object-fit: cover; }"
+  )
+  newWindow.document.write("</style></head><body>")
+  newWindow.document.write('<div class="output" id="output"></div>')
+  newWindow.document.write("</body></html>")
   newWindow.document.close()
 
-  const container = newWindow.document.getElementById("container")
+  const outputDiv = newWindow.document.getElementById("output")
 
-  // Carregar todas as imagens primeiro
+  // Agora carregamos as imagens
   let imagensCarregadas = []
 
   files.forEach((file) => {
@@ -217,7 +205,7 @@
       imagensCarregadas.push(e.target.result)
 
       if (imagensCarregadas.length === files.length) {
-        // Quando todas estiverem carregadas
+        // Quando todas as imagens estiverem carregadas:
         inserirImagens(imagensCarregadas)
       }
     }
@@ -225,41 +213,20 @@
   })
 
   function inserirImagens(listaImagens) {
-    let currentPage = criarNovaPagina()
-    let imagensNaPagina = 0
     let i = 0
-
     while (i < totalImages) {
       for (let imgSrc of listaImagens) {
         if (i >= totalImages) break
-
         const imgElement = newWindow.document.createElement("img")
         imgElement.src = imgSrc
         imgElement.style.width = imgWidth + "mm"
         imgElement.style.height = imgHeight + "mm"
-
-        currentPage.appendChild(imgElement)
-
-        imagensNaPagina++
+        outputDiv.appendChild(imgElement)
         i++
-
-        if (imagensNaPagina >= maxPerPage && i < totalImages) {
-          // Se encher a página, cria nova
-          currentPage = criarNovaPagina()
-          imagensNaPagina = 0
-        }
       }
     }
   }
-
-  function criarNovaPagina() {
-    const page = newWindow.document.createElement("div")
-    page.className = "page"
-    container.appendChild(page)
-    return page
-  }
 }
-
 
 
       // Inicializa o resultado ao carregar a página
@@ -267,3 +234,4 @@
     </script>
   </body>
 </html>
+
