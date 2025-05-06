@@ -1,7 +1,8 @@
+
+<?php
 /*
  https://loja-megaxerox.qtgmyu.easypanel.host/php/recibo_cliente.php?cliente=Luis%20Sindicato
 */
-<?php
 require 'databaseconfig.php';
 
 $cliente = isset($_GET['cliente']) ? trim($_GET['cliente']) : '';
