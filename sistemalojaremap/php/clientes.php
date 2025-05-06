@@ -89,6 +89,18 @@
             background-color: #005f73;
             color: white;
         }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            margin-right: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
         .success-message {
             color: green;
             font-weight: bold;
@@ -108,8 +120,7 @@
             document.getElementById(sectionId).classList.remove('hidden');
         }
 
-        function fetchSales() {
-            var clienteId = document.getElementById('clienteConsulta').value;
+        function fetchSalesById(clienteId) {
             if (clienteId === "") {
                 document.getElementById('resultSection').innerHTML = "";
                 return;
@@ -119,7 +130,7 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     document.getElementById('resultSection').innerHTML = xhr.responseText;
-                    somarValores(); // Chama a função para somar os valores
+                    somarValores();
                 }
             };
             xhr.send();
@@ -162,20 +173,39 @@
 
         <div id="gerenciarVendas" class="content-section hidden">
             <h2>Gerenciar Vendas</h2>
-            <label for="clienteConsulta">Selecione o Cliente:</label>
-            <select id="clienteConsulta" name="clienteConsulta" onchange="fetchSales()">
-                <option value="">Selecione um Cliente</option>
-                <?php
-                require 'databaseconfig.php';
-                $result = $conn->query("SELECT id_cliente, nome FROM clientes");
-                while ($row = $result->fetch_assoc()) {
-                    echo '<option value="'.$row['id_cliente'].'">'.$row['nome'].'</option>';
-                }
-                ?>
-            </select>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome do Cliente</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    require 'databaseconfig.php';
+                    $result = $conn->query("SELECT id_cliente, nome FROM clientes");
+                    while ($row = $result->fetch_assoc()) {
+                        $id = $row['id_cliente'];
+                        $nome = htmlspecialchars($row['nome'], ENT_QUOTES, 'UTF-8');
+                        $urlNome = urlencode($row['nome']);
+                        echo "<tr>";
+                        echo "<td>$nome</td>";
+                        echo "<td>
+                                <button onclick=\"fetchSalesById('$id')\">Ver Vendas</button>
+                                <a href='https://loja-megaxerox.qtgmyu.easypanel.host/php/recibo_cliente.php?cliente=$urlNome' target='_blank'>
+                                    <button>Recibo</button>
+                                </a>
+                              </td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
 
             <div id="resultSection" class="result-section">
                 <!-- Resultados da consulta serão inseridos aqui -->
+                <p id="totalGeral"></p>
             </div>
         </div>
     </div>
