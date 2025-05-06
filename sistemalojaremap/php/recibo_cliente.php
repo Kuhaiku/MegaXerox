@@ -1,4 +1,6 @@
-//https://loja-megaxerox.qtgmyu.easypanel.host/php/recibo_cliente.php?cliente=Luis%20Sindicato
+/*
+ https://loja-megaxerox.qtgmyu.easypanel.host/php/recibo_cliente.php?cliente=Luis%20Sindicato
+*/
 <?php
 require 'databaseconfig.php';
 
