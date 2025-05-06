@@ -99,7 +99,7 @@ function gerarImagem() {
 }
 </script>
 
-// https://loja-megaxerox.qtgmyu.easypanel.host/php/recibo_cliente.php?cliente=Luis%20Sindicato
+<!-- https://loja-megaxerox.qtgmyu.easypanel.host/php/recibo_cliente.php?cliente=Luis%20Sindicato -->
 
 </body>
 </html>
