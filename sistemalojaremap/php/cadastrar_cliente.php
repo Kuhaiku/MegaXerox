@@ -50,6 +50,8 @@ $conn->close();
 <form action="" method="POST">
     <label for="nome">Nome do Cliente:</label>
     <input type="text" id="nome" name="nome" required>
+    <label for="telefone">Telefone:</label>
+    <input type="text" id="telefone" name="telefone" required>
 
     <input type="submit" value="Cadastrar Cliente">
 </form>
@@ -70,6 +72,7 @@ $conn->close();
                 <th>ID</th>
                 <th>Nome</th>
                 <th>Data de Cadastro</th>
+                <th>Telefone</th>
             </tr>
         </thead>
         <tbody>
@@ -77,7 +80,7 @@ $conn->close();
                 <tr>
                     <td><?php echo $row['id_cliente']; ?></td>
                     <td><?php echo $row['nome']; ?></td>
-                    <td><?php echo $row['data_cadastro']; ?></td>
+                    <td><?php echo $row['telefone']; ?></td>
                 </tr>
             <?php endwhile; ?>
         </tbody>
