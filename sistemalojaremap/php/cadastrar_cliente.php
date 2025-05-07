@@ -4,12 +4,13 @@ require 'databaseconfig.php';
 $mensagem = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verifica se o campo "nome" está definido e não está vazio
+    // Verifica se os campos estão definidos e não estão vazios
     $nome = isset($_POST['nome']) ? trim($_POST['nome']) : null;
+    $telefone = isset($_POST['telefone']) ? trim($_POST['telefone']) : null;
 
-    if ($nome) {
-        $stmt = $conn->prepare("INSERT INTO clientes (nome) VALUES (?)");
-        $stmt->bind_param("s", $nome);
+    if ($nome && $telefone) {
+        $stmt = $conn->prepare("INSERT INTO clientes (nome, telefone) VALUES (?, ?)");
+        $stmt->bind_param("ss", $nome, $telefone);
         
         if ($stmt->execute()) {
             $mensagem = "<p class='success-message'>Cliente cadastrado com sucesso!</p>";
@@ -19,12 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $stmt->close();
     } else {
-        $mensagem = "<p class='error-message'>O nome do cliente é obrigatório.</p>";
+        $mensagem = "<p class='error-message'>Nome e telefone são obrigatórios.</p>";
     }
 }
 
 // Consulta para obter todos os clientes cadastrados
-$result = $conn->query("SELECT id_cliente, nome, data_cadastro FROM clientes ORDER BY data_cadastro DESC");
+$result = $conn->query("SELECT id_cliente, nome, telefone, data_cadastro FROM clientes ORDER BY data_cadastro DESC");
 
 $conn->close();
 ?>
@@ -58,28 +59,30 @@ $conn->close();
 
 <!-- Exibe a mensagem de sucesso ou erro após o envio -->
 <?php
-//if ($mensagem) {
-//    echo $mensagem;
-//}
+if ($mensagem) {
+    echo $mensagem;
+}
 ?>
 
 <h2>Clientes Cadastrados</h2>
 
-<?php if ($result->num_rows > 0): ?>
+<?php if ($result && $result->num_rows > 0): ?>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nome</th>
                 <th>Telefone</th>
+                <th>Data de Cadastro</th>
             </tr>
         </thead>
         <tbody>
             <?php while($row = $result->fetch_assoc()): ?>
                 <tr>
-                    <td><?php echo $row['id_cliente']; ?></td>
-                    <td><?php echo $row['nome']; ?></td>
-                    <td><?php echo $row['telefone']; ?></td>
+                    <td><?php echo htmlspecialchars($row['id_cliente']); ?></td>
+                    <td><?php echo htmlspecialchars($row['nome']); ?></td>
+                    <td><?php echo htmlspecialchars($row['telefone']); ?></td>
+                    <td><?php echo htmlspecialchars($row['data_cadastro']); ?></td>
                 </tr>
             <?php endwhile; ?>
         </tbody>
