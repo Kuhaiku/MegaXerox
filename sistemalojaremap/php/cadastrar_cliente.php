@@ -71,7 +71,6 @@ $conn->close();
             <tr>
                 <th>ID</th>
                 <th>Nome</th>
-                <th>Data de Cadastro</th>
                 <th>Telefone</th>
             </tr>
         </thead>
