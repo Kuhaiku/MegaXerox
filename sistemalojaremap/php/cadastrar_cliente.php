@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $stmt->close();
     } else {
-        $mensagem = "<p class='error-message'>Nome e telefone são obrigatórios.</p>";
+        $mensagem = "<p class='error-message'></p>";
     }
 }
 
