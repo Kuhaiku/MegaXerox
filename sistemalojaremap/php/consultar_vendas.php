@@ -46,21 +46,4 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
 }
 ?>
 
-<script>
-function validarSenha() {
-    const senhaCorreta = "8812";
-    const senha = prompt("Digite a senha para fechar o caixa:");
 
-    if (senha === null) {
-        // Cancelou
-        return false;
-    }
-
-    if (senha === senhaCorreta) {
-        return confirm("Confirma o fechamento do caixa?");
-    } else {
-        alert("Senha incorreta. Operação cancelada.");
-        return false;
-    }
-}
-</script>
