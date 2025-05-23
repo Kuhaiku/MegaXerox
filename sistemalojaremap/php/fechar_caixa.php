@@ -33,19 +33,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Commit na transação
             $conn->commit();
 
-            echo "<p style='color:green;'>Caixa do cliente fechado com sucesso!</p>";
-            echo "<a href='sua_pagina.php'>Voltar</a>";
+            // Redireciona para clientes.php
+            header("Location: clientes.php");
+            exit;
 
         } catch (Exception $e) {
             $conn->rollback();
-            echo "<p style='color:red;'>Erro ao fechar o caixa: " . $e->getMessage() . "</p>";
+            // No catch, só redireciona sem mostrar erro
+            header("Location: clientes.php");
+            exit;
         }
     } else {
-        echo "<p style='color:red;'>Não há vendas para este cliente.</p>";
+        // Se não tem vendas, também redireciona direto
+        header("Location: clientes.php");
+        exit;
     }
 } else {
-    echo "<p style='color:red;'>Requisição inválida.</p>";
+    // Requisição inválida, redireciona direto
+    header("Location: clientes.php");
+    exit;
 }
 
 $conn->close();
-?>
