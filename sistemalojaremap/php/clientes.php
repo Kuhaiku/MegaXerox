@@ -158,7 +158,7 @@
         <a onclick="showSection('cadastrarCliente')">Cadastrar Cliente</a>
         <a onclick="showSection('cadastrarVenda')">Cadastrar Venda</a>
         <a onclick="showSection('gerenciarVendas')">Gerenciar Vendas</a>
-        <a onclick="showSection('clientesFechados')">Caixas Fechados</a>
+        
     </div>
 
     <div class="content">
