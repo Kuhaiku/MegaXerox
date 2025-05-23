@@ -209,8 +209,7 @@
                 <p id="totalGeral"></p>
             </div>
         </div>
-    </div>
-    <div id="clientesFechados" class="content-section hidden">
+          <div id="clientesFechados" class="content-section hidden">
     <h2>Clientes com Caixa Fechado</h2>
     <?php
     require 'databaseconfig.php';
@@ -248,6 +247,10 @@
     }
     ?>
 </div>
+    </div>
+    
+  
+
 
     <script>
         showSection('cadastrarCliente');
