@@ -17,7 +17,6 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
     if ($result->num_rows > 0) {
         echo "<table border='1' width='100%'>
                 <tr>
-                    
                     <th>Cliente</th>
                     <th>Data</th>
                     <th>Descrição</th>
@@ -25,7 +24,6 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
                 </tr>";
         while ($row = $result->fetch_assoc()) {
             echo "<tr>
-                    
                     <td>{$row['cliente']}</td>
                     <td>{$row['data_venda']}</td>
                     <td>{$row['descricao']}</td>
@@ -33,6 +31,13 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
                   </tr>";
         }
         echo "</table>";
+
+        // Botão Fechar Caixa para este cliente
+        echo '<form action="fechar_caixa.php" method="POST" onsubmit="return confirm(\'Deseja realmente fechar o caixa deste cliente?\');" style="margin-top: 10px;">';
+        echo '<input type="hidden" name="id_cliente" value="' . $id_cliente . '">';
+        echo '<button type="submit">Fechar Caixa</button>';
+        echo '</form>';
+
         echo "<p id='totalGeral' style='font-weight:bold; margin-top:10px;'></p>";
     } else {
         echo "<p class='error-message'>Nenhuma venda encontrada para este cliente.</p>";
