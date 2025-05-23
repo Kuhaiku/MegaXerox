@@ -210,45 +210,8 @@
             </div>
         </div>
     </div>
-    <div id="clientesFechados" class="content-section hidden">
-    <h2>Clientes com Caixa Fechado</h2>
-    <?php
-    require 'databaseconfig.php';
-
-    // Exemplo: clientes que estão com caixa fechado (vou supor que você tenha uma coluna tipo 'caixa_fechado' na tabela clientes ou vendas)
-    $sql = "SELECT c.id_cliente, c.nome FROM clientes c
-            JOIN vendas v ON c.id_cliente = v.id_cliente
-            WHERE v.caixa_fechado = 1
-            GROUP BY c.id_cliente, c.nome";
-
-    $result = $conn->query($sql);
-
-    if ($result && $result->num_rows > 0) {
-        echo "<table border='1' width='100%'>
-                <tr>
-                    <th>Cliente</th>
-                    <th>Ações</th>
-                </tr>";
-
-        while ($row = $result->fetch_assoc()) {
-            $id = $row['id_cliente'];
-            $nome = htmlspecialchars($row['nome'], ENT_QUOTES, 'UTF-8');
-            echo "<tr>
-                    <td>$nome</td>
-                    <td>
-                        <button onclick=\"fetchSalesById('$id')\">Ver Vendas</button>
-                        <!-- Aqui pode colocar outras ações para clientes fechados -->
-                    </td>
-                  </tr>";
-        }
-
-        echo "</table>";
-    } else {
-        echo "<p>Nenhum cliente com caixa fechado encontrado.</p>";
-    }
-    ?>
+    
 </div>
-
     <script>
         showSection('cadastrarCliente');
     </script>
