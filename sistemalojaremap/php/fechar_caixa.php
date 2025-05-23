@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bind_param("i", $id_cliente);
 
         if ($stmt->execute()) {
-            echo "<script>alert('Caixa fechado com sucesso!'); window.location.href='pagina_anterior.php';</script>";
+            echo "<script>alert('Caixa fechado com sucesso!'); window.location.href='clientes.php';</script>";
         } else {
             echo "<script>alert('Erro ao fechar o caixa: {$stmt->error}'); window.history.back();</script>";
         }
