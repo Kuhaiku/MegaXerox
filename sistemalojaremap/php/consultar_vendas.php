@@ -32,7 +32,7 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
         }
         echo "</table>";
 
-        // Botão Fechar Caixa com senha
+        // Botão Fechar Caixa (verificação só no frontend)
         echo '<form action="fechar_caixa.php" method="POST" onsubmit="return validarSenha();" style="margin-top: 10px;">';
         echo '<input type="hidden" name="id_cliente" value="' . $id_cliente . '">';
         echo '<button type="submit">Fechar Caixa</button>';
@@ -45,5 +45,3 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
     $stmt->close();
 }
 ?>
-
-
