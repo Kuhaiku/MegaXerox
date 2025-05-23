@@ -3,6 +3,13 @@ require 'databaseconfig.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_cliente = intval($_POST['id_cliente']);
+    $senha = $_POST['senha'];
+
+    // Verifica a senha
+    if ($senha !== "8812") {
+        header("Location: clientes.php?erro=senha");
+        exit;
+    }
 
     // Buscar todas as vendas do cliente
     $result = $conn->query("SELECT * FROM vendas WHERE id_cliente = $id_cliente");
@@ -33,25 +40,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Commit na transação
             $conn->commit();
 
-            // Redireciona para clientes.php
-            header("Location: clientes.php");
+            header("Location: clientes.php?status=sucesso");
             exit;
 
         } catch (Exception $e) {
             $conn->rollback();
-            // No catch, só redireciona sem mostrar erro
-            header("Location: clientes.php");
+            header("Location: clientes.php?erro=transacao");
             exit;
         }
     } else {
-        // Se não tem vendas, também redireciona direto
-        header("Location: clientes.php");
+        header("Location: clientes.php?erro=semvendas");
         exit;
     }
 } else {
-    // Requisição inválida, redireciona direto
-    header("Location: clientes.php");
+    header("Location: clientes.php?erro=metodo");
     exit;
 }
 
 $conn->close();
+?>
