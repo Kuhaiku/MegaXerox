@@ -32,8 +32,8 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
         }
         echo "</table>";
 
-        // Botão Fechar Caixa para este cliente
-        echo '<form action="fechar_caixa.php" method="POST" onsubmit="return confirm(\'Deseja realmente fechar o caixa deste cliente?\');" style="margin-top: 10px;">';
+        // Botão Fechar Caixa com senha
+        echo '<form action="fechar_caixa.php" method="POST" onsubmit="return validarSenha();" style="margin-top: 10px;">';
         echo '<input type="hidden" name="id_cliente" value="' . $id_cliente . '">';
         echo '<button type="submit">Fechar Caixa</button>';
         echo '</form>';
@@ -45,3 +45,22 @@ if (isset($_GET['id_cliente']) && !empty($_GET['id_cliente'])) {
     $stmt->close();
 }
 ?>
+
+<script>
+function validarSenha() {
+    const senhaCorreta = "8812";
+    const senha = prompt("Digite a senha para fechar o caixa:");
+
+    if (senha === null) {
+        // Cancelou
+        return false;
+    }
+
+    if (senha === senhaCorreta) {
+        return confirm("Confirma o fechamento do caixa?");
+    } else {
+        alert("Senha incorreta. Operação cancelada.");
+        return false;
+    }
+}
+</script>
