@@ -1,6 +1,6 @@
 <?php
 
-$dbHost ='loja_dtbase';
+$dbHost ='loja_mega_xerox_db';
 $dbUsername ='root';
 $dbPassword ='Raposo88125442@@';
 $dbName ='sistemaloja';
