@@ -157,7 +157,7 @@ $conn->close();
 
         <div class="recibo-footer">
             
-            <p>Data de emissão: <?php echo date("d/m/Y H:i:s"); ?></p>
+            <p>Data de emissão: <?php echo date("d/m/Y"); ?></p>
         </div>
     </div>
     
