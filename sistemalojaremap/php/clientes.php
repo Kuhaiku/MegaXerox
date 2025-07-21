@@ -189,12 +189,11 @@
                     while ($row = $result->fetch_assoc()) {
                         $id = $row['id_cliente'];
                         $nome = htmlspecialchars($row['nome'], ENT_QUOTES, 'UTF-8');
-                        $urlNome = urlencode($row['nome']);
                         echo "<tr>";
                         echo "<td>$nome</td>";
                         echo "<td>
                                 <button onclick=\"fetchSalesById('$id')\">Ver Vendas</button>
-                                <a href='https://loja-megaxerox.qtgmyu.easypanel.host/php/recibo_cliente.php?cliente=$urlNome' target='_blank'>
+                                <a href='recibo_cliente.php?id_cliente=$id' target='_blank'>
                                     <button>Recibo</button>
                                 </a>
                               </td>";
@@ -205,7 +204,6 @@
             </table>
 
             <div id="resultSection" class="result-section">
-                <!-- Resultados da consulta serão inseridos aqui -->
                 <p id="totalGeral"></p>
             </div>
         </div>
