@@ -1,12 +1,8 @@
-
 <?php
-
 require 'databaseconfig.php';
-
 $cliente = isset($_GET['cliente']) ? trim($_GET['cliente']) : '';
 $vendas = [];
 $total = 0.00;
-
 // Consulta ao banco de dados
 if ($cliente !== '') {
     $stmt = $conn->prepare("
