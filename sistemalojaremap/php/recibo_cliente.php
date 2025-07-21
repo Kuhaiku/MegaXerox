@@ -156,7 +156,7 @@ $conn->close();
         </table>
 
         <div class="recibo-footer">
-            <p>Obrigado pela sua preferência!</p>
+            
             <p>Data de emissão: <?php echo date("d/m/Y H:i:s"); ?></p>
         </div>
     </div>
