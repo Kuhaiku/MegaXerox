@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // 3. Confirmar as operações
             $conn->commit();
 
-            echo "<script>alert('Caixa fechado e vendas arquivadas com sucesso!'); window.location.href='../clientes.php';</script>";
+            echo "<script>alert('Caixa fechado e vendas arquivadas com sucesso!'); window.location.href='../php/clientes.php';</script>";
 
         } catch (Exception $e) {
             // Se houve erro, desfaz tudo
