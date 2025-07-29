@@ -19,6 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ";
 
             $stmtInsert = $conn->prepare($sqlInsert);
+            if (!$stmtInsert) {
+                throw new Exception("Erro na preparação da consulta de inserção: " . $conn->error);
+            }
             $stmtInsert->bind_param("i", $id_cliente);
 
             if (!$stmtInsert->execute()) {
@@ -29,6 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // 2. Deletar os registros da tabela vendas
             $stmtDelete = $conn->prepare("DELETE FROM vendas WHERE id_cliente = ?");
+            if (!$stmtDelete) {
+                throw new Exception("Erro na preparação da consulta de deleção: " . $conn->error);
+            }
             $stmtDelete->bind_param("i", $id_cliente);
 
             if (!$stmtDelete->execute()) {
@@ -40,12 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // 3. Confirmar as operações
             $conn->commit();
 
-            echo "<script>alert('Caixa fechado e vendas arquivadas com sucesso!'); window.location.href='clientes.php';</script>";
+            echo "<script>alert('Caixa fechado e vendas arquivadas com sucesso!'); window.location.href='../clientes.php';</script>";
 
         } catch (Exception $e) {
             // Se houve erro, desfaz tudo
             $conn->rollback();
-            echo "<script>alert('Erro: " . $e->getMessage() . "'); window.history.back();</script>";
+            // Escapa a mensagem de erro para evitar erros de sintaxe no JavaScript
+            $errorMessage = addslashes($e->getMessage());
+            echo "<script>alert('Erro: " . $errorMessage . "'); window.history.back();</script>";
         }
 
     } else {
