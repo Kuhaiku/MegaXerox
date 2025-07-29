@@ -9,10 +9,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $conn->begin_transaction();
 
         try {
-            // 1. Inserir os registros da tabela vendas na tabela vendas_fechadas
+            // 1. Inserir os registros da tabela vendas na tabela vendas_fechadas,
+            // incluindo a data de fechamento
             $sqlInsert = "
-                INSERT INTO vendas_fechadas (id_venda, id_cliente, descricao, data_venda, valor_total)
-                SELECT id_venda, id_cliente, descricao, data_venda, valor_total
+                INSERT INTO vendas_fechadas (id_venda, id_cliente, descricao, data_venda, valor_total, data_fechamento)
+                SELECT id_venda, id_cliente, descricao, data_venda, valor_total, NOW()
                 FROM vendas
                 WHERE id_cliente = ?
             ";
