@@ -1,36 +1,39 @@
 <?php
+// Inclui o arquivo de configuração do banco de dados
 require 'databaseconfig.php';
 
-// Pega o ID do cliente da URL e garante que seja um inteiro
+// Pega o ID do cliente da URL e garante que seja um inteiro. Se não houver, define como 0.
 $id_cliente = isset($_GET['id_cliente']) ? intval($_GET['id_cliente']) : 0;
 
+// Inicializa as variáveis
 $vendas = [];
-$cliente_nome = ''; // Variável para armazenar o nome do cliente
-$total = 0.00;
-$safe_cliente_nome = 'recibo'; // Nome padrão para o arquivo
+$cliente_nome = '';
+$total_geral = 0.00;
+$safe_cliente_nome = 'recibo'; // Nome padrão para o arquivo de imagem
 
-// Consulta ao banco de dados apenas se o ID do cliente for válido
+// Executa a consulta apenas se um ID de cliente válido for fornecido
 if ($id_cliente > 0) {
-    // Prepara a consulta para evitar injeção de SQL
+    // Prepara a consulta para buscar os dados das vendas e o nome do cliente
     $stmt = $conn->prepare("
         SELECT c.nome, v.descricao, v.data_venda, v.valor_total
         FROM vendas v
         INNER JOIN clientes c ON v.id_cliente = c.id_cliente
         WHERE v.id_cliente = ?
-        ORDER BY v.data_venda DESC
+        ORDER BY v.data_venda ASC
     ");
-    $stmt->bind_param("i", $id_cliente); // "i" para inteiro
+    $stmt->bind_param("i", $id_cliente); // "i" indica que o parâmetro é um inteiro
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Busca os resultados
+    // Processa os resultados da consulta
     while ($row = $result->fetch_assoc()) {
         $vendas[] = $row;
-        $total += $row['valor_total'];
-        // Pega o nome do cliente do primeiro resultado encontrado
+        $total_geral += $row['valor_total'];
+        
+        // Pega o nome do cliente (só precisa fazer isso uma vez)
         if (empty($cliente_nome)) {
             $cliente_nome = $row['nome'];
-            // Cria um nome de arquivo seguro a partir do nome do cliente
+            // Cria um nome de arquivo seguro para o download
             $safe_cliente_nome = 'recibo_' . preg_replace('/[^a-zA-Z0-9_]/', '', str_replace(' ', '_', strtolower($cliente_nome)));
         }
     }
@@ -39,153 +42,195 @@ if ($id_cliente > 0) {
 $conn->close();
 ?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recibo - <?php echo htmlspecialchars($cliente_nome); ?></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #005f73;
-            margin: 0;
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            background-color: #f0f0f0;
             padding: 20px;
-            color: #333;
         }
-        .content {
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
+        .container { 
+            width: 148mm; 
+            min-height: 210mm; /* Usa min-height para se ajustar ao conteúdo */
+            margin: auto; 
+            padding: 20px; 
+            border: 2px solid black; 
             background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
         }
-        h1, h2 {
-            color: #007bff;
+        .header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            width: 100%; 
+            margin-bottom: 10px; 
+        }
+        .logo { 
+            width: 270px; 
+            height: 100px; 
+            border-radius: 10px; 
+            border: 1px solid #ccc;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+            font-size: 20px; 
             text-align: center;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+        .header-text { 
+            text-align: center; 
+            font-weight: bold; 
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
+        .info-line { 
+            display: flex; 
+            justify-content: space-between; 
+            width: 100%; 
+            margin-bottom: 15px; 
+            font-size: 18px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+        }
+        th, td { 
+            border: 1px solid black; 
+            padding: 5px; 
+            text-align: center; 
+            font-size: 12px;
         }
         th {
-            background-color: #005f73;
-            color: white;
+            background-color: #f2f2f2;
         }
-        tfoot th {
-            text-align: right;
+        td {
+             height: 25px; /* Altura fixa para cada linha */
+        }
+        /* Definição de largura das colunas */
+        th:nth-child(1), td:nth-child(1) { width: 45%; } /* Descrição maior */
+        th:nth-child(2), td:nth-child(2) { width: 20%; } /* Data */
+        th:nth-child(3), td:nth-child(3) { width: 15%; } /* Quantidade */
+        th:nth-child(4), td:nth-child(4) { width: 20%; } /* Total */
+
+        .total-box { 
+            text-align: right; 
+            margin-top: 10px; 
+            font-size: 20px; 
+            font-weight: bold; 
+            width: 100%;
+            padding-right: 5px;
         }
         button {
-            background-color: #28a745; /* Cor verde para salvar */
+            background-color: #28a745;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 12px 20px;
             margin-top: 20px;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
-            display: block;
-            width: 100%;
             font-size: 16px;
+            width: calc(148mm + 44px); /* Largura do recibo + padding */
         }
         button:hover {
             background-color: #218838;
-        }
-        .recibo-header, .recibo-footer {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .recibo-header h1 {
-            margin: 0;
-            color: #333;
-        }
-        .cliente-info h2 {
-            text-align: left;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
-    <div id="recibo-para-salvar" class="content">
-        <div class="recibo-header">
-            <h1>Mega Xerox</h1>
-            <p>Recibo de Vendas</p>
+<div class="container" id="recibo-para-salvar">
+    <div class="header">
+        <div class="logo">Mega Xerox<br>Tel.: (22) 2665-5910</div>
+        <div class="header-text">
+            <p>Rua Bernardo Vasconcelos 293 - sala 4A - Centro</p>
+            <p>CNPJ: 12.689.177/0001-26 Araruama - RJ</p>
         </div>
-
-        <div class="cliente-info">
-            <h2>Cliente: <?php echo htmlspecialchars($cliente_nome); ?></h2>
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Descrição</th>
-                    <th style="text-align: right;">Valor</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($vendas)): ?>
-                    <?php foreach ($vendas as $venda): ?>
-                        <tr>
-                            <td><?php echo date("d/m/Y", strtotime($venda['data_venda'])); ?></td>
-                            <td><?php echo htmlspecialchars($venda['descricao']); ?></td>
-                            <td style="text-align: right;">R$ <?php echo number_format($venda['valor_total'], 2, ',', '.'); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
+    </div>
+    <div class="info-line">
+        <span><b>Cliente:</b> <?php echo htmlspecialchars($cliente_nome); ?></span>
+        <span><b>Data:</b> <?php echo date("d/m/Y"); ?></span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Data da Venda</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($vendas)): ?>
+                <?php foreach ($vendas as $venda): ?>
                     <tr>
-                        <td colspan="3">Nenhuma venda encontrada para este cliente.</td>
+                        <td style="text-align: left; padding-left: 5px;"><?php echo htmlspecialchars($venda['descricao']); ?></td>
+                        <td><?php echo date("d/m/Y", strtotime($venda['data_venda'])); ?></td>
+                        <td>1</td>
+                        <td>R$ <?php echo number_format($venda['valor_total'], 2, ',', '.'); ?></td>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-            <tfoot>
+                <?php endforeach; ?>
+                
+                <?php 
+                // Preenche com linhas vazias para manter um layout consistente (total de 15 linhas)
+                $linhas_a_preencher = 15 - count($vendas);
+                if ($linhas_a_preencher > 0) {
+                    for ($i = 0; $i < $linhas_a_preencher; $i++) {
+                        echo '<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+                    }
+                }
+                ?>
+
+            <?php else: ?>
                 <tr>
-                    <th colspan="2">Total Geral:</th>
-                    <th style="text-align: right;">R$ <?php echo number_format($total, 2, ',', '.'); ?></th>
+                    <td colspan="4">Nenhuma venda encontrada para este cliente.</td>
                 </tr>
-            </tfoot>
-        </table>
-
-        <div class="recibo-footer">
-            
-            <p>Data de emissão: <?php echo date("d/m/Y"); ?></p>
-        </div>
+                 <?php 
+                // Preenche com 15 linhas vazias se não houver vendas
+                for ($i = 0; $i < 15; $i++) {
+                    echo '<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+                }
+                ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
+    <div class="total-box">
+        Total: R$ <?php echo number_format($total_geral, 2, ',', '.'); ?>
     </div>
-    
-    <div class="content" style="background: none; box-shadow: none; padding-top: 0;">
-         <button id="btn-salvar-imagem">Salvar como Imagem</button>
-    </div>
+</div>
 
-    <script>
-        // Adiciona o evento de clique ao botão
-        document.getElementById('btn-salvar-imagem').addEventListener('click', function() {
-            // Seleciona a div que contém o recibo
-            const elementoRecibo = document.getElementById('recibo-para-salvar');
+<button onclick="gerarImagem()">Salvar como Imagem</button>
+
+<script>
+    function gerarImagem() {
+        // Seleciona o container do recibo
+        const elementoRecibo = document.getElementById('recibo-para-salvar');
+        
+        // Usa html2canvas para capturar o elemento
+        html2canvas(elementoRecibo, {
+            scale: 2 // Aumenta a escala para uma imagem de melhor qualidade
+        }).then(canvas => {
+            // Cria um link temporário para o download
+            const link = document.createElement('a');
             
-            // Usa html2canvas para capturar o elemento
-            html2canvas(elementoRecibo, {
-                scale: 2 // Aumenta a escala para uma imagem de melhor qualidade
-            }).then(canvas => {
-                // Cria um link temporário
-                const link = document.createElement('a');
-                // Define o nome do arquivo para download usando o nome do cliente
-                link.download = '<?php echo $safe_cliente_nome; ?>.png';
-                // Converte o canvas para uma imagem PNG e a define como o href do link
-                link.href = canvas.toDataURL('image/png');
-                // Aciona o clique no link para iniciar o download
-                link.click();
-            });
+            // Define o nome do arquivo usando a variável segura do PHP
+            link.download = '<?php echo $safe_cliente_nome; ?>.png';
+            
+            // Converte o canvas para imagem PNG e define como href do link
+            link.href = canvas.toDataURL('image/png');
+            
+            // Clica no link para iniciar o download
+            link.click();
         });
-    </script>
+    }
+</script>
 
 </body>
 </html>
