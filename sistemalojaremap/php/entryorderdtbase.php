@@ -75,10 +75,10 @@ if (mysqli_num_rows($result) > 0) {
         
         // Botão para gerar ordem de saída
         $queryString = http_build_query($row); // Transforma os dados em parâmetros de URL
+        echo "<li><a href='generate_exitorder.php?$queryString' class='generate-btn2'>Gerar Ordem de Saída</a></li>";
         
         echo "</ul>";
         echo "</div>";
-        echo "<li><a href='generate_exitorder.php?$queryString' class='generate-btn2'>Gerar Ordem de Saída</a></li>";
     }
     echo "</div>";
 } else {
@@ -107,6 +107,7 @@ document.getElementById('search').addEventListener('input', function() {
 
 </body>
 </html>
+
 
 
 
