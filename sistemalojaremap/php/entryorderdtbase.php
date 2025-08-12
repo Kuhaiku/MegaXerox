@@ -30,6 +30,21 @@
     .generate-btn:hover {
         background-color: #218838;
     }
+    
+    .generate-btn2 {
+        display: block;
+        margin-top: 10px;
+        padding: 8px;
+        background-color: #28a755;
+        color: white;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+    .generate-btn2:hover {
+        background-color: #218848;
+    }
 </style>
 </head>
 <body>
@@ -92,3 +107,4 @@ document.getElementById('search').addEventListener('input', function() {
 
 </body>
 </html>
+
