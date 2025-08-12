@@ -20,7 +20,7 @@
         display: block;
         margin-top: 10px;
         padding: 8px;
-        background-color: #28a745;
+           background-color: #F54927;
         color: white;
         text-align: center;
         border: none;
@@ -28,14 +28,14 @@
         width: 100%;
     }
     .generate-btn:hover {
-        background-color: #218838;
+        background-color: #FA2800;
     }
     
     .generate-btn2 {
         display: block;
         margin-top: 10px;
         padding: 8px;
-        background-color: #F54927;
+        background-color: #28a745;
         color: white;
         text-align: center;
         border: none;
@@ -43,7 +43,7 @@
         width: 100%;
     }
     .generate-btn2:hover {
-        background-color: #FA2800;
+        background-color: #218838;
     }
 </style>
 </head>
@@ -107,6 +107,7 @@ document.getElementById('search').addEventListener('input', function() {
 
 </body>
 </html>
+
 
 
 
