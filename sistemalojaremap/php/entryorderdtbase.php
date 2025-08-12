@@ -35,7 +35,7 @@
         display: block;
         margin-top: 10px;
         padding: 8px;
-        background-color: #28a755;
+        background-color: #F54927;
         color: white;
         text-align: center;
         border: none;
@@ -43,7 +43,7 @@
         width: 100%;
     }
     .generate-btn2:hover {
-        background-color: #218848;
+        background-color: #FA2800;
     }
 </style>
 </head>
@@ -107,5 +107,6 @@ document.getElementById('search').addEventListener('input', function() {
 
 </body>
 </html>
+
 
 
