@@ -78,7 +78,7 @@ if (mysqli_num_rows($result) > 0) {
         echo "<li><a href='generate_exitorder.php?$queryString' class='generate-btn2'>Gerar Ordem de Saída</a></li>";
         
         echo "</ul>";
-        echo "</ul>";
+        
         echo "</div>";
     }
     echo "</div>";
@@ -108,6 +108,7 @@ document.getElementById('search').addEventListener('input', function() {
 
 </body>
 </html>
+
 
 
 
