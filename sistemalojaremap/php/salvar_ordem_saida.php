@@ -2,27 +2,37 @@
 include 'databaseconfig.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // --- COLETA DOS DADOS DO FORMULÁRIO ---
     $entry_id = intval($_POST['entry_id']);
-    $data_saida = trim($_POST['data_saida']);
+    $data_saida = trim($_POST['data_saida']); // Já vem como YYYY-MM-DD do input type="date"
     $servico_realizado = trim($_POST['servico_realizado']);
     $metodo_pagamento = trim($_POST['metodo_pagamento']);
     $valor = floatval($_POST['valor']);
-$garantia = isset($_POST['garantia']) && $_POST['garantia'] !== '' 
-    ? trim($_POST['garantia']) 
-    : date('Y-m-d', strtotime($_POST['data_saida'] . ' +3 months'));
+    $garantia_br = trim($_POST['garantia']); // Vem como DD/MM/YYYY do JavaScript
 
-    // Verifica se todos os campos estão preenchidos
-    if (empty($entry_id) || empty($data_saida) || empty($servico_realizado) || empty($metodo_pagamento) || empty($valor) || empty($garantia)) {
+    // --- VERIFICAÇÃO DE CAMPOS VAZIOS ---
+    if (empty($entry_id) || empty($data_saida) || empty($servico_realizado) || empty($metodo_pagamento) || empty($valor) || empty($garantia_br)) {
         echo "Erro: Todos os campos são obrigatórios!";
         exit;
     }
 
-    // Usando Prepared Statement para evitar SQL Injection
+    // --- INÍCIO DA CORREÇÃO ---
+    // Converte a data da garantia do formato DD/MM/YYYY para YYYY-MM-DD
+    $date_obj = DateTime::createFromFormat('d/m/Y', $garantia_br);
+    if ($date_obj === false) {
+        echo "Erro: Formato de data da garantia inválido. Esperado DD/MM/YYYY.";
+        exit;
+    }
+    $garantia_mysql = $date_obj->format('Y-m-d');
+    // --- FIM DA CORREÇÃO ---
+
+    // --- PREPARAÇÃO E EXECUÇÃO DA QUERY SQL ---
     $sql = "INSERT INTO exit_notes (entry_id, data_saida, servico_realizado, metodo_pagamento, valor, garantia) 
             VALUES (?, ?, ?, ?, ?, ?)";
 
     if ($stmt = mysqli_prepare($conn, $sql)) {
-        mysqli_stmt_bind_param($stmt, "isssds", $entry_id, $data_saida, $servico_realizado, $metodo_pagamento, $valor, $garantia);
+        // Note que o último parâmetro agora é a variável corrigida: $garantia_mysql
+        mysqli_stmt_bind_param($stmt, "isssds", $entry_id, $data_saida, $servico_realizado, $metodo_pagamento, $valor, $garantia_mysql);
         
         if (mysqli_stmt_execute($stmt)) {
             echo "Ordem de saída salva com sucesso!";
