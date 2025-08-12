@@ -20,7 +20,7 @@
         display: block;
         margin-top: 10px;
         padding: 8px;
-           background-color: #F54927;
+        background-color: #F54927;
         color: white;
         text-align: center;
         border: none;
@@ -71,14 +71,14 @@ if (mysqli_num_rows($result) > 0) {
         foreach ($row as $campo => $valor) {
             echo "<li><strong>{$campo}:</strong> <span class='searchable'>{$valor}</span></li>";
         }
-        echo "<li><a href='print_entryorder.php?id={$row['id']}' target='_blank' class='generate-btn2' >Imprimir</a></li>";
+        echo "<li><a href='print_entryorder.php?id={$row['id']}' target='_blank' class='generate-btn' >Imprimir</a></li>";
         
         // Botão para gerar ordem de saída
         $queryString = http_build_query($row); // Transforma os dados em parâmetros de URL
-        echo "<li><a href='generate_exitorder.php?$queryString' class='generate-btn'>Gerar Ordem de Saída</a></li>";
         
         echo "</ul>";
         echo "</div>";
+        echo "<li><a href='generate_exitorder.php?$queryString' class='generate-btn2'>Gerar Ordem de Saída</a></li>";
     }
     echo "</div>";
 } else {
@@ -107,6 +107,7 @@ document.getElementById('search').addEventListener('input', function() {
 
 </body>
 </html>
+
 
 
 
