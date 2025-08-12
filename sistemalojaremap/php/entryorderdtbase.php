@@ -71,7 +71,7 @@ if (mysqli_num_rows($result) > 0) {
         foreach ($row as $campo => $valor) {
             echo "<li><strong>{$campo}:</strong> <span class='searchable'>{$valor}</span></li>";
         }
-        echo "<li><a href='print_entryorder.php?id={$row['id']}' target='_blank'>Imprimir</a></li>";
+        echo "<li><a href='print_entryorder.php?id={$row['id']}' target='_blank' class='generate-btn2' >Imprimir</a></li>";
         
         // Botão para gerar ordem de saída
         $queryString = http_build_query($row); // Transforma os dados em parâmetros de URL
@@ -107,4 +107,5 @@ document.getElementById('search').addEventListener('input', function() {
 
 </body>
 </html>
+
 
