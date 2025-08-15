@@ -69,7 +69,9 @@ if (mysqli_num_rows($result) > 0) {
         echo "<div class='box'>";
         echo "<ul class='entry'>";
         foreach ($row as $campo => $valor) {
-            echo "<li><strong>{$campo}:</strong> <span class='searchable'>{$valor}</span></li>";
+            // Adicionando uma classe específica para o campo 'tipo' para facilitar a busca no JS
+            $class = ($campo === 'tipo') ? 'tipo-dispositivo' : '';
+            echo "<li><strong>{$campo}:</strong> <span class='searchable {$class}'>{$valor}</span></li>";
         }
         echo "<li><a href='print_entryorder.php?id={$row['id']}' target='_blank' class='generate-btn2' >Imprimir</a></li>";
         
@@ -91,16 +93,36 @@ mysqli_close($conn);
 ?>
 
 <script>
+// Filtro da barra de pesquisa
 document.getElementById('search').addEventListener('input', function() {
     let searchValue = this.value.toLowerCase();
     let entries = document.querySelectorAll('.entry');
 
     entries.forEach(entry => {
         let text = entry.innerText.toLowerCase();
-        if (text.includes(searchValue)) {
+        let tipoElement = entry.querySelector('.tipo-dispositivo');
+        let tipo = tipoElement ? tipoElement.innerText.toUpperCase() : '';
+
+        // Mostra o item se o texto corresponder à pesquisa E o tipo não for CONSOLE ou CONTROLE
+        if (text.includes(searchValue) && tipo !== 'CONSOLE' && tipo !== 'CONTROLE') {
             entry.parentElement.style.display = 'block';
         } else {
             entry.parentElement.style.display = 'none';
+        }
+    });
+});
+
+// Filtro para ocultar CONSOLE e CONTROLE ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+    let entries = document.querySelectorAll('.entry');
+
+    entries.forEach(entry => {
+        let tipoElement = entry.querySelector('.tipo-dispositivo');
+        if (tipoElement) {
+            let tipo = tipoElement.innerText.toUpperCase();
+            if (tipo === 'CONSOLE' || tipo === 'CONTROLE') {
+                entry.parentElement.style.display = 'none';
+            }
         }
     });
 });
@@ -108,12 +130,3 @@ document.getElementById('search').addEventListener('input', function() {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
