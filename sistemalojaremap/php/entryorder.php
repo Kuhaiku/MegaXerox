@@ -83,10 +83,12 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                             <input type="radio" name="tipo[0]" value="IMPRESSORA" required /> Impressora
                             <input type="radio" name="tipo[0]" value="NOTEBOOK" /> Notebook
                             <input type="radio" name="tipo[0]" value="DESKTOP" /> Desktop
+                            <!--
                             <input type="radio" name="tipo[0]" value="CONTROLE" /> Controle
                             <input type="radio" name="tipo[0]" value="CONSOLE" /> Console
                             <input type="radio" name="tipo[0]" value="CELULAR" /> Celular
                             <input type="radio" name="tipo[0]" value="OUTRO" /> Outro
+                            -->
                         </div>
                         <div class="inputBox">
                             <input class="inputUser" type="text" name="marca[0]" required oninput="this.value = this.value.toUpperCase()" />
@@ -140,10 +142,12 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                 <input type="radio" name="tipo[${dispositivoCount}]" value="IMPRESSORA" required /> Impressora
                 <input type="radio" name="tipo[${dispositivoCount}]" value="NOTEBOOK" /> Notebook
                 <input type="radio" name="tipo[${dispositivoCount}]" value="DESKTOP" /> Desktop
-                <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Controle
-                <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Console
-                <input type="radio" name="tipo[${dispositivoCount}]" value="CELULAR" /> Celular
-                <input type="radio" name="tipo[${dispositivoCount}]" value="OUTRO" /> Outro
+                
+                // <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Controle
+                // <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Console
+                //<input type="radio" name="tipo[${dispositivoCount}]" value="CELULAR" /> Celular
+                // <input type="radio" name="tipo[${dispositivoCount}]" value="OUTRO" /> Outro
+                
             </div>
             <div class="inputBox">
                 <input class="inputUser" type="text" name="marca[${dispositivoCount}]" required oninput="this.value = this.value.toUpperCase()" />
@@ -208,3 +212,4 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
 
 </body>
 </html>
+
