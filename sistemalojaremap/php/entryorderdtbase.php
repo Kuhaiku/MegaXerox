@@ -112,21 +112,9 @@ document.getElementById('search').addEventListener('input', function() {
     });
 });
 
-// Filtro para ocultar CONSOLE e CONTROLE ao carregar a página
-document.addEventListener('DOMContentLoaded', function() {
-    let entries = document.querySelectorAll('.entry');
 
-    entries.forEach(entry => {
-        let tipoElement = entry.querySelector('.tipo-dispositivo');
-        if (tipoElement) {
-            let tipo = tipoElement.innerText.toUpperCase();
-            if (tipo === 'CONSOLE' || tipo === 'CONTROLE') {
-                entry.parentElement.style.display = 'none';
-            }
-        }
-    });
-});
 </script>
 
 </body>
 </html>
+
