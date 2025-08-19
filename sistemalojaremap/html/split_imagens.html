@@ -1,208 +1,193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Splitter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        .container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            text-align: center;
-        }
-
-        label {
-            font-weight: bold;
-            color: #333;
-        }
-
-        input[type="file"], input[type="number"] {
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: calc(100% - 22px);
-        }
-
-        button {
-            background-color: #5a67d8;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #434190;
-        }
-
-        #result {
-            margin-top: 20px;
-        }
-
-        #previewCanvas {
-            border: 1px solid #ccc;
-            margin-top: 20px;
-        }
-
-        .notice {
-            font-size: 14px;
-            color: #555;
-            margin-top: 20px;
-        }
-
-        .notice a {
-            color: #5a67d8;
-            text-decoration: none;
-        }
-
-        .notice a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Divisor de Imagens - ImgKit.shop</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" href="../img/imgkit.ico" type="image/x-icon">
 </head>
 <body>
-    <div class="container">
-        <h1>Image Splitter</h1>
-        <canvas id="previewCanvas" width="200" height="200"></canvas>
-        <div id="result"></div>
 
-        <div class="notice">
-        <input type="file" id="upload" accept="image/*">
-        <br>
-        <label for="columns">Colunas: </label>
-        <input type="number" id="columns" min="1" value="2" oninput="updatePreview()">
-        <label for="rows">Linhas: </label>
-        <input type="number" id="rows" min="1" value="2" oninput="updatePreview()">
-        <br>
-        <button onclick="splitImage()">Split Image</button>
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="../index.html" class="nav-logo"><img src="../img/imgkit.svg" alt="ImgKit.shop Logo" height="30"></a>
+            <ul>
+                <li><a href="../index.html">Início</a></li>
+                <li><a href="../sobre.html">Sobre</a></li>
+                <li><a href="../contato.html">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <!-- Mini visualização -->
-        
-            <p>Se o arquivo estiver em PDF, <a href="https://www.ilovepdf.com/pt/pdf_para_jpg" target="_blank">converta ele em imagem antes</a>.</p>
+    <main>
+        <div class="container tool-container">
+            <h1>Divisor de Imagens</h1>
+            <p>Faça o upload de uma imagem e defina o número de linhas e colunas para dividi-la.</p>
+            
+            <canvas id="previewCanvas" width="200" height="200"></canvas>
+            <div id="result"></div>
+            
+            <div class="controls">
+                <input type="file" id="upload" accept="image/*"><br>
+                <label for="columns">Colunas:</label>
+                <input type="number" id="columns" min="1" value="2">
+                <label for="rows">Linhas:</label>
+                <input type="number" id="rows" min="1" value="2">
+                <br>
+                <p id="dimensionDisplay" style="font-size: 16px; font-weight: 500; color: #333; margin-top: 15px;"></p>
+                
+                <button id="splitButton">Gerar e Baixar .ZIP</button>
+            </div>
+             <p id="statusMessage" style="font-size: 14px; color: #6c757d; margin-top: 20px;">Pronto para dividir.</p>
         </div>
-    </div>
+    </main>
 
+    <footer class="main-footer">
+        <p>&copy; 2025 ImgKit.shop. Todos os direitos reservados.</p>
+        <a href="/politica-de-privacidade.html">Política de Privacidade</a>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>
-        function updatePreview() {
-    const canvas = document.getElementById('previewCanvas');
-    const ctx = canvas.getContext('2d');
-    const columns = parseInt(document.getElementById('columns').value) || 1;
-    const rows = parseInt(document.getElementById('rows').value) || 1;
+        document.addEventListener('DOMContentLoaded', () => {
+    // 1. Seleciona todos os elementos HTML necessários.
+    const columnsInput = document.getElementById('columns');
+    const rowsInput = document.getElementById('rows');
+    const splitButton = document.getElementById('splitButton');
+    const fileInput = document.getElementById('upload');
+    const previewCanvas = document.getElementById('previewCanvas');
+    const statusMessage = document.getElementById('statusMessage');
+    const dimensionDisplay = document.getElementById('dimensionDisplay'); // Novo elemento
+    const ctxPreview = previewCanvas.getContext('2d');
 
-    const width = canvas.width;
-    const height = canvas.height;
-    const columnWidth = width / columns;
-    const rowHeight = height / rows;
+    // 2. Função para atualizar a pré-visualização e as dimensões.
+    const updatePreview = () => {
+        const columns = parseInt(columnsInput.value, 10) || 1;
+        const rows = parseInt(rowsInput.value, 10) || 1;
 
-    // Limpa o canvas
-    ctx.clearRect(0, 0, width, height);
+        // --- LÓGICA DAS DIMENSÕES EM CM ---
+        const A4_LARGURA_CM = 21;
+        const A4_ALTURA_CM = 29.7;
+        const totalWidthCm = (columns * A4_LARGURA_CM).toFixed(1);
+        const totalHeightCm = (rows * A4_ALTURA_CM).toFixed(1);
+        dimensionDisplay.innerHTML = `<strong>Dimensões Finais:</strong> ${totalWidthCm} cm (largura) x ${totalHeightCm} cm (altura)`;
+        // --- FIM DA LÓGICA DAS DIMENSÕES ---
 
-    // Desenha o quadrado em branco
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, width, height);
+        const width = previewCanvas.width;
+        const height = previewCanvas.height;
+        const columnWidth = width / columns;
+        const rowHeight = height / rows;
+        ctxPreview.clearRect(0, 0, width, height);
+        ctxPreview.fillStyle = 'white';
+        ctxPreview.fillRect(0, 0, width, height);
+        ctxPreview.strokeStyle = 'red';
+        ctxPreview.lineWidth = 1;
+        for (let c = 1; c < columns; c++) {
+            ctxPreview.beginPath();
+            ctxPreview.moveTo(c * columnWidth, 0);
+            ctxPreview.lineTo(c * columnWidth, height);
+            ctxPreview.stroke();
+        }
+        for (let r = 1; r < rows; r++) {
+            ctxPreview.beginPath();
+            ctxPreview.moveTo(0, r * rowHeight);
+            ctxPreview.lineTo(width, r * rowHeight);
+            ctxPreview.stroke();
+        }
+    };
 
-    // Define a cor da linha como vermelha
-    ctx.strokeStyle = 'red'; // Aqui você muda a cor para vermelha
-    ctx.lineWidth = 1;
-
-    // Desenha as linhas das colunas
-    for (let c = 1; c < columns; c++) {
-        ctx.beginPath();
-        ctx.moveTo(c * columnWidth, 0);
-        ctx.lineTo(c * columnWidth, height);
-        ctx.stroke();
-    }
-
-    // Desenha as linhas das fileiras
-    for (let r = 1; r < rows; r++) {
-        ctx.beginPath();
-        ctx.moveTo(0, r * rowHeight);
-        ctx.lineTo(width, r * rowHeight);
-        ctx.stroke();
-    }
-}
-
-        function splitImage() {
-            const fileInput = document.getElementById('upload');
-            const columns = parseInt(document.getElementById('columns').value);
-            const rows = parseInt(document.getElementById('rows').value);
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '';  // Clear previous results
-
-            if (!fileInput.files.length) {
-                alert('Please upload an image file.');
-                return;
-            }
-
-            const file = fileInput.files[0];
-            const img = new Image();
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                img.src = e.target.result;
-                img.onload = function () {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    const imgWidth = img.width;
-                    const imgHeight = img.height;
-
-                    const quadrWidth = Math.floor(imgWidth / columns);
-                    const quadrHeight = Math.floor(imgHeight / rows);
-
-                    for (let r = 0; r < rows; r++) {
-                        for (let c = 0; c < columns; c++) {
-                            const x = c * quadrWidth;
-                            const y = r * quadrHeight;
-
-                            canvas.width = quadrWidth;
-                            canvas.height = quadrHeight;
-
-                            ctx.drawImage(img, x, y, quadrWidth, quadrHeight, 0, 0, quadrWidth, quadrHeight);
-
-                            // Converte o canvas para URL da imagem
-                            const imgQuadrant = canvas.toDataURL("image/png");
-                            
-                            // Cria um link temporário para forçar o download
-                            const link = document.createElement('a');
-                            link.href = imgQuadrant;
-                            link.download = `quadrant_${r + 1}_${c + 1}.png`;
-
-                            // Força o clique no link para baixar a imagem
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        }
-                    }
-                }
-            };
-            reader.readAsDataURL(file);
+    // 3. Função principal para dividir a imagem (sem alterações).
+    const splitImage = async () => {
+        if (!fileInput.files.length) {
+            alert('Por favor, envie um arquivo de imagem.');
+            return;
         }
 
-        // Atualiza a pré-visualização ao carregar a página
-        window.onload = updatePreview;
+        const columns = parseInt(columnsInput.value, 10);
+        const rows = parseInt(rowsInput.value, 10);
+
+        if (!columns || columns < 1 || !rows || rows < 1) {
+            alert('O número de linhas e colunas deve ser de no mínimo 1.');
+            return;
+        }
+
+        splitButton.disabled = true;
+        splitButton.textContent = 'Processando...';
+        statusMessage.textContent = 'Carregando imagem...';
+
+        const file = fileInput.files[0];
+        const img = new Image();
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+        reader.onload = async (e) => {
+            img.src = e.target.result;
+            img.onload = async () => {
+                const zip = new JSZip();
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const imgWidth = img.width;
+                const imgHeight = img.height;
+                const totalPieces = rows * columns;
+
+                statusMessage.textContent = `Gerando ${totalPieces} quadrantes...`;
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < columns; c++) {
+                        const startX = Math.round(c * (imgWidth / columns));
+                        const startY = Math.round(r * (imgHeight / rows));
+                        const endX = Math.round((c + 1) * (imgWidth / columns));
+                        const endY = Math.round((r + 1) * (imgHeight / rows));
+
+                        const pieceWidth = endX - startX;
+                        const pieceHeight = endY - startY;
+
+                        if (pieceWidth <= 0 || pieceHeight <= 0) continue;
+
+                        canvas.width = pieceWidth;
+                        canvas.height = pieceHeight;
+                        ctx.drawImage(img, startX, startY, pieceWidth, pieceHeight, 0, 0, pieceWidth, pieceHeight);
+                        
+                        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                        
+                        zip.file(`quadrante_linha-${r + 1}_coluna-${c + 1}.png`, blob);
+                    }
+                }
+
+                statusMessage.textContent = 'Compactando o arquivo .zip...';
+
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(zipBlob);
+                link.download = `quadrantes_${file.name}.zip`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+                
+                splitButton.disabled = false;
+                splitButton.textContent = 'Gerar e Baixar .ZIP';
+                statusMessage.textContent = 'Pronto para dividir.';
+            };
+        };
+    };
+
+    // Adiciona os "escutadores" de eventos.
+    columnsInput.addEventListener('input', updatePreview);
+    rowsInput.addEventListener('input', updatePreview);
+    splitButton.addEventListener('click', splitImage);
+
+    // Inicializa a pré-visualização e as dimensões.
+    updatePreview();
+
+    // Registra o Service Worker.
+    if ((window.location.protocol === 'http:' || window.location.protocol === 'https:') && 'serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js').catch(err => console.log('Falha ao registrar Service Worker:', err));
+    }
+});
     </script>
 </body>
 </html>
+
