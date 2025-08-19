@@ -6,6 +6,209 @@
     <title>Divisor de Imagens - ImgKit.shop</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="icon" href="../img/imgkit.ico" type="image/x-icon">
+    <style>
+        /* GERAL E VARIAVEIS */
+:root {
+    --primary-color: #007BFF;
+    --primary-hover: #0056b3;
+    --background-light: #f8f9fa;
+    --background-dark: #121212;
+    --text-light: #212529;
+    --text-dark: #EAEAEA;
+    --card-bg-light: #ffffff;
+    --card-bg-dark: #1E1E1E;
+    --border-color: #dee2e6;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-light);
+    margin: 0;
+    padding-top: 80px; /* Espaço para o header fixo */
+}
+
+h1, h2, h3 {
+    color: var(--primary-color);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: var(--card-bg-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* HEADER E NAVEGAÇÃO */
+.main-header {
+    width: 100%;
+    background-color: var(--card-bg-light);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 70px;
+}
+
+.nav-logo {
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--primary-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-nav ul li {
+    margin-left: 25px;
+}
+
+.main-nav ul li a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    padding: 5px 10px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.main-nav ul li a:hover, .main-nav ul li a.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* FOOTER */
+.main-footer {
+    width: 100%;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 50px;
+    background-color: #e9ecef;
+    color: #6c757d;
+    font-size: 14px;
+    border-top: 1px solid var(--border-color);
+}
+
+.main-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.main-footer a:hover {
+    text-decoration: underline;
+}
+
+/* PÁGINA INICIAL - GRID DE FERRAMENTAS */
+.hero-section {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.hero-section h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.hero-section p {
+    font-size: 18px;
+    color: #6c757d;
+}
+
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 20px;
+}
+
+.tool-card {
+    background-color: var(--card-bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    color: var(--text-light);
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.tool-card .icon {
+    font-size: 48px;
+    color: var(--primary-color);
+}
+
+.tool-card h3 {
+    margin: 15px 0 10px;
+    color: var(--text-light);
+}
+
+.tool-card p {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* ESTILOS DA FERRAMENTA DE DIVIDIR IMAGEM */
+#previewCanvas {
+    border: 1px solid var(--border-color);
+    margin: 20px auto;
+    display: block;
+}
+
+.controls label {
+    font-weight: 500;
+    margin: 0 10px 0 20px;
+}
+
+.controls input[type="number"] {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    width: 80px;
+}
+
+.controls button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.2s ease;
+}
+
+.controls button:hover {
+    background-color: var(--primary-hover);
+}
+
+.tool-container {
+    text-align: center;
+}
+    </style>
 </head>
 <body>
 
