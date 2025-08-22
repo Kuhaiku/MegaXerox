@@ -8,206 +8,135 @@
     <link rel="icon" href="../img/imgkit.ico" type="image/x-icon">
     <style>
         /* GERAL E VARIAVEIS */
-:root {
-    --primary-color: #007BFF;
-    --primary-hover: #0056b3;
-    --background-light: #f8f9fa;
-    --background-dark: #121212;
-    --text-light: #212529;
-    --text-dark: #EAEAEA;
-    --card-bg-light: #ffffff;
-    --card-bg-dark: #1E1E1E;
-    --border-color: #dee2e6;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--background-light);
-    color: var(--text-light);
-    margin: 0;
-    padding-top: 80px; /* Espaço para o header fixo */
-}
-
-h1, h2, h3 {
-    color: var(--primary-color);
-}
-
-.container {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: var(--card-bg-light);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* HEADER E NAVEGAÇÃO */
-.main-header {
-    width: 100%;
-    background-color: var(--card-bg-light);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 0 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
-
-.main-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    height: 70px;
-}
-
-.nav-logo {
-    font-weight: 700;
-    font-size: 28px;
-    color: var(--primary-color);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-}
-
-.main-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.main-nav ul li {
-    margin-left: 25px;
-}
-
-.main-nav ul li a {
-    text-decoration: none;
-    color: var(--text-light);
-    font-weight: 500;
-    padding: 5px 10px;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.main-nav ul li a:hover, .main-nav ul li a.active {
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-}
-
-/* FOOTER */
-.main-footer {
-    width: 100%;
-    text-align: center;
-    padding: 30px 20px;
-    margin-top: 50px;
-    background-color: #e9ecef;
-    color: #6c757d;
-    font-size: 14px;
-    border-top: 1px solid var(--border-color);
-}
-
-.main-footer a {
-    color: var(--primary-color);
-    text-decoration: none;
-}
-.main-footer a:hover {
-    text-decoration: underline;
-}
-
-/* PÁGINA INICIAL - GRID DE FERRAMENTAS */
-.hero-section {
-    text-align: center;
-    padding: 60px 20px;
-}
-
-.hero-section h1 {
-    font-size: 48px;
-    margin-bottom: 10px;
-}
-
-.hero-section p {
-    font-size: 18px;
-    color: #6c757d;
-}
-
-.tool-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-    padding: 20px;
-}
-
-.tool-card {
-    background-color: var(--card-bg-light);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 20px;
-    text-align: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    text-decoration: none;
-    color: var(--text-light);
-}
-
-.tool-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-}
-
-.tool-card .icon {
-    font-size: 48px;
-    color: var(--primary-color);
-}
-
-.tool-card h3 {
-    margin: 15px 0 10px;
-    color: var(--text-light);
-}
-
-.tool-card p {
-    font-size: 14px;
-    color: #6c757d;
-}
-
-/* ESTILOS DA FERRAMENTA DE DIVIDIR IMAGEM */
-#previewCanvas {
-    border: 1px solid var(--border-color);
-    margin: 20px auto;
-    display: block;
-}
-
-.controls label {
-    font-weight: 500;
-    margin: 0 10px 0 20px;
-}
-
-.controls input[type="number"] {
-    padding: 8px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    width: 80px;
-}
-
-.controls button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 20px;
-    transition: background-color 0.2s ease;
-}
-
-.controls button:hover {
-    background-color: var(--primary-hover);
-}
-
-.tool-container {
-    text-align: center;
-}
+        :root {
+            --primary-color: #007BFF;
+            --primary-hover: #0056b3;
+            --background-light: #f8f9fa;
+            --background-dark: #121212;
+            --text-light: #212529;
+            --text-dark: #EAEAEA;
+            --card-bg-light: #ffffff;
+            --card-bg-dark: #1E1E1E;
+            --border-color: #dee2e6;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-light);
+            margin: 0;
+            padding-top: 80px; /* Espaço para o header fixo */
+        }
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: var(--card-bg-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        /* HEADER E NAVEGAÇÃO */
+        .main-header {
+            width: 100%;
+            background-color: var(--card-bg-light);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 70px;
+        }
+        .nav-logo {
+            font-weight: 700;
+            font-size: 28px;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .main-nav ul li {
+            margin-left: 25px;
+        }
+        .main-nav ul li a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            padding: 5px 10px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .main-nav ul li a:hover, .main-nav ul li a.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        /* FOOTER */
+        .main-footer {
+            width: 100%;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            background-color: #e9ecef;
+            color: #6c757d;
+            font-size: 14px;
+            border-top: 1px solid var(--border-color);
+        }
+        .main-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .main-footer a:hover {
+            text-decoration: underline;
+        }
+        /* ESTILOS DA FERRAMENTA DE DIVIDIR IMAGEM */
+        #previewCanvas {
+            border: 2px dashed var(--border-color);
+            margin: 20px auto;
+            display: block;
+            background-color: #f0f0f0;
+        }
+        .controls label {
+            font-weight: 500;
+            margin: 0 10px 0 20px;
+        }
+        .controls input[type="number"] {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            width: 80px;
+        }
+        .controls button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.2s ease;
+        }
+        .controls button:hover {
+            background-color: var(--primary-hover);
+        }
+        .tool-container {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -227,19 +156,25 @@ h1, h2, h3 {
         <div class="container tool-container">
             <h1>Divisor de Imagens</h1>
             <p>Faça o upload de uma imagem e defina o número de linhas e colunas para dividi-la.</p>
-            
-            <canvas id="previewCanvas" width="200" height="200"></canvas>
+
+            <canvas id="previewCanvas" width="400" height="400"></canvas>
             <div id="result"></div>
-            
+
             <div class="controls">
-                <input type="file" id="upload" accept="image/*"><br>
+                <input type="file" id="upload" accept="image/*"><br><br>
                 <label for="columns">Colunas:</label>
                 <input type="number" id="columns" min="1" value="2">
                 <label for="rows">Linhas:</label>
                 <input type="number" id="rows" min="1" value="2">
+
+                <label for="paperSize">Papel:</label>
+                <select id="paperSize">
+                    <option value="A4">A4</option>
+                    <option value="A3">A3</option>
+                </select>
                 <br>
                 <p id="dimensionDisplay" style="font-size: 16px; font-weight: 500; color: #333; margin-top: 15px;"></p>
-                
+
                 <button id="splitButton">Gerar e Baixar .ZIP</button>
             </div>
              <p id="statusMessage" style="font-size: 14px; color: #6c757d; margin-top: 20px;">Pronto para dividir.</p>
@@ -250,147 +185,178 @@ h1, h2, h3 {
         <p>&copy; 2025 ImgKit.shop. Todos os direitos reservados.</p>
         <a href="/politica-de-privacidade.html">Política de Privacidade</a>
     </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-    // 1. Seleciona todos os elementos HTML necessários.
-    const columnsInput = document.getElementById('columns');
-    const rowsInput = document.getElementById('rows');
-    const splitButton = document.getElementById('splitButton');
-    const fileInput = document.getElementById('upload');
-    const previewCanvas = document.getElementById('previewCanvas');
-    const statusMessage = document.getElementById('statusMessage');
-    const dimensionDisplay = document.getElementById('dimensionDisplay'); // Novo elemento
-    const ctxPreview = previewCanvas.getContext('2d');
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Seleciona todos os elementos HTML necessários.
+        const columnsInput = document.getElementById('columns');
+        const rowsInput = document.getElementById('rows');
+        const splitButton = document.getElementById('splitButton');
+        const fileInput = document.getElementById('upload');
+        const previewCanvas = document.getElementById('previewCanvas');
+        const statusMessage = document.getElementById('statusMessage');
+        const dimensionDisplay = document.getElementById('dimensionDisplay');
+        const paperSizeSelect = document.getElementById('paperSize');
+        const ctxPreview = previewCanvas.getContext('2d');
 
-    // 2. Função para atualizar a pré-visualização e as dimensões.
-    const updatePreview = () => {
-        const columns = parseInt(columnsInput.value, 10) || 1;
-        const rows = parseInt(rowsInput.value, 10) || 1;
+        // Variável para armazenar a imagem carregada pelo usuário.
+        let loadedImage = null;
 
-        // --- LÓGICA DAS DIMENSÕES EM CM ---
-        const A4_LARGURA_CM = 21;
-        const A4_ALTURA_CM = 29.7;
-        const totalWidthCm = (columns * A4_LARGURA_CM).toFixed(1);
-        const totalHeightCm = (rows * A4_ALTURA_CM).toFixed(1);
-        dimensionDisplay.innerHTML = `<strong>Dimensões Finais:</strong> ${totalWidthCm} cm (largura) x ${totalHeightCm} cm (altura)`;
-        // --- FIM DA LÓGICA DAS DIMENSÕES ---
-
-        const width = previewCanvas.width;
-        const height = previewCanvas.height;
-        const columnWidth = width / columns;
-        const rowHeight = height / rows;
-        ctxPreview.clearRect(0, 0, width, height);
-        ctxPreview.fillStyle = 'white';
-        ctxPreview.fillRect(0, 0, width, height);
-        ctxPreview.strokeStyle = 'red';
-        ctxPreview.lineWidth = 1;
-        for (let c = 1; c < columns; c++) {
-            ctxPreview.beginPath();
-            ctxPreview.moveTo(c * columnWidth, 0);
-            ctxPreview.lineTo(c * columnWidth, height);
-            ctxPreview.stroke();
-        }
-        for (let r = 1; r < rows; r++) {
-            ctxPreview.beginPath();
-            ctxPreview.moveTo(0, r * rowHeight);
-            ctxPreview.lineTo(width, r * rowHeight);
-            ctxPreview.stroke();
-        }
-    };
-
-    // 3. Função principal para dividir a imagem (sem alterações).
-    const splitImage = async () => {
-        if (!fileInput.files.length) {
-            alert('Por favor, envie um arquivo de imagem.');
-            return;
-        }
-
-        const columns = parseInt(columnsInput.value, 10);
-        const rows = parseInt(rowsInput.value, 10);
-
-        if (!columns || columns < 1 || !rows || rows < 1) {
-            alert('O número de linhas e colunas deve ser de no mínimo 1.');
-            return;
-        }
-
-        splitButton.disabled = true;
-        splitButton.textContent = 'Processando...';
-        statusMessage.textContent = 'Carregando imagem...';
-
-        const file = fileInput.files[0];
-        const img = new Image();
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-        reader.onload = async (e) => {
-            img.src = e.target.result;
-            img.onload = async () => {
-                const zip = new JSZip();
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                const imgWidth = img.width;
-                const imgHeight = img.height;
-                const totalPieces = rows * columns;
-
-                statusMessage.textContent = `Gerando ${totalPieces} quadrantes...`;
-
-                for (let r = 0; r < rows; r++) {
-                    for (let c = 0; c < columns; c++) {
-                        const startX = Math.round(c * (imgWidth / columns));
-                        const startY = Math.round(r * (imgHeight / rows));
-                        const endX = Math.round((c + 1) * (imgWidth / columns));
-                        const endY = Math.round((r + 1) * (imgHeight / rows));
-
-                        const pieceWidth = endX - startX;
-                        const pieceHeight = endY - startY;
-
-                        if (pieceWidth <= 0 || pieceHeight <= 0) continue;
-
-                        canvas.width = pieceWidth;
-                        canvas.height = pieceHeight;
-                        ctx.drawImage(img, startX, startY, pieceWidth, pieceHeight, 0, 0, pieceWidth, pieceHeight);
-                        
-                        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-                        
-                        zip.file(`quadrante_linha-${r + 1}_coluna-${c + 1}.png`, blob);
-                    }
-                }
-
-                statusMessage.textContent = 'Compactando o arquivo .zip...';
-
-                const zipBlob = await zip.generateAsync({ type: 'blob' });
-
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(zipBlob);
-                link.download = `quadrantes_${file.name}.zip`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(link.href);
-                
-                splitButton.disabled = false;
-                splitButton.textContent = 'Gerar e Baixar .ZIP';
-                statusMessage.textContent = 'Pronto para dividir.';
-            };
+        // Dimensões dos papéis em cm.
+        const paperDimensions = {
+            A4: { width: 21, height: 29.7 },
+            A3: { width: 29.7, height: 42 }
         };
-    };
 
-    // Adiciona os "escutadores" de eventos.
-    columnsInput.addEventListener('input', updatePreview);
-    rowsInput.addEventListener('input', updatePreview);
-    splitButton.addEventListener('click', splitImage);
+        // 2. Função para carregar o arquivo selecionado e atualizar o preview.
+        const handleFileSelect = (event) => {
+            const file = event.target.files[0];
+            if (!file) {
+                loadedImage = null;
+                updatePreview(); // Limpa o preview se nenhum arquivo for selecionado
+                return;
+            }
 
-    // Inicializa a pré-visualização e as dimensões.
-    updatePreview();
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    loadedImage = img; // Armazena a imagem na variável global
+                    updatePreview();   // Chama a atualização do preview com a imagem
+                };
+                img.onerror = () => {
+                    alert('Não foi possível carregar o arquivo. Por favor, escolha um arquivo de imagem válido.');
+                    loadedImage = null;
+                    updatePreview();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
 
-    // Registra o Service Worker.
-    if ((window.location.protocol === 'http:' || window.location.protocol === 'https:') && 'serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js').catch(err => console.log('Falha ao registrar Service Worker:', err));
-    }
-});
+        // 3. Função para atualizar a pré-visualização e as dimensões.
+        const updatePreview = () => {
+            const columns = parseInt(columnsInput.value, 10) || 1;
+            const rows = parseInt(rowsInput.value, 10) || 1;
+            const selectedPaper = paperSizeSelect.value;
+            const paper = paperDimensions[selectedPaper];
+
+            // Calcula e exibe as dimensões finais em cm.
+            const totalWidthCm = (columns * paper.width).toFixed(1);
+            const totalHeightCm = (rows * paper.height).toFixed(1);
+            dimensionDisplay.innerHTML = `<strong>Dimensões Finais (${selectedPaper}):</strong> ${totalWidthCm} cm (largura) x ${totalHeightCm} cm (altura)`;
+
+            const width = previewCanvas.width;
+            const height = previewCanvas.height;
+            ctxPreview.clearRect(0, 0, width, height);
+
+            // Se uma imagem foi carregada, desenha ela no canvas.
+            if (loadedImage) {
+                ctxPreview.drawImage(loadedImage, 0, 0, width, height);
+            } else {
+                // Caso contrário, exibe um texto de placeholder.
+                ctxPreview.fillStyle = '#6c757d';
+                ctxPreview.textAlign = 'center';
+                ctxPreview.font = '16px Segoe UI';
+                ctxPreview.fillText('Selecione uma imagem para pré-visualizar', width / 2, height / 2);
+            }
+
+            // Desenha a grade de divisão por cima da imagem ou do placeholder.
+            const columnWidth = width / columns;
+            const rowHeight = height / rows;
+            ctxPreview.strokeStyle = 'rgba(255, 0, 0, 0.7)';
+            ctxPreview.lineWidth = 2;
+            for (let c = 1; c < columns; c++) {
+                ctxPreview.beginPath();
+                ctxPreview.moveTo(c * columnWidth, 0);
+                ctxPreview.lineTo(c * columnWidth, height);
+                ctxPreview.stroke();
+            }
+            for (let r = 1; r < rows; r++) {
+                ctxPreview.beginPath();
+                ctxPreview.moveTo(0, r * rowHeight);
+                ctxPreview.lineTo(width, r * rowHeight);
+                ctxPreview.stroke();
+            }
+        };
+
+        // 4. Função principal para dividir a imagem.
+        const splitImage = async () => {
+            if (!loadedImage) {
+                alert('Por favor, envie um arquivo de imagem.');
+                return;
+            }
+
+            const columns = parseInt(columnsInput.value, 10);
+            const rows = parseInt(rowsInput.value, 10);
+
+            if (!columns || columns < 1 || !rows || rows < 1) {
+                alert('O número de linhas e colunas deve ser de no mínimo 1.');
+                return;
+            }
+
+            splitButton.disabled = true;
+            splitButton.textContent = 'Processando...';
+            statusMessage.textContent = 'Preparando os quadrantes...';
+
+            const zip = new JSZip();
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = loadedImage; // Usa a imagem já carregada
+            const imgWidth = img.width;
+            const imgHeight = img.height;
+            const totalPieces = rows * columns;
+
+            statusMessage.textContent = `Gerando ${totalPieces} quadrantes...`;
+
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < columns; c++) {
+                    const startX = Math.round(c * (imgWidth / columns));
+                    const startY = Math.round(r * (imgHeight / rows));
+                    const endX = Math.round((c + 1) * (imgWidth / columns));
+                    const endY = Math.round((r + 1) * (imgHeight / rows));
+
+                    const pieceWidth = endX - startX;
+                    const pieceHeight = endY - startY;
+
+                    if (pieceWidth <= 0 || pieceHeight <= 0) continue;
+
+                    canvas.width = pieceWidth;
+                    canvas.height = pieceHeight;
+                    ctx.drawImage(img, startX, startY, pieceWidth, pieceHeight, 0, 0, pieceWidth, pieceHeight);
+
+                    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                    zip.file(`quadrante_linha-${r + 1}_coluna-${c + 1}.png`, blob);
+                }
+            }
+
+            statusMessage.textContent = 'Compactando o arquivo .zip...';
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(zipBlob);
+            const originalFileName = fileInput.files[0].name.split('.').slice(0, -1).join('.');
+            link.download = `quadrantes_${originalFileName}.zip`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+
+            splitButton.disabled = false;
+            splitButton.textContent = 'Gerar e Baixar .ZIP';
+            statusMessage.textContent = 'Pronto para dividir.';
+        };
+
+        // 5. Adiciona os "escutadores" de eventos.
+        fileInput.addEventListener('change', handleFileSelect); // Para carregar a imagem
+        columnsInput.addEventListener('input', updatePreview);
+        rowsInput.addEventListener('input', updatePreview);
+        paperSizeSelect.addEventListener('change', updatePreview);
+        splitButton.addEventListener('click', splitImage);
+
+        // 6. Inicializa a pré-visualização.
+        updatePreview();
+    });
     </script>
 </body>
 </html>
-
