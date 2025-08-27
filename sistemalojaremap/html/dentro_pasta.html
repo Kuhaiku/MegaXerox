@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquivos da Categoria</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1, h2 { color: #333; }
+        a { text-decoration: none; color: #0056b3; }
+        ul { list-style: none; padding: 0; margin-top: 20px; }
+        li { background: #f9f9f9; border: 1px solid #eee; padding: 15px; margin-bottom: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+        .upload-form { margin-top: 30px; padding: 20px; border: 1px dashed #ccc; border-radius: 4px; }
+        button { padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        .status { margin-top: 15px; font-style: italic; }
+        #voltar { display: inline-block; margin-bottom: 20px; }
+        .delete-btn { background-color: #dc3545; font-size: 12px; padding: 5px 10px; }
+        .delete-btn:hover { background-color: #c82333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" id="voltar">&larr; Voltar para todas as categorias</a>
+        <h1 id="titulo-categoria">Carregando...</h1>
+        
+        <h2>Arquivos</h2>
+        <ul id="lista-arquivos"></ul>
+        <div id="status-lista" class="status"></div>
+
+        <div class="upload-form">
+            <h2>Fazer Novo Upload</h2>
+            <form id="form-upload">
+                <input type="file" id="input-arquivo" required multiple>
+                <button type="submit">Enviar</button>
+            </form>
+            <div id="status-upload" class="status"></div>
+        </div>
+    </div>
+
+    <script>
+        // LINHA CORRETA
+        const API_URL = 'https://loja-drive-api-server.velmc0.easypanel.host/api';
+
+        const tituloCategoria = document.getElementById('titulo-categoria');
+        const listaArquivos = document.getElementById('lista-arquivos');
+        const statusLista = document.getElementById('status-lista');
+        const statusUpload = document.getElementById('status-upload');
+        const formUpload = document.getElementById('form-upload');
+        const inputFile = document.getElementById('input-arquivo');
+
+        const params = new URLSearchParams(window.location.search);
+        const categoriaId = params.get('id');
+
+        async function carregarArquivos() {
+            if (!categoriaId) {
+                tituloCategoria.textContent = "Erro: ID da categoria não encontrado.";
+                return;
+            }
+
+            statusLista.textContent = 'Carregando arquivos...';
+            listaArquivos.innerHTML = '';
+
+            try {
+                const response = await fetch(`${API_URL}/categorias/${categoriaId}/arquivos`);
+                if (!response.ok) throw new Error('Falha ao carregar.');
+                
+                const data = await response.json();
+                tituloCategoria.textContent = data.titulo;
+
+                if (data.arquivos.length === 0) {
+                    statusLista.textContent = 'Nenhum arquivo encontrado nesta categoria.';
+                    return;
+                }
+
+                data.arquivos.forEach(arq => {
+                    // --- ALTERAÇÃO AQUI ---
+                    // Agora, todos os arquivos usarão o webViewLink padrão.
+                    const linkHref = arq.webViewLink;
+                    // --- FIM DA ALTERAÇÃO ---
+
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <a href="${linkHref}" target="_blank">${arq.name}</a>
+                        <button class="delete-btn" onclick="apagarArquivo('${arq.id}', '${arq.name}')">Apagar</button>
+                    `;
+                    listaArquivos.appendChild(li);
+                });
+                statusLista.textContent = '';
+            } catch (error) {
+                statusLista.textContent = `Erro: ${error.message}`;
+            }
+        }
+
+        formUpload.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const arquivos = inputFile.files;
+            if (arquivos.length === 0) return;
+
+            const formData = new FormData();
+            for (let i = 0; i < arquivos.length; i++) {
+                formData.append('arquivos', arquivos[i]);
+            }
+            formData.append('categoriaId', categoriaId);
+
+            statusUpload.textContent = `Enviando ${arquivos.length} arquivo(s)...`;
+            try {
+                const response = await fetch(`${API_URL}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message || 'Erro desconhecido no upload.');
+                }
+                
+                statusUpload.textContent = result.message;
+                inputFile.value = '';
+                carregarArquivos();
+            } catch (error) {
+                statusUpload.textContent = `Erro: ${error.message}`;
+            }
+        });
+        
+        async function apagarArquivo(fileId, fileName) {
+            if (!confirm(`Tem certeza que deseja apagar o arquivo "${fileName}"?`)) {
+                return;
+            }
+
+            statusLista.textContent = `Apagando "${fileName}"...`;
+            try {
+                const response = await fetch(`${API_URL}/arquivos/${fileId}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error((await response.json()).message);
+
+                statusLista.textContent = 'Arquivo apagado com sucesso.';
+                carregarArquivos();
+            } catch(error) {
+                statusLista.textContent = `Erro ao apagar: ${error.message}`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarArquivos);
+    </script>
+</body>
+</html>
