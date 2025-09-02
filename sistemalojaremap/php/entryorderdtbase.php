@@ -93,28 +93,11 @@ mysqli_close($conn);
 ?>
 
 <script>
-// Filtro da barra de pesquisa
-document.getElementById('search').addEventListener('input', function() {
-    let searchValue = this.value.toLowerCase();
-    let entries = document.querySelectorAll('.entry');
-
-    entries.forEach(entry => {
-        let text = entry.innerText.toLowerCase();
-        let tipoElement = entry.querySelector('.tipo-dispositivo');
-        let tipo = tipoElement ? tipoElement.innerText.toUpperCase() : '';
-
-        // Mostra o item se o texto corresponder à pesquisa E o tipo não for CONSOLE ou CONTROLE
-        if (text.includes(searchValue) && tipo !== 'CONSOLE' && tipo !== 'CONTROLE') {
-            entry.parentElement.style.display = 'block';
-        } else {
-            entry.parentElement.style.display = 'none';
-        }
-    });
-});
 
 
 </script>
 
 </body>
 </html>
+
 
