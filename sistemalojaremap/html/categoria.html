@@ -86,8 +86,9 @@
             listaSubpastas.innerHTML = '';
 
             try {
-                // ROTA CORRIGIDA: Agora chama "/conteudo"
+                // LINHA CORRIGIDA: A URL agora termina com "/conteudo"
                 const response = await fetch(`${API_URL}/categorias/${categoriaId}/conteudo`);
+                
                 if (!response.ok) throw new Error('Falha ao carregar.');
                 
                 const data = await response.json();
