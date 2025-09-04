@@ -11,7 +11,7 @@
         a { text-decoration: none; color: #0056b3; }
         ul { list-style: none; padding: 0; margin-top: 20px; }
         li { background: #f9f9f9; border: 1px solid #eee; padding: 15px; margin-bottom: 10px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
-        li.folder { font-weight: bold; } /* Estilo para pastas */
+        li.folder { font-weight: bold; }
         .upload-form { margin-top: 30px; padding: 20px; border: 1px dashed #ccc; border-radius: 4px; }
         button { padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
         button:hover { background-color: #218838; }
@@ -86,7 +86,7 @@
             listaSubpastas.innerHTML = '';
 
             try {
-                // LINHA CORRIGIDA: A URL agora termina com "/conteudo"
+                // ROTA CORRIGIDA AQUI:
                 const response = await fetch(`${API_URL}/categorias/${categoriaId}/conteudo`);
                 
                 if (!response.ok) throw new Error('Falha ao carregar.');
@@ -94,7 +94,6 @@
                 const data = await response.json();
                 tituloCategoria.textContent = data.titulo;
 
-                // Configura o botão "Voltar"
                 if (data.parentId) {
                     linkVoltar.href = `categoria.html?id=${data.parentId}`;
                     linkVoltar.innerHTML = '&larr; Voltar para a pasta anterior';
@@ -103,7 +102,6 @@
                     linkVoltar.innerHTML = '&larr; Voltar para a raiz';
                 }
                 
-                // Renderiza subpastas
                 if (data.subcategorias.length === 0) {
                     statusSubpastas.textContent = 'Nenhuma subpasta encontrada.';
                 } else {
@@ -119,7 +117,6 @@
                     statusSubpastas.textContent = '';
                 }
 
-                // Renderiza arquivos
                 if (data.arquivos.length === 0) {
                     statusLista.textContent = 'Nenhum arquivo encontrado nesta categoria.';
                 } else {
@@ -142,7 +139,6 @@
             }
         }
         
-        // Evento para criar nova subpasta
         formNovaSubpasta.addEventListener('submit', async (event) => {
             event.preventDefault();
             const titulo = inputTituloSubpasta.value.trim();
@@ -165,8 +161,6 @@
             }
         });
 
-
-        // Evento para fazer upload de arquivos
         formUpload.addEventListener('submit', async (event) => {
             event.preventDefault();
             const arquivos = inputArquivo.files;
