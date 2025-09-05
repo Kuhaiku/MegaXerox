@@ -93,11 +93,27 @@ mysqli_close($conn);
 ?>
 
 <script>
+document.getElementById('search').addEventListener('keyup', function() {
+    let filter = this.value.toLowerCase();
+    let entries = document.getElementById('entries').getElementsByClassName('box');
 
+    for (let i = 0; i < entries.length; i++) {
+        let entry = entries[i];
+        let searchableSpans = entry.getElementsByClassName('searchable');
+        let textToSearch = '';
 
+        for (let j = 0; j < searchableSpans.length; j++) {
+            textToSearch += searchableSpans[j].textContent.toLowerCase() + ' ';
+        }
+        
+        if (textToSearch.includes(filter)) {
+            entry.style.display = '';
+        } else {
+            entry.style.display = 'none';
+        }
+    }
+});
 </script>
 
 </body>
 </html>
-
-
