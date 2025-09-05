@@ -1,13 +1,42 @@
 <?php
 include_once('databaseconfig.php');
-// ... (resto do seu código PHP continua igual) ...
+$sql = "SELECT MAX(id) as max_id FROM entryorder";
+$result = $conn->query($sql);
 if ($result->num_rows > 0) {
+    // Saída dos dados da linha
     $row = $result->fetch_assoc();
     $next_id = $row["max_id"] + 1;
 } else {
-    $next_id = 1;
+    $next_id = 1; // Se não houver registros, começa com 1
 }
-// ... (resto do seu código PHP continua igual) ...
+
+if (isset($_POST['submit'])) {
+    // Campos comuns
+    $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
+    $telefone = isset($_POST['telefone']) ? $_POST['telefone'] : '';
+    $preorcamento = isset($_POST['preorc']) ? $_POST['preorc'] : '';
+
+    // Processando cada dispositivo
+    if (!empty($_POST['tipo'])) {
+        foreach ($_POST['tipo'] as $key => $tipo) {
+            $marca = $_POST['marca'][$key] ?? '';
+            $modelo = $_POST['modelo'][$key] ?? '';
+            $perifericos = $_POST['perifericos'][$key] ?? 'NÃO';
+            $defeito = $_POST['defeito'][$key] ?? '';
+
+           $result = mysqli_query($conn, "INSERT INTO entryorder(`nome`, `telefone`, `tipo`, `marca`, `modelo`, `perifericos`, `defeito`, `preorc`, `data_entrada`) 
+VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito','$preorcamento', NOW())");
+
+            if (!$result) {
+                $error_message = mysqli_error($conn);
+                header("Location: entryorder.php?error=" . urlencode($error_message));
+                exit();
+            }
+        }
+        header("Location: entryorderdtbase.php?success=1");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +49,7 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <title>Sistema Mega-Xerox - Ordem de Entrada</title>
     <style>
-        /* Adicione este estilo para formatar os termos */
+        /* Estilo para formatar os termos de serviço */
         .termos-servico {
             margin-top: 20px;
             padding: 10px;
@@ -70,7 +99,37 @@ if ($result->num_rows > 0) {
                 
                 <div id="dispositivos">
                     <div class="dispositivo">
+                        <div class="tipodispositivo">
+                            <b>Tipo de Dispositivo:</b>
+                            <input type="radio" name="tipo[0]" value="IMPRESSORA" required /> Impressora
+                            <input type="radio" name="tipo[0]" value="NOTEBOOK" /> Notebook
+                            <input type="radio" name="tipo[0]" value="DESKTOP" /> Desktop
+                            <input type="radio" name="tipo[0]" value="CONTROLE" /> Controle
+                            <input type="radio" name="tipo[0]" value="CONSOLE" /> Console
+                            <input type="radio" name="tipo[0]" value="CELULAR" /> Celular
+                            <input type="radio" name="tipo[0]" value="OUTRO" /> Outro
                         </div>
+                        <div class="inputBox">
+                            <input class="inputUser" type="text" name="marca[0]" required oninput="this.value = this.value.toUpperCase()" />
+                            <label class="labelInupt" for="marca">Marca:</label>
+                        </div>
+                        <div class="inputBox">
+                            <input class="inputUser" type="text" name="modelo[0]" required oninput="this.value = this.value.toUpperCase()" />
+                            <label class="labelInupt" for="modelo">Modelo:</label>
+                        </div>
+                        <div class="inputBox">
+                            <input class="inputUser" type="text" name="perifericos[0]" value="NÃO" oninput="this.value = this.value.toUpperCase()"/>
+                            <label class="labelInupt" for="perifericos">Periféricos</label>
+                        </div>
+                        <div class="inputBox">
+                            <label for="defeito">Defeito Apresentado:</label>
+                            <textarea class="inputUser" name="defeito[0]" cols="50" rows="3" oninput="this.value = this.value.toUpperCase()"></textarea>
+                        </div>
+                        <div class="inputBox">
+                            <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
+                            <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
+                        </div>
+                    </div>
                 </div>
                 <button type="button" onclick="adicionarDispositivo()">Adicionar Dispositivo</button>
                 
@@ -83,6 +142,7 @@ if ($result->num_rows > 0) {
                         <li>Estes termos estão amparados pelo Código Civil (Arts. 643, 644 e 1.275) e pelo Código de Defesa do Consumidor. A assinatura desta ordem de serviço implica no aceite integral destas condições.</li>
                     </ol>
                 </div>
+                
                 <div class="botoes">
                     <a class="navegar" href="../index.html">Voltar</a>
                     <button type="submit" onclick="print()" name="submit" value="Salvar e Imprimir">
@@ -94,8 +154,90 @@ if ($result->num_rows > 0) {
     </div>
 
     <script>
-        // ... (seu script JS) ...
-    </script>
+    // Função para adicionar mais dispositivos
+    let dispositivoCount = 1; // Começa com 1 dispositivo
+
+    function adicionarDispositivo() {
+        const dispositivosDiv = document.getElementById('dispositivos');
+        const novoDispositivo = document.createElement('div');
+        novoDispositivo.classList.add('dispositivo');
+        
+        novoDispositivo.innerHTML = `
+            <hr style="margin: 20px 0;">
+            <div class="tipodispositivo">
+                <b>Tipo de Dispositivo:</b>
+                <input type="radio" name="tipo[${dispositivoCount}]" value="IMPRESSORA" required /> Impressora
+                <input type="radio" name="tipo[${dispositivoCount}]" value="NOTEBOOK" /> Notebook
+                <input type="radio" name="tipo[${dispositivoCount}]" value="DESKTOP" /> Desktop
+                <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Controle
+                <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Console
+                <input type="radio" name="tipo[${dispositivoCount}]" value="CELULAR" /> Celular
+                <input type="radio" name="tipo[${dispositivoCount}]" value="OUTRO" /> Outro
+            </div>
+            <div class="inputBox">
+                <input class="inputUser" type="text" name="marca[${dispositivoCount}]" required oninput="this.value = this.value.toUpperCase()" />
+                <label class="labelInupt" for="marca">Marca:</label>
+            </div>
+            <div class="inputBox">
+                <input class="inputUser" type="text" name="modelo[${dispositivoCount}]" required oninput="this.value = this.value.toUpperCase()" />
+                <label class="labelInupt" for="modelo">Modelo:</label>
+            </div>
+            <div class="inputBox">
+                <input class="inputUser" type="text" name="perifericos[${dispositivoCount}]" value="NÃO" oninput="this.value = this.value.toUpperCase()" />
+                <label class="labelInupt" for="perifericos">Periféricos</label>
+            </div>
+            <div class="inputBox">
+                <label for="defeito">Defeito Apresentado:</label>
+                <textarea class="inputUser" name="defeito[${dispositivoCount}]" cols="50" rows="3" oninput="this.value = this.value.toUpperCase()"></textarea>
+            </div>
+            <div class="inputBox">
+                <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
+                <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
+            </div>
+            <button type="button" class="removerDispositivo" onclick="removerDispositivo(this)">Remover</button>
+        `;
+        
+        dispositivosDiv.appendChild(novoDispositivo);
+        dispositivoCount++;
+    }
+
+    // Função para remover dispositivo
+    function removerDispositivo(button) {
+        const dispositivo = button.parentElement;
+        dispositivo.remove();
+    }
+
+    const dataAtual = new Date();
+
+    function formatarDataBr(data, incluirHora = true) {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+
+        if (incluirHora) {
+            options.hour = '2-digit';
+            options.minute = '2-digit';
+        }
+
+        return new Intl.DateTimeFormat('pt-BR', options).format(data);
+    }
+
+    function calcularDataPrevisao() {
+        let diasUteisAdicionados = 0;
+        let dataProvisoria = new Date(); 
+
+        while (diasUteisAdicionados < 3) {
+            dataProvisoria.setDate(dataProvisoria.getDate() + 1);
+            let diaDaSemana = dataProvisoria.getDay();
+            if (diaDaSemana >= 1 && diaDaSemana <= 5) { // de Segunda (1) a Sexta (5)
+                diasUteisAdicionados++;
+            }
+        }
+
+        document.getElementById('dataAtual').innerText = formatarDataBr(new Date());
+        document.getElementById('dataPrevisao').innerText = formatarDataBr(dataProvisoria, false);
+    }
+
+    calcularDataPrevisao();
+</script>
 
 </body>
 </html>
