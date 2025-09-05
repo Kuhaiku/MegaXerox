@@ -126,13 +126,13 @@ if (isset($_POST['submit'])) {
                             </div>
                         </div>
                         <div class="inputBox">
-                            <input class="inputUser" type="text" name="perifericos[0]" value="NÃO" oninput="this.value = this.value.toUpperCase()" placeholder="Periféricos/Acessórios:"/>
+                            <input class="inputUser" type="text" name="perifericos[0]" value="SEM PERIFÉRICOS" oninput="this.value = this.value.toUpperCase()" placeholder="Periféricos/Acessórios:"/>
                         </div>
                         <div class="inputBox">
                             <textarea class="inputUser" name="defeito[0]" oninput="this.value = this.value.toUpperCase()" placeholder="Defeito Apresentado:"></textarea>
                         </div>
                          <div class="inputBox">
-                            <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()" placeholder="Orçamento Prévio:"/>
+                            <input class="inputUser" type="text" name="preorc" value="SEM ORÇAMENTO PRÉVIO" required oninput="this.value = this.value.toUpperCase()" placeholder="Orçamento Prévio:"/>
                         </div>
                     </div>
                 </div>
@@ -228,3 +228,4 @@ if (isset($_POST['submit'])) {
     </script>
 </body>
 </html>
+
