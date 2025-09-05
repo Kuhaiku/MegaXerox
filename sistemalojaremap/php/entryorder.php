@@ -10,7 +10,7 @@ if ($result->num_rows > 0) {
 }
 
 if (isset($_POST['submit'])) {
-    // ... (Sua lógica PHP para salvar os dados permanece a mesma) ...
+    // A lógica PHP para salvar no banco de dados permanece a mesma
     $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
     $telefone = isset($_POST['telefone']) ? $_POST['telefone'] : '';
     $preorcamento = isset($_POST['preorc']) ? $_POST['preorc'] : '';
@@ -39,42 +39,42 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="../src/favicon.ico" />
-    <link rel="stylesheet" href="../css/entryorder.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <title>Sistema Mega-Xerox - Ordem de Entrada</title>
     <style>
         /* Estilos para o novo layout compacto */
-        body { font-family: sans-serif; font-size: 14px; }
-        .ordemdeentrada { max-width: 800px; margin: auto; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; font-size: 14px; background-color: #f4f4f4; }
+        .ordemdeentrada { max-width: 800px; margin: 20px auto; background-color: #fff; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         
         header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #333; padding-bottom: 10px; }
-        .header-left p, .header-left h2 { margin: 0; }
+        .header-left p, .header-left h2 { margin: 2px 0; }
         .header-right { text-align: right; }
         .header-right h3, .header-right p { margin: 0; }
         .header-right p { margin-top: 30px; }
 
         fieldset { border: none; padding: 10px 0; }
-        legend { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; width: 100%; text-align: center; }
         
         .form-row { display: flex; gap: 15px; width: 100%; }
-        .inputBox { position: relative; margin-bottom: 12px; width: 100%; }
-        .inputUser { width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px; }
-        .labelInupt { /* Ajuste conforme seu CSS original se necessário */ }
+        .inputBox { margin-bottom: 12px; width: 100%; }
+        .inputUser { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size:14px; }
         
         .data-fields { display: flex; justify-content: space-between; border: 1px solid #ccc; padding: 8px; border-radius: 4px; margin-bottom: 12px; }
         .data-fields b { margin-right: 5px; }
 
-        .dispositivo { border: 1px solid #eee; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
-        .tipodispositivo { margin-bottom: 10px; }
-        textarea.inputUser { height: 40px; } /* Reduz altura do campo de defeito */
+        .dispositivo { border: 1px solid #e0e0e0; padding: 15px; margin-bottom: 10px; border-radius: 5px; }
+        .tipodispositivo { margin-bottom: 15px; }
+        .tipodispositivo b { display: block; margin-bottom: 5px; }
+        textarea.inputUser { height: 45px; } 
 
-        .termos-servico { margin-top: 15px; padding: 10px; border: 1px solid #333; border-radius: 5px; background-color: #f9f9f9; }
-        .termos-servico p { margin: 0 0 10px 0; font-weight: bold; text-align: center; }
-        .termos-servico ol { margin: 0; padding-left: 20px; font-size: 11px; }
-        .termos-servico li { margin-bottom: 8px; }
+        .termos-servico { margin-top: 20px; padding: 15px; border: 2px solid #000; border-radius: 5px; background-color: #f5f5f5; }
+        .termos-servico p { margin: 0 0 10px 0; font-weight: bold; text-align: center; font-size: 16px; }
+        .termos-servico ol { margin: 0; padding-left: 20px; font-size: 12px; }
+        .termos-servico li { margin-bottom: 8px; line-height: 1.4; }
 
-        .botoes { text-align: right; margin-top: 15px; }
-        /* Adicione aqui mais estilos do seu entryorder.css se algo quebrar */
+        .botoes { text-align: right; margin-top: 20px; }
+        button, .navegar { padding: 10px 15px; border-radius: 5px; text-decoration: none; border: none; cursor: pointer; }
+        .navegar { background-color: #6c757d; color: white; }
+        button[type="submit"] { background-color: #007bff; color: white; margin-left: 10px; }
     </style>
 </head>
 <body>
@@ -94,46 +94,45 @@ if (isset($_POST['submit'])) {
         <form method="post" action="" id="formulario">
             <fieldset>
                 <div class="inputBox">
-                    <label class="labelInupt" for="nome">Nome:</label>
-                    <input class="inputUser" type="text" name="nome" id="nome" required oninput="this.value = this.value.toUpperCase()"/>
+                    <input class="inputUser" type="text" name="nome" id="nome" required oninput="this.value = this.value.toUpperCase()" placeholder="Nome do Cliente:"/>
                 </div>
                 <div class="inputBox">
-                    <label class="labelInupt" for="telefone">Telefone:</label>
-                    <input class="inputUser" type="text" name="telefone" id="telefone" required />
+                    <input class="inputUser" type="text" name="telefone" id="telefone" required placeholder="Telefone / Whatsapp:"/>
                 </div>
 
                 <div class="data-fields">
                     <div><b>Data de Entrada:</b> <span id="dataAtual"></span></div>
-                    <div><b>Previsão Orçamento:</b> <span id="dataPrevisao"></span></div>
+                    <div><b>Previsão do Orçamento:</b> <span id="dataPrevisao"></span></div>
                 </div>
                 
                 <div id="dispositivos">
                     <div class="dispositivo">
                         <div class="tipodispositivo">
-                            <b>Dispositivo:</b>
-                            <input type="radio" name="tipo[0]" value="IMPRESSORA" required /> Imp. <input type="radio" name="tipo[0]" value="NOTEBOOK" /> Note <input type="radio" name="tipo[0]" value="DESKTOP" /> PC <input type="radio" name="tipo[0]" value="CONTROLE" /> Controle <input type="radio" name="tipo[0]" value="CONSOLE" /> Console <input type="radio" name="tipo[0]" value="CELULAR" /> Celular <input type="radio" name="tipo[0]" value="OUTRO" /> Outro
+                            <b>Tipo de Dispositivo:</b>
+                            <input type="radio" name="tipo[0]" value="IMPRESSORA" required /> Impressora
+                            <input type="radio" name="tipo[0]" value="NOTEBOOK" /> Notebook
+                            <input type="radio" name="tipo[0]" value="DESKTOP" /> Desktop
+                            <input type="radio" name="tipo[0]" value="CONTROLE" /> Controle
+                            <input type="radio" name="tipo[0]" value="CONSOLE" /> Console
+                            <input type="radio" name="tipo[0]" value="CELULAR" /> Celular
+                            <input type="radio" name="tipo[0]" value="OUTRO" /> Outro
                         </div>
                         <div class="form-row">
                             <div class="inputBox">
-                                <label class="labelInupt">Marca:</label>
-                                <input class="inputUser" type="text" name="marca[0]" required oninput="this.value = this.value.toUpperCase()" />
+                                <input class="inputUser" type="text" name="marca[0]" required oninput="this.value = this.value.toUpperCase()" placeholder="Marca:" />
                             </div>
                             <div class="inputBox">
-                                <label class="labelInupt">Modelo:</label>
-                                <input class="inputUser" type="text" name="modelo[0]" required oninput="this.value = this.value.toUpperCase()" />
+                                <input class="inputUser" type="text" name="modelo[0]" required oninput="this.value = this.value.toUpperCase()" placeholder="Modelo:" />
                             </div>
                         </div>
                         <div class="inputBox">
-                             <label class="labelInupt">Periféricos/Acessórios:</label>
-                            <input class="inputUser" type="text" name="perifericos[0]" value="NÃO" oninput="this.value = this.value.toUpperCase()"/>
+                            <input class="inputUser" type="text" name="perifericos[0]" value="NÃO" oninput="this.value = this.value.toUpperCase()" placeholder="Periféricos/Acessórios:"/>
                         </div>
                         <div class="inputBox">
-                            <label for="defeito">Defeito Apresentado:</label>
-                            <textarea class="inputUser" name="defeito[0]" oninput="this.value = this.value.toUpperCase()"></textarea>
+                            <textarea class="inputUser" name="defeito[0]" oninput="this.value = this.value.toUpperCase()" placeholder="Defeito Apresentado:"></textarea>
                         </div>
                          <div class="inputBox">
-                            <label class="labelInupt">Orçamento Prévio:</label>
-                            <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
+                            <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()" placeholder="Orçamento Prévio:"/>
                         </div>
                     </div>
                 </div>
@@ -143,9 +142,9 @@ if (isset($_POST['submit'])) {
                 <div class="termos-servico">
                     <p>TERMOS DE GARANTIA E CONDIÇÕES DE DEPÓSITO</p>
                     <ol>
-                        <li>Após 7 (sete) dias da comunicação do orçamento (aprovado ou não), o equipamento deve ser retirado. Não ocorrendo a retirada, será cobrada taxa diária de R$ 10,00 (dez reais) a título de armazenamento.</li>
-                        <li>Conforme o Código Civil (arts. 643, 644 e 1.275) e o Código de Defesa do Consumidor, o cliente declara estar ciente e de acordo que, caso não retire o aparelho em até 30 (trinta) dias, o mesmo será considerado abandonado, podendo o prestador adotar medidas para ressarcir custos de serviço e armazenagem, inclusive mediante descarte ou venda do bem.</li>
-                        <li>A garantia é limitada ao defeito reparado. O prazo é de 90 (noventa) dias (art. 26, II, CDC). A garantia não cobre mau uso, quedas, oxidação, violação de lacre ou defeitos distintos do serviço executado.</li>
+                        <li>Após 7 (sete) dias da comunicação do orçamento (aprovado ou não), o equipamento deve ser retirado. Não ocorrendo a retirada no prazo, será cobrada uma taxa diária de R$ 10,00 (dez reais) a título de armazenamento.</li>
+                        <li>Conforme o Código Civil (arts. 643, 644 e 1.275) e o Código de Defesa do Consumidor, o cliente declara estar ciente e de acordo que, caso não retire o aparelho em até 30 (trinta) dias, o equipamento será considerado abandonado, podendo o prestador adotar medidas cabíveis para ressarcir os custos de serviço e armazenagem, inclusive mediante descarte ou venda do bem.</li>
+                        <li>A garantia é limitada exclusivamente ao defeito reparado. O prazo de garantia segue o artigo 26, inciso II, do Código de Defesa do Consumidor, sendo de 90 (noventa) dias para serviços prestados em produtos duráveis. A garantia não cobre mau uso, quedas, oxidação, violação do lacre ou defeitos diferentes do reparado.</li>
                     </ol>
                 </div>
                 
@@ -167,30 +166,31 @@ if (isset($_POST['submit'])) {
         novoDispositivo.classList.add('dispositivo');
         novoDispositivo.innerHTML = `
             <div class="tipodispositivo">
-                <b>Dispositivo:</b>
-                <input type="radio" name="tipo[${dispositivoCount}]" value="IMPRESSORA" required /> Imp. <input type="radio" name="tipo[${dispositivoCount}]" value="NOTEBOOK" /> Note <input type="radio" name="tipo[${dispositivoCount}]" value="DESKTOP" /> PC <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Controle <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Console <input type="radio" name="tipo[${dispositivoCount}]" value="CELULAR" /> Celular <input type="radio" name="tipo[${dispositivoCount}]" value="OUTRO" /> Outro
+                <b>Tipo de Dispositivo:</b>
+                <input type="radio" name="tipo[${dispositivoCount}]" value="IMPRESSORA" required /> Impressora
+                <input type="radio" name="tipo[${dispositivoCount}]" value="NOTEBOOK" /> Notebook
+                <input type="radio" name="tipo[${dispositivoCount}]" value="DESKTOP" /> Desktop
+                <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Controle
+                <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Console
+                <input type="radio" name="tipo[${dispositivoCount}]" value="CELULAR" /> Celular
+                <input type="radio" name="tipo[${dispositivoCount}]" value="OUTRO" /> Outro
             </div>
             <div class="form-row">
                 <div class="inputBox">
-                    <label class="labelInupt">Marca:</label>
-                    <input class="inputUser" type="text" name="marca[${dispositivoCount}]" required oninput="this.value = this.value.toUpperCase()" />
+                    <input class="inputUser" type="text" name="marca[${dispositivoCount}]" required oninput="this.value = this.value.toUpperCase()" placeholder="Marca:" />
                 </div>
                 <div class="inputBox">
-                    <label class="labelInupt">Modelo:</label>
-                    <input class="inputUser" type="text" name="modelo[${dispositivoCount}]" required oninput="this.value = this.value.toUpperCase()" />
+                    <input class="inputUser" type="text" name="modelo[${dispositivoCount}]" required oninput="this.value = this.value.toUpperCase()" placeholder="Modelo:" />
                 </div>
             </div>
             <div class="inputBox">
-                <label class="labelInupt">Periféricos/Acessórios:</label>
-                <input class="inputUser" type="text" name="perifericos[${dispositivoCount}]" value="NÃO" oninput="this.value = this.value.toUpperCase()" />
+                <input class="inputUser" type="text" name="perifericos[${dispositivoCount}]" value="NÃO" oninput="this.value = this.value.toUpperCase()" placeholder="Periféricos/Acessórios:" />
             </div>
             <div class="inputBox">
-                <label for="defeito">Defeito Apresentado:</label>
-                <textarea class="inputUser" name="defeito[${dispositivoCount}]" oninput="this.value = this.value.toUpperCase()"></textarea>
+                <textarea class="inputUser" name="defeito[${dispositivoCount}]" oninput="this.value = this.value.toUpperCase()" placeholder="Defeito Apresentado:"></textarea>
             </div>
             <div class="inputBox">
-                <label class="labelInupt">Orçamento Prévio:</label>
-                <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
+                <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()" placeholder="Orçamento Prévio:"/>
             </div>
             <button type="button" class="removerDispositivo" onclick="removerDispositivo(this)">Remover Dispositivo</button>
         `;
