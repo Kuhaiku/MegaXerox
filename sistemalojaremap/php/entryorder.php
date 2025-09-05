@@ -75,7 +75,6 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                     <b>Data de previsão para o orçamento:</b> <span id="dataPrevisao"></span>
                 </div>
                 
-                <!-- Dispositivos -->
                 <div id="dispositivos">
                     <div class="dispositivo">
                         <div class="tipodispositivo">
@@ -105,18 +104,21 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
                         <div class="inputBox">
                             <label for="defeito">Defeito Apresentado:</label>
                             <textarea class="inputUser" name="defeito[0]" cols="50" rows="3" oninput="this.value = this.value.toUpperCase()"></textarea>
-                </div>
-                <div class="inputBox">
-                    <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
-                    <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
-                </div>
+                        </div>
+                        <div class="inputBox">
+                            <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
+                            <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
                         </div>
                     </div>
-                <!-- Botão para adicionar mais dispositivos -->
+                </div>
                 <button type="button" onclick="adicionarDispositivo()">Adicionar Dispositivo</button>
-
-          
-
+                
+                <div class="observacoes">
+                    <p><b>OBSERVAÇÃO IMPORTANTE:</b></p>
+                    <p style="font-size: 12px;">
+                        Após 7 dias da comunicação do orçamento (aprovado ou não), o aparelho deve ser retirado. Caso contrário, será cobrada uma taxa de armazenamento de R$ 10,00 por dia, limitada a 30 dias. Após este período, o aparelho será considerado abandonado e poderá ser descartado ou vendido para ressarcimento dos custos de serviço e armazenamento.
+                    </p>
+                </div>
                 <div class="botoes">
                     <a class="navegar" href="../index.html">Voltar</a>
                     <button type="submit" onclick="print()" name="submit" value="Salvar e Imprimir">
@@ -137,17 +139,16 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
         novoDispositivo.classList.add('dispositivo');
         
         novoDispositivo.innerHTML = `
+            <hr>
             <div class="tipodispositivo">
                 <b>Tipo de Dispositivo:</b>
                 <input type="radio" name="tipo[${dispositivoCount}]" value="IMPRESSORA" required /> Impressora
                 <input type="radio" name="tipo[${dispositivoCount}]" value="NOTEBOOK" /> Notebook
                 <input type="radio" name="tipo[${dispositivoCount}]" value="DESKTOP" /> Desktop
-                
-                // <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Controle
-                // <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Console
-                //<input type="radio" name="tipo[${dispositivoCount}]" value="CELULAR" /> Celular
-                // <input type="radio" name="tipo[${dispositivoCount}]" value="OUTRO" /> Outro
-                
+                <input type="radio" name="tipo[${dispositivoCount}]" value="CONTROLE" /> Controle
+                <input type="radio" name="tipo[${dispositivoCount}]" value="CONSOLE" /> Console
+                <input type="radio" name="tipo[${dispositivoCount}]" value="CELULAR" /> Celular
+                <input type="radio" name="tipo[${dispositivoCount}]" value="OUTRO" /> Outro
             </div>
             <div class="inputBox">
                 <input class="inputUser" type="text" name="marca[${dispositivoCount}]" required oninput="this.value = this.value.toUpperCase()" />
@@ -168,7 +169,7 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
             <div class="inputBox">
                     <input class="inputUser" type="text" name="preorc" value="NÃO" required oninput="this.value = this.value.toUpperCase()"/>
                     <label class="labelInupt" for="preorc">Orçamento Prévio:</label>
-                </div>
+            </div>
             <button type="button" class="removerDispositivo" onclick="removerDispositivo(this)">Remover</button>
         `;
         
@@ -212,5 +213,3 @@ VALUES ('$nome','$telefone','$tipo','$marca','$modelo','$perifericos','$defeito'
 
 </body>
 </html>
-
-
