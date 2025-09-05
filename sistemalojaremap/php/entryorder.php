@@ -98,9 +98,9 @@ if (isset($_POST['submit'])) {
         <div class="termos-servico">
             <p>TERMOS DE GARANTIA E CONDIÇÕES DE DEPÓSITO</p>
             <ol>
-                <li>Após 7 (sete) dias da comunicação do orçamento (aprovado ou não), o equipamento deve ser retirado. Não ocorrendo a retirada no prazo, será cobrada uma taxa diária de R$ 10,00 (dez reais) a título de armazenamento.</li>
-                <li>Conforme o Código Civil (arts. 643, 644 e 1.275) e o Código de Defesa do Consumidor, o cliente declara estar ciente e de acordo que, caso não retire o aparelho em até 30 (trinta) dias, o equipamento será considerado abandonado, podendo o prestador adotar medidas cabíveis para ressarcir os custos de serviço e armazenagem, inclusive mediante descarte ou venda do bem.</li>
-                <li>A garantia é limitada exclusivamente ao defeito reparado. O prazo de garantia segue o artigo 26, inciso II, do Código de Defesa do Consumidor, sendo de 90 (noventa) dias para serviços prestados em produtos duráveis. A garantia não cobre mau uso, quedas, oxidação, violação do lacre ou defeitos diferentes do reparado.</li>
+                <b><li>Após 7 (sete) dias da comunicação do orçamento (aprovado ou não), o equipamento deve ser retirado. Não ocorrendo a retirada no prazo, será cobrada uma taxa diária de R$ 10,00 (dez reais) a título de armazenamento.</li></b>
+                <b><li>Conforme o Código Civil (arts. 643, 644 e 1.275) e o Código de Defesa do Consumidor, o cliente declara estar ciente e de acordo que, caso não retire o aparelho em até 30 (trinta) dias, o equipamento será considerado abandonado, podendo o prestador adotar medidas cabíveis para ressarcir os custos de serviço e armazenagem, inclusive mediante descarte ou venda do bem.</li></b>
+                <b><li>A garantia é limitada exclusivamente ao defeito reparado. O prazo de garantia segue o artigo 26, inciso II, do Código de Defesa do Consumidor, sendo de 90 (noventa) dias para serviços prestados em produtos duráveis. A garantia não cobre mau uso, quedas, oxidação, violação do lacre ou defeitos diferentes do reparado.</li></b>
             </ol>
         </div>
 
@@ -232,3 +232,4 @@ if (isset($_POST['submit'])) {
     </script>
 </body>
 </html>
+
