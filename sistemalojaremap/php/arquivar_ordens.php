@@ -1,10 +1,11 @@
 <?php
+// Desativa o limite de tempo de execução para scripts longos
+set_time_limit(0); 
+
+// Inclui a configuração do banco de dados
 include 'databaseconfig.php';
 
-// Iniciar o buffer de saída para ver mensagens em tempo real
-ob_implicit_flush(true);
-ob_end_flush();
-
+// --- INÍCIO DA SAÍDA HTML ---
 echo "<!DOCTYPE html><html lang='pt-br'><head><meta charset='UTF-8'><title>Arquivando Ordens Antigas</title>";
 echo "<style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f4f4f4; padding: 20px; }
@@ -18,16 +19,25 @@ echo "<style>
 echo "</head><body><div class='container'>";
 echo "<h1>Processo de Arquivamento de Ordens de Entrada</h1>";
 
+// Força o envio do cabeçalho HTML para o navegador
+flush();
+ob_flush();
+
 // 1. Criar a tabela de backup se ela não existir
 $sql_create_table = "CREATE TABLE IF NOT EXISTS `entryorder_backup` LIKE `entryorder`;";
 
 echo "<p class='info'>Verificando se a tabela de backup 'entryorder_backup' existe...</p>";
+flush();
+ob_flush();
+
 if ($conn->query($sql_create_table)) {
     echo "<p class='success'>Tabela de backup pronta para uso.</p>";
 } else {
     echo "<p class='error'>Erro ao criar a tabela de backup: " . $conn->error . "</p>";
     exit;
 }
+flush();
+ob_flush();
 
 // Inicia a transação
 $conn->begin_transaction();
@@ -37,20 +47,33 @@ try {
     $sql_insert_select = "INSERT INTO `entryorder_backup` SELECT * FROM `entryorder` WHERE `data_entrada` < DATE_SUB(NOW(), INTERVAL 3 MONTH)";
     
     echo "<p class='info'>Copiando ordens com mais de 3 meses para a tabela de backup...</p>";
+    flush();
+    ob_flush();
+
     $conn->query($sql_insert_select);
     $registros_movidos = $conn->affected_rows;
     echo "<p class='success'>$registros_movidos registros foram copiados com sucesso.</p>";
+    flush();
+    ob_flush();
+
 
     // 3. Apagar os dados da tabela original
     if ($registros_movidos > 0) {
         $sql_delete = "DELETE FROM `entryorder` WHERE `data_entrada` < DATE_SUB(NOW(), INTERVAL 3 MONTH)";
         
         echo "<p class='info'>Apagando registros antigos da tabela principal...</p>";
+        flush();
+        ob_flush();
+
         $conn->query($sql_delete);
         $registros_apagados = $conn->affected_rows;
         echo "<p class='success'>$registros_apagados registros antigos foram apagados da tabela principal.</p>";
+        flush();
+        ob_flush();
     } else {
         echo "<p class='info'>Nenhum registro com mais de 3 meses encontrado para arquivar.</p>";
+        flush();
+        ob_flush();
     }
 
     // Se tudo deu certo, confirma as alterações
