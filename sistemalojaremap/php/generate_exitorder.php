@@ -52,7 +52,6 @@ include_once('databaseconfig.php'); // Verifique se o caminho para seu arquivo d
 <?php
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    // Usando prepared statements para mais segurança
     $sql = "SELECT * FROM entryorder WHERE id = ?"; 
     
     if ($stmt = mysqli_prepare($conn, $sql)) {
@@ -123,7 +122,8 @@ if (isset($_GET['id'])) {
                         </div>
                     </div>
                      <div class="inputBox">
-                        <input class="inputUser" type="text" name="garantia" id="garantia" readonly required placeholder="Garantia Válida até:">
+                        <input class="inputUser" type="text" id="garantiaDisplay" readonly required placeholder="Garantia Válida até:">
+                        <input type="hidden" name="garantia" id="garantiaValue">
                     </div>
                 </div>
                 
@@ -150,28 +150,27 @@ mysqli_close($conn);
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const dataEntregaInput = document.getElementById('dataEntrega');
-    // Define a data de entrega como a data atual por padrão
     if(dataEntregaInput) {
         dataEntregaInput.value = new Date().toISOString().split('T')[0];
 
         function calcularGarantia() {
-            const garantiaInput = document.getElementById('garantia');
+            // MUDANÇA 3: Selecionar os dois campos de garantia
+            const garantiaDisplayInput = document.getElementById('garantiaDisplay');
+            const garantiaValueInput = document.getElementById('garantiaValue');
+
             if (dataEntregaInput.value) {
-                // Adiciona 3 meses à data de entrega para calcular a garantia
-                const dataEntrega = new Date(dataEntregaInput.value + 'T00:00:00'); // Adiciona tempo para evitar problemas de fuso
+                const dataEntrega = new Date(dataEntregaInput.value + 'T00:00:00');
                 if (!isNaN(dataEntrega.getTime())) {
                     dataEntrega.setMonth(dataEntrega.getMonth() + 3);
                     const dataGarantia = dataEntrega.toLocaleDateString('pt-BR');
-                    garantiaInput.value = "Garantia Válida até: " + dataGarantia;
-                } else {
-                    garantiaInput.value = "Data inválida";
+                    
+                    // MUDANÇA 4: Atualizar os dois campos separadamente
+                    garantiaDisplayInput.value = "Garantia Válida até: " + dataGarantia; // Campo visível
+                    garantiaValueInput.value = dataGarantia; // Campo oculto (só a data)
                 }
-            } else {
-                garantiaInput.value = "";
             }
         }
 
-        // Calcula a garantia ao carregar a página e sempre que a data de entrega mudar
         calcularGarantia();
         dataEntregaInput.addEventListener('change', calcularGarantia);
 
@@ -179,22 +178,20 @@ document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('saidaForm');
             if (!form.checkValidity()) {
                 alert('Por favor, preencha todos os campos obrigatórios.');
-                form.reportValidity(); // Mostra qual campo está faltando
+                form.reportValidity();
                 return;
             }
             
             const formData = new FormData(form);
 
-            // Envia os dados para o script PHP que salva no banco
-            fetch('../php/salvar_ordem_saida.php', { // Verifique se o caminho está correto
+            fetch('../php/salvar_ordem_saida.php', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.text())
             .then(data => {
-                alert(data); // Mostra a resposta do servidor (ex: "Salvo com sucesso")
+                alert(data);
                 if (data.toLowerCase().includes("sucesso")) {
-                    // Se salvou, aciona a impressão
                     window.print(); 
                 }
             })
