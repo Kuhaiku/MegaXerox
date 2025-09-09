@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/x-icon" href="../src/favicon.ico" />
 <link rel="stylesheet" href="../css/entryorderdtbase.css" />
-<title>Ordens de Saida</title>
- 
+<title>Ordens de Saída</title>
 </head>
 <body>
 <?php
@@ -17,24 +16,30 @@ echo "<header>
       <a href='../index.html'><h3>inicio</h3></a>
     </header>";
 
-$sql = "SELECT * FROM sistemaloja.exitorder";
+// CORREÇÃO: Alterado o nome da tabela de 'exitorder' para 'exit_notes'
+$sql = "SELECT * FROM sistemaloja.exit_notes ORDER BY id DESC";
 $result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($result) > 0) {
+
+if ($result && mysqli_num_rows($result) > 0) {
     echo "<div class='container'>";
     while ($row = mysqli_fetch_assoc($result)) {
         echo "<div class='box'><ul>";
+        // O loop continua dinâmico, exibindo todos os campos da tabela exit_notes
         foreach ($row as $campo => $valor) {
-            echo "<li><strong>{$campo}:</strong> {$valor}</li>";
+            echo "<li><strong>" . htmlspecialchars($campo) . ":</strong> " . htmlspecialchars($valor) . "</li>";
         }
-        echo "<li><a href='print_exitorder.php?id={$row['id']}' target='_blank'>Imprimir</a></li>";
+        // O link para impressão agora aponta para o ID correto da nota de saída
+        echo "<li><a href='print_exitorder.php?id={$row['id']}' target='_blank' style='display:block; background-color:#007bff; color:white; padding:10px; text-align:center; margin-top:10px; border-radius:5px;'>Imprimir</a></li>";
         echo "</ul></div>";
     }
     echo "</div>";
 } else {
-    echo "Nenhum resultado encontrado.";
+    echo "<p style='text-align:center; margin-top:20px;'>Nenhum resultado encontrado na tabela de notas de saída.</p>";
 }
 
-mysqli_free_result($result);
+if ($result) {
+    mysqli_free_result($result);
+}
 mysqli_close($conn);
 ?>
 </body>
