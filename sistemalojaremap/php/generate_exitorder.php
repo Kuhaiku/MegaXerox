@@ -115,9 +115,10 @@ if (isset($_GET['id'])) {
                             <select class="inputUser" name='metodo_pagamento' id='metodoPagamento' required>
                                 <option value="" disabled selected>Método de Pagamento...</option>
                                 <option value='Dinheiro'>Dinheiro</option>
-                                <option value='Cartão de Crédito'>Cartão de Crédito</option>
-                                <option value='Cartão de Débito'>Cartão de Débito</option>
                                 <option value='Pix'>Pix</option>
+                                <option value='Cartão de Débito'>Cartão de Débito</option>
+                                <option value='Cartão de Crédito'>Cartão de Crédito</option>
+                                <option value='Sem Conserto'>Sem Conserto</option>
                             </select>
                         </div>
                     </div>
