@@ -155,7 +155,6 @@ document.addEventListener('DOMContentLoaded', function () {
         dataEntregaInput.value = new Date().toISOString().split('T')[0];
 
         function calcularGarantia() {
-            // MUDANÇA 3: Selecionar os dois campos de garantia
             const garantiaDisplayInput = document.getElementById('garantiaDisplay');
             const garantiaValueInput = document.getElementById('garantiaValue');
 
@@ -165,9 +164,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     dataEntrega.setMonth(dataEntrega.getMonth() + 3);
                     const dataGarantia = dataEntrega.toLocaleDateString('pt-BR');
                     
-                    // MUDANÇA 4: Atualizar os dois campos separadamente
-                    garantiaDisplayInput.value = "Garantia Válida até: " + dataGarantia; // Campo visível
-                    garantiaValueInput.value = dataGarantia; // Campo oculto (só a data)
+                    garantiaDisplayInput.value = "Garantia Válida até: " + dataGarantia;
+                    garantiaValueInput.value = dataGarantia;
                 }
             }
         }
