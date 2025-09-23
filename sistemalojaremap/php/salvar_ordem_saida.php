@@ -7,31 +7,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data_saida = trim($_POST['data_saida']); // Já vem como YYYY-MM-DD do input type="date"
     $servico_realizado = trim($_POST['servico_realizado']);
     $metodo_pagamento = trim($_POST['metodo_pagamento']);
-    $valor = floatval($_POST['valor']);
+    
+    // Converte vírgula em ponto para tratar o valor
+    $valor_str = str_replace(',', '.', $_POST['valor']);
+    $valor = floatval($valor_str);
+
     $garantia_br = trim($_POST['garantia']); // Vem como DD/MM/YYYY do JavaScript
 
-    // --- VERIFICAÇÃO DE CAMPOS VAZIOS ---
-    if (empty($entry_id) || empty($data_saida) || empty($servico_realizado) || empty($metodo_pagamento) || empty($valor) || empty($garantia_br)) {
+    // --- VERIFICAÇÃO DE CAMPOS VAZIOS (permite valor 0) ---
+    if (empty($entry_id) || empty($data_saida) || empty($servico_realizado) || empty($metodo_pagamento) || !isset($_POST['valor']) || $_POST['valor'] === '' || empty($garantia_br)) {
         echo "Erro: Todos os campos são obrigatórios!";
         exit;
     }
 
-    // --- INÍCIO DA CORREÇÃO ---
-    // Converte a data da garantia do formato DD/MM/YYYY para YYYY-MM-DD
+    // --- CONVERSÃO DA DATA DE GARANTIA ---
     $date_obj = DateTime::createFromFormat('d/m/Y', $garantia_br);
     if ($date_obj === false) {
         echo "Erro: Formato de data da garantia inválido. Esperado DD/MM/YYYY.";
         exit;
     }
     $garantia_mysql = $date_obj->format('Y-m-d');
-    // --- FIM DA CORREÇÃO ---
 
     // --- PREPARAÇÃO E EXECUÇÃO DA QUERY SQL ---
     $sql = "INSERT INTO exit_notes (entry_id, data_saida, servico_realizado, metodo_pagamento, valor, garantia) 
             VALUES (?, ?, ?, ?, ?, ?)";
 
     if ($stmt = mysqli_prepare($conn, $sql)) {
-        // Note que o último parâmetro agora é a variável corrigida: $garantia_mysql
         mysqli_stmt_bind_param($stmt, "isssds", $entry_id, $data_saida, $servico_realizado, $metodo_pagamento, $valor, $garantia_mysql);
         
         if (mysqli_stmt_execute($stmt)) {
