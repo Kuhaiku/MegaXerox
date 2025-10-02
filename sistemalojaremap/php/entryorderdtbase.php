@@ -73,6 +73,9 @@ if (mysqli_num_rows($result) > 0) {
             $class = ($campo === 'tipo') ? 'tipo-dispositivo' : '';
             echo "<li><strong>{$campo}:</strong> <span class='searchable {$class}'>{$valor}</span></li>";
         }
+        // NOVO BOTÃO DE EDIÇÃO
+        echo "<li><a href='edit_entryorder.php?id={$row['id']}' class='edit-btn' style='display:block; background-color:#ffc107; color:#333; padding:8px; text-align:center; margin-top:10px; margin-bottom: 5px; border-radius:5px;'>Editar</a></li>";
+
         echo "<li><a href='print_entryorder.php?id={$row['id']}' target='_blank' class='generate-btn2' >Imprimir</a></li>";
         
         // Botão para gerar ordem de saída
@@ -115,5 +118,7 @@ document.getElementById('search').addEventListener('keyup', function() {
 });
 </script>
 
+
 </body>
 </html>
+
